@@ -56,4 +56,39 @@ const dlcSchema = mongoose.Schema({
 })
 const DLC = mongoose.model("DLC", dlcSchema)
 
-module.exports = User
+const reviewSchema = mongoose.Schema({
+  username: { type: String, require: true },
+  gameName: { type: String, require: true },
+  rating: { type: Number, require: true },
+  description: String,
+})
+const Review = mongoose.model("Review", reviewSchema)
+
+const transactionSchema = mongoose.Schema({
+  transactionNo: { type: String, require: true },
+  username: { type: String, require: true },
+  fName: { type: String, require: true },
+  lName: { type: String, require: true },
+  timestamp: Date,
+  address: String,
+  fullPrice: Number,
+  discount: Number,
+  total: Number,
+})
+const Transaction = mongoose.model("Transaction", transactionSchema)
+
+const promotionSchema = mongoose.Schema({
+  code: { type: String, require: true },
+  name: String,
+  startTime: Date,
+  endTime: Date,
+  discount: { type: Number, require: true },
+})
+const Promotion = mongoose.model("Promotion", promotionSchema)
+
+const groupSchema = new mongoose.Schema({
+  name: { type: String, require: true },
+  member: Array,
+})
+
+module.exports = { User, Game, DLC, Review, Transaction, Promotion }
