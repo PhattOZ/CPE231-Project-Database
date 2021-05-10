@@ -9,8 +9,8 @@ const Group = require("./model").Group
 const bodyParser = require("body-parser")
 const app = express()
 
-app.use(express.static("../Client/public")) //Set static floder (.css)
-app.set("views", "../Client/public") //Set views folder (.ejs)
+app.use(express.static("../client/public")) //Set static floder (.css)
+app.set("views", "../client/public") //Set views folder (.ejs)
 app.set("view engine", "ejs") //Set view engine
 app.use(bodyParser.urlencoded({ extended: true }))
 
