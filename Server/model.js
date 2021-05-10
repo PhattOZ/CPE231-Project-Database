@@ -90,5 +90,19 @@ const groupSchema = new mongoose.Schema({
   name: { type: String, require: true },
   member: Array,
 })
+const Group = mongoose.model("Group", groupSchema)
 
-module.exports = { User, Game, DLC, Review, Transaction, Promotion }
+// var data = {
+//   username: "user1",
+//   password: "1234",
+//   fName: "Sorawong",
+//   lName: "Leardmongkonrut",
+//   gender: "Male",
+//   dob: new Date(2000, 7, 25),
+//   email: "Sorawong1@hotmail.com",
+//   tel: "0954975790",
+// }
+// User.create(data)
+
+User.create()
+module.exports = { User, Game, DLC, Review, Transaction, Promotion, Group }
