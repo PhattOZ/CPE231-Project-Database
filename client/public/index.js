@@ -16,7 +16,7 @@ function currentSlide(n) {
 function showSlides(n) {
   let i;
   let slides = document.getElementsByClassName("slide");
-  let dots = document.getElementsByClassName("dots");
+  let dots = document.getElementsByClassName("dot");
   if (n > slides.length) {
     slideIndex = 1;
   }
@@ -25,20 +25,22 @@ function showSlides(n) {
   }
   for (i = 0; i < slides.length; i++) {
     if (!slides[i].className.match(/(?:^|\s)hidden(?!\S)/)) {
-      slides[i].className += "hidden";
+      slides[i].className += " hidden";
     }
   }
   for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" bg-black", " bg-gray-100");
+    dots[i].className = dots[i].className.replace(
+      " bg-gray-600",
+      " bg-gray-100"
+    );
   }
-  console.log(slides[0]);
-  console.log(slideIndex);
+
   slides[slideIndex - 1].className = slides[slideIndex - 1].className.replace(
-    "/(?:^|s)hidden(?!S)/",
+    "hidden",
     ""
   );
   dots[slideIndex - 1].className = dots[slideIndex - 1].className.replace(
-    "/(?:^|s)bg-gray-100(?!S)/",
-    " bg-black"
+    " bg-gray-100",
+    " bg-gray-600"
   );
 }

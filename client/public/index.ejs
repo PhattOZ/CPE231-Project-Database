@@ -19,55 +19,108 @@
           </div>
           <div class="">
             <% if(locals.username){ %>
-              <a href="/userinfo" class="px-3"><%= username %></a>
-              <a href="/logout" class="px-3">Log out</a>
+            <a href="/userinfo" class="px-3"><%= username %></a>
+            <a href="/logout" class="px-3">Log out</a>
             <% } else{ %>
-              <a href="/login" class="px-3">Log in</a>
-              <a href="/signup" class="px-3">sign up</a>
-            <% } %> 
+            <a href="/login" class="px-3">Log in</a>
+            <a href="/signup" class="px-3">sign up</a>
+            <% } %>
           </div>
         </div>
       </div>
     </div>
     <!--end of nav-->
+
     <div class="">
       <div></div>
       <div class="flex">
         <div class="w-1/5 bg-gray-300"></div>
-        <div class="bg-gray-400 px-4 pt-10 flex-auto">
+        <div class="bg-gray-900 px-4 pt-10 flex-auto">
           <div class="pb-10">
-            <div>
+            <div class="mb-10 mx-4">
               <h3 class="text-white text-lg tracking-wider">
                 FEATURED & RECOMMENDED
               </h3>
             </div>
             <div>
-              <div class="max-w-screen-lg m-auto">
-                <div class="hidden">
-                  <img src="img/pacma.jpg" alt="" class="slide w-full" />
+              <div class="max-w-screen-md max-h-80 overflow-hidden m-auto">
+                <div class="slide transition-opacity duration-700 hidden">
+                  <img src="img/pacma.jpg" alt="" class="w-full" />
                 </div>
-                <div class="hidden">
-                  <img src="img/contra.png" alt="" class="slide w-full" />
+                <div class="slide transition-opacity duration-700 hidden">
+                  <img src="img/contra.png" alt="" class="w-full" />
                 </div>
-                <div class="hidden">
-                  <img src="img/space.png" alt="" class="slide w-full" />
+                <div class="slide transition-opacity duration-700 hidden">
+                  <img src="img/space.png" alt="" class="w-full" />
                 </div>
-                <div class="hidden">
-                  <img src="img/diablo.png" alt="" class="slide w-full" />
+                <div class="slide transition-opacity duration-700 hidden">
+                  <img src="img/diablo.png" alt="" class="w-full" />
                 </div>
               </div>
-              <div id="dots">
+              <div class="text-center">
                 <span
-                  class="cursor-pointer h-4 w-3 mx-2 rounded-full bg-black"
+                  class="
+                    dot
+                    cursor-pointer
+                    h-4
+                    w-4
+                    mx-2
+                    rounded-full
+                    inline-block
+                    transition-colors
+                    ease-in
+                    duration-200
+                    bg-gray-600
+                  "
+                  onclick="currentSlide(1)"
                 ></span>
                 <span
-                  class="cursor-pointer h-4 w-3 mx-2 rounded-full bg-black"
+                  class="
+                    dot
+                    cursor-pointer
+                    h-4
+                    w-4
+                    mx-2
+                    rounded-full
+                    inline-block
+                    transition-colors
+                    ease-in
+                    duration-200
+                    bg-gray-600
+                  "
+                  onclick="currentSlide(2)"
                 ></span>
                 <span
-                  class="cursor-pointer h-4 w-3 mx-2 rounded-full bg-black"
+                  class="
+                    dot
+                    cursor-pointer
+                    h-4
+                    w-4
+                    mx-2
+                    rounded-full
+                    inline-block
+                    transition-colors
+                    ease-in
+                    duration-200
+                    bg-gray-600
+                  "
+                  onclick="currentSlide(3)"
                 ></span>
                 <span
-                  class="cursor-pointer h-4 w-3 mx-2 rounded-full bg-black"
+                  class="
+                    dot
+                    cursor-pointer
+                    h-4
+                    w-4
+                    mx-2
+                    rounded-full
+                    inline-block
+                    transition-colors
+                    ease-in
+                    duration-200
+                    bg-gray-600
+                  "
+                  onclick="currentSlide(4)"
                 ></span>
               </div>
             </div>
@@ -77,6 +130,7 @@
       </div>
     </div>
     <!--end of content-->
+
     <script src="index.js"></script>
   </body>
 </html>
