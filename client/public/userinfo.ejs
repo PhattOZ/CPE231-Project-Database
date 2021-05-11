@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="compiled.css" />
+    <title>Info</title>
+</head>
+<body>
+    <div class="w-full bg-gray-100">
+        <div class="px-36 py-7">
+          <div class="flex justify-between">
+            <a href="/" class="">no backendStore</a>
+            <div class="">
+              <a href="/store" class="px-3">Store</a>
+              <a href="/about" class="px-3">About</a>
+              <a href="" class="px-3">Commu</a>
+              <a href="" class="px-3">Support</a>
+            </div>
+            <div class="">
+              <% if(locals.username){ %>
+                <a href="/userinfo" class="px-3"><%= username %></a>
+                <a href="/logout" class="px-3">Log out</a>
+              <% } else{ %>
+                <a href="/login" class="px-3">Log in</a>
+                <a href="/signup" class="px-3">sign up</a>
+              <% } %> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end of nav-->
+    <br>
+    <span><b>ข้อมูลของผู้ใช้ (ทดสอบการดึงข้อมูลจาก Database มาแสดง)</b></span><br><br>
+    <span>Firstname : </span><%= fName %><br><br>
+    <span>Lastname : </span><%= lName %><br><br>
+    <span>Date of Birth : </span><%= dob %><br><br>
+    <span>Email : </span><%= email %><br><br>
+    <span>Tel. : </span><%= tel %><br><br>
+    <span>Owned Game : </span><%= useritem.game %><br><br>
+    <span>Owned DLC : </span><%= useritem.dlc %><br><br>
+</body>
+</html>

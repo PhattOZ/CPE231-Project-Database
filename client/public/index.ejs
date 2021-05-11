@@ -18,8 +18,13 @@
             <a href="" class="px-3">Support</a>
           </div>
           <div class="">
-            <a href="/login" class="px-3">Log in</a>
-            <a href="/signup" class="px-3">sign up</a>
+            <% if(locals.username){ %>
+              <a href="/userinfo" class="px-3"><%= username %></a>
+              <a href="/logout" class="px-3">Log out</a>
+            <% } else{ %>
+              <a href="/login" class="px-3">Log in</a>
+              <a href="/signup" class="px-3">sign up</a>
+            <% } %> 
           </div>
         </div>
       </div>
