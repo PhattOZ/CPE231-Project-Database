@@ -31831,6 +31831,35 @@ video {
   --tw-backdrop-sepia: sepia(100%);
 }
 
+.slide {
+  /* -webkit-animation-name: fade;
+  -webkit-animation-duration: 0.2s; */
+  -webkit-animation-name: fade;
+          animation-name: fade;
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
