@@ -31860,6 +31860,10 @@ video {
   }
 }
 
+#banner-about {
+  background-image: url(https://cdn.shopify.com/s/files/1/0504/2932/9574/files/Flower_Wallpaper_Desktop_2_1.jpg?v=1617119371);
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
