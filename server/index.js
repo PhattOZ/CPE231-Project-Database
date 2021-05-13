@@ -77,7 +77,7 @@ app.get("/logout", (request, response) => {
 app.get("/userinfo", (request, response) => {
   var sessionUsername = request.session.username;
   User.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
-    response.render("userinfo", doc[0]);
+    response.render("userinfo", { user: doc });
   });
 });
 
