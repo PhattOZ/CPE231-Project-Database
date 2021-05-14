@@ -16,28 +16,7 @@
       bg-fixed
     "
   >
-    <div class="w-full bg-gray-100">
-      <div class="px-36 py-7">
-        <div class="flex justify-between">
-          <a href="/" class="">no backendStore</a>
-          <div class="">
-            <a href="/store" class="px-3">Store</a>
-            <a href="/about" class="px-3">About</a>
-            <a href="" class="px-3">Commu</a>
-            <a href="" class="px-3">Support</a>
-          </div>
-          <div class="">
-            <% if(locals.username){ %>
-            <a href="/userinfo" class="px-3"><%= username %></a>
-            <a href="/logout" class="px-3">Log out</a>
-            <% } else{ %>
-            <a href="/login" class="px-3">Log in</a>
-            <a href="/signup" class="px-3">sign up</a>
-            <% } %>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%- include("./nav") %>
     <!--end of nav-->
 
     <div class="px-32 py-6">

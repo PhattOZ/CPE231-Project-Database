@@ -7,22 +7,7 @@
     <link rel="stylesheet" href="compiled.css" />
   </head>
   <body class="font-kanit">
-    <div class="w-full bg-black text-white">
-      <div class="px-36 py-7">
-        <div class="flex justify-between">
-          <a href="/" class="">no backendStore</a>
-          <div class="">
-            <a href="/store" class="px-3">Store</a>
-            <a href="/about" class="px-3">About</a>
-            <a href="" class="px-3">Commu</a>
-            <a href="" class="px-3">Support</a>
-          </div>
-          <div class="">
-            <a href="/login" class="px-3">Log in</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%- include("./nav") %>
     <!--end of nav-->
 
     <div
@@ -42,11 +27,7 @@
       <div class="py-4 text-3xl">Our team</div>
       <div class="grid grid-cols-2">
         <div class="w-60 flex">
-          <img
-            src="img/team/book_edit.jpg"
-            alt=""
-            class="p-3"
-          />
+          <img src="img/team/book_edit.jpg" alt="" class="p-3" />
           <div class="flex-shrink-0 p-3">
             <div class="text-lg tracking-wide">PHOLPHAT KITTIVITTAYAKUL</div>
             <div>Chief executive officer.</div>
@@ -60,22 +41,14 @@
           </div>
         </div>
         <div class="w-60 flex">
-          <img
-            src="img/team/Poj_edit.jpg"
-            alt=""
-            class="p-3"
-          />
+          <img src="img/team/Poj_edit.jpg" alt="" class="p-3" />
           <div class="flex-shrink-0 p-3">
             <div class="text-lg tracking-wide">POJNARIN NANTA</div>
             <div>Marketing Manager.</div>
           </div>
         </div>
         <div class="w-60 flex">
-          <img
-            src="img/team/wong_edit.jpg"
-            alt=""
-            class="p-3"
-          />
+          <img src="img/team/wong_edit.jpg" alt="" class="p-3" />
           <div class="flex-shrink-0 p-3">
             <div class="text-lg tracking-wide">SORAWONG LEARDMONGKONRUT</div>
             <div>Finance Manager.</div>
