@@ -31,16 +31,13 @@ app.get("/store", (request, response) => {
   response.render("store")
 })
 
-app.get("/about", (request, response) => {
-  response.render("about")
-})
-
 app.get("/signup", (request, respone) => {
   respone.render("signup")
 })
 
-app.get("/aboutus", (request, respone) => {
-  respone.render("about")
+app.get("/about", (request, respone) => {
+  var usernameSession = request.session.username
+  respone.render("about", { username: usernameSession })
 })
 
 app.all("/login", (request, response) => {
