@@ -11,6 +11,10 @@
   animation-duration: 0.4s;
 }
 
+.dot {
+  @apply cursor-pointer h-4 w-4 mx-2 rounded-full inline-block transition-colors ease-in duration-200;
+}
+
 @keyframes fade {
   from {
     opacity: 0.4;
