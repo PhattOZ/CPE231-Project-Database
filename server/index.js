@@ -81,6 +81,10 @@ app.get("/userinfo", (request, response) => {
   })
 })
 
+app.all("/register", (request, response) => {
+  response.render("register")
+})
+
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
 })
