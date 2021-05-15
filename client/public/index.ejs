@@ -62,11 +62,11 @@
         </div>
         <!--end of slideshow 1-->
         <div class="pt-3">
-          <span class="px-2 bg-cyan-darkest rounded-t-lg"
-            >New and Trending</span
-          >
-          <span class="px-2">Top Sellers</span>
-          <span class="px-2">Popular Upcoming</span>
+          <span class="px-2 bg-cyan-darkest rounded-t-lg" onclick="">
+            New and Trending
+          </span>
+          <span class="px-2" onclick="">Top Sellers</span>
+          <span class="px-2" onclick="">Popular Upcoming</span>
         </div>
       </div>
     </div>
@@ -85,15 +85,12 @@
       <div class="w-5/6 px-4 h-80 flex">
         <div class="bg-cyan-lightblack my-2 w-2/3">
           <div class="flex justify-end py-1">Filter by:</div>
+
+          <% for(let i = 0; i < 4; i++) {%>
           <div class="w-full border-double border-yellow-500 border-2 py-2">
             game goes here
           </div>
-          <div class="w-full border-double border-yellow-500 border-2 py-2">
-            game goes here
-          </div>
-          <div class="w-full border-double border-yellow-500 border-2 py-2">
-            game goes here
-          </div>
+          <% } %>
         </div>
         <!--end of game list-->
       </div>
