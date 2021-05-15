@@ -4,6 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* SLIDESHOW THINGIE */
+
 .slide {
   /* -webkit-animation-name: fade;
   -webkit-animation-duration: 0.2s; */
@@ -22,6 +24,12 @@
   to {
     opacity: 1;
   }
+}
+
+/* HIGHLIGHTED TABS */
+
+.tab-selected {
+  @apply cursor-default bg-cyan-darkest text-white;
 }
 
 #banner-about {
