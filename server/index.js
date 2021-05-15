@@ -24,7 +24,9 @@ app.use(
 
 app.get("/", (request, response) => {
   var sessionUsername = request.session.username
-  response.render("index", { username: sessionUsername })
+  Game.find({}).exec((err, doc) => {
+    response.render("index", { data: doc, username: sessionUsername })
+  })
 })
 
 app.get("/store", (request, response) => {
