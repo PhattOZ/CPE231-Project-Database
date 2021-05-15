@@ -85,10 +85,9 @@
       <div class="w-5/6 px-4 h-80 flex">
         <div class="bg-cyan-lightblack my-2 w-2/3">
           <div class="flex justify-end py-1">Filter by:</div>
-
-          <% for(let i = 0; i < 4; i++) {%>
+          <% for(d of data){ %>
           <div class="w-full border-double border-yellow-500 border-2 py-2">
-            game goes here
+            <%= d.name %>
           </div>
           <% } %>
         </div>

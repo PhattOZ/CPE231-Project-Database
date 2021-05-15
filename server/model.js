@@ -43,11 +43,6 @@ const gameSchema = new mongoose.Schema({
 })
 const Game = mongoose.model("Game", gameSchema)
 
-var data = {
-  name: "League of Legends",
-  description: "Moba 5v5",
-}
-
 const dlcSchema = mongoose.Schema({
   name: { type: String, require: true },
   gameName: { type: String, require: true },
