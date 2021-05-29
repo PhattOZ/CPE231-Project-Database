@@ -10,21 +10,24 @@
   <body class="bg-cyan-blackest text-white font-kanit font-light h-screen">
     <%- include("./nav") %>
     <!--end of nav-->
-    <div class="bg-white text-black flex h-full">
-      <div>
-        <h1>Login Page</h1>
-        <% if(logined && !success){ %>
-        <h3 style="color: red">Incorrect username or password!</h3>
-        <% } %>
-        <form action="/login" method="POST">
-          <label>username : </label
-          ><input type="text" name="username" /><br /><br />
-          <label>password : </label
-          ><input type="password" name="password" /><br /><br />
-          <button type="submit">LOGIN</button>
-        </form>
+
+    <div class="bg-transparent flex">
+      <div class="w-3/5 flex justify-center">
+        <div class="my-32">
+          <div class="font-medium text-4xl py-3">Sign In</div>
+          <% if(logined && !success){ %>
+          <h3 style="color: red">Incorrect username or password!</h3>
+          <% } %>
+          <form action="/login" method="POST">
+            <label>username : </label
+            ><input type="text" name="username" /><br /><br />
+            <label>password : </label
+            ><input type="password" name="password" /><br /><br />
+            <button type="submit">LOGIN</button>
+          </form>
+        </div>
       </div>
-      <div>
+      <div class="w-2/5 bg-cyan-darker">
         <span>Don't have an account? </span
         ><a href="/register">Register here</a>
       </div>
