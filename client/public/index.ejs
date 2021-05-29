@@ -1,19 +1,23 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>wong is the leader</title>
-    <link rel="stylesheet" href="compiled.css" />
-  </head>
-  <body class="font-kanit font-light">
-    <%- include("./nav") %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wong is the leader</title>
+  <link rel="stylesheet" href="compiled.css" />
+</head>
+
+<body class="font-kanit font-light">
+  <%- include("./nav") %>
     <!--end of nav-->
 
     <div class="flex">
       <div class="w-1/6 bg-cyan-blackest text-gray-300">
         <ul class="px-3">
-          <li><h6 class="uppercase tracking-wide">Browse category</h6></li>
+          <li>
+            <h6 class="uppercase tracking-wide">Browse category</h6>
+          </li>
           <li class="">
             <h6 class="uppercase tracking-wide">Browse by genre</h6>
             <a href="" class="block">Free to Play </a>
@@ -42,16 +46,14 @@
 
         <div class="">
           <div class="flex">
-            <div
-              class="
+            <div class="
                 max-h-80
                 overflow-hidden
                 m-auto
                 max-w-screen-md
                 shadow-lg
                 hover:shadow-xl
-              "
-            >
+              ">
               <div class="slide hidden">
                 <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
               </div>
@@ -78,22 +80,14 @@
         <!--end of slideshow 1-->
 
         <div class="pt-3 text-blue-400">
-          <span
-            class="tab-tab px-3 rounded-t-md tab-selected"
-            onclick="switchTab(event, 'trending')"
-          >
+          <span class="tab-tab px-3 rounded-t-md tab-selected" onclick="switchTab(event, 'trending')">
             New and Trending
           </span>
-          <span
-            class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
-            onclick="switchTab(event, 'topSeller')"
-          >
+          <span class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
+            onclick="switchTab(event, 'topSeller')">
             Top Sellers
           </span>
-          <span
-            class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
-            onclick="switchTab(event, 'popular')"
-          >
+          <span class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white" onclick="switchTab(event, 'popular')">
             Popular Upcoming
           </span>
         </div>
@@ -101,8 +95,7 @@
       </div>
     </div>
     <!--end of 1st section-->
-    <div
-      class="
+    <div class="
         w-full
         bg-gradient-to-t
         from-cyan-black
@@ -110,31 +103,33 @@
         flex
         justify-end
         text-gray-300
-      "
-    >
+      ">
       <div class="w-5/6 px-4 flex">
         <div class="bg-cyan-lightblack w-2/3 mt-3 shadow-mdtab-tab">
           <div class="flex justify-end py-2">Sort by:</div>
           <div id="trending" class="tab-content">
             <% for(d of data){ %>
-            <div class="w-full border-double border-yellow-500 border-2 py-2">
-              <%= d.name %>
-            </div>
-            <% } %>
+              <div class="w-full border-double border-yellow-500 border-2 py-2">
+                <img src="/img/uploads/<%= d.image %> " alt="">
+                <%= d.name %>
+              </div>
+              <% } %>
           </div>
           <div id="topSeller" class="tab-content hidden">
             <% for(d of data){ %>
-            <div class="w-full border-double border-red-500 border-2 py-2">
-              <%= d.name %>
-            </div>
-            <% } %>
+              <div class="w-full border-double border-red-500 border-2 py-2">
+                <img src="/img/uploads/<%= d.image %> " alt="">
+                <%= d.name %>
+              </div>
+              <% } %>
           </div>
           <div id="popular" class="tab-content hidden">
             <% for(d of data){ %>
-            <div class="w-full border-double border-blue-500 border-2 py-2">
-              <%= d.name %>
-            </div>
-            <% } %>
+              <div class="w-full border-double border-blue-500 border-2 py-2">
+                <img src="/img/uploads/<%= d.image %> " alt="">
+                <%= d.name %>
+              </div>
+              <% } %>
           </div>
         </div>
         <!--end of game list-->
@@ -146,5 +141,6 @@
 
     <script src="./scripts/slideshow1.js"></script>
     <script src="./scripts/tabs.js"></script>
-  </body>
+</body>
+
 </html>
