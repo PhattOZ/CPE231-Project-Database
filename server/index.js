@@ -93,6 +93,13 @@ app.all("/register", (request, response) => {
   response.render("register")
 })
 
+app.get("/gameinfo", (request, response) => {
+  var query = request.query.name
+  Game.find({ name: { $eq: query } }).exec((err, doc) => {
+    response.render("gameinfo", doc[0])
+  })
+})
+
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
 })
