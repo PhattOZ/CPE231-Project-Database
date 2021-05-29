@@ -8,5 +8,22 @@
 </head>
 <body>
     <h1>Register</h1>
+    <form action="/register" method="post">
+        <label>Username : </label><input type="text" name="username" /><br /><br />
+        <label>Password : </label><input type="password" name="password" /><br /><br />
+        <label>Firstname : </label><input type="text" name="fname" /><br /><br />
+        <label>Lastname: </label><input type="text" name="lname" /><br /><br />
+        <label>Gender : </label><br />
+        <input type="radio"  name="gender" value="male">
+        <label for="male">Male</label><br>
+        <input type="radio"  name="gender" value="female">
+        <label for="female">Female</label><br>
+        <input type="radio"  name="gender" value="other">
+        <label for="other">Other</label><br><br>
+        <label>Date of birth : </label><input type="date" name="dob" /><br /><br />
+        <label>Email : </label><input type="text" name="email" /><br /><br />
+        <label>Tel : </label><input type="text" name="tel" /><br /><br />
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>

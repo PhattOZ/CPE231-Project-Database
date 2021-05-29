@@ -6,8 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="compiled.css" />
     <title>Info</title>
+    <style>
+      .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+    </style>
   </head>
-  <body
+  
+    <body
     class="
       font-kanit font-light
       bg-gradient-to-tr
@@ -15,7 +30,7 @@
       to-blue-300
       bg-fixed
     "
-  >
+    >
     <%- include("./nav") %>
     <!--end of nav-->
 
@@ -29,6 +44,7 @@
       <span>Tel. : </span><%= tel %><br /><br />
       <span>Owned Game : </span><%= useritem %><br /><br />
       <span>Owned DLC : </span><%= useritem %><br /><br />
+      <button class="button",onclick = "http://localhost:3000/userinfo-edit">Edit</button>
     </div>
 
     <%- include ("./footer") %> 
