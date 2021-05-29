@@ -40,6 +40,7 @@ const gameSchema = new mongoose.Schema({
   price: { type: Number, require: true },
   sales: { type: Number, require: true },
   downloaded: { type: Number, require: true },
+  image: String
 })
 const Game = mongoose.model("Game", gameSchema)
 
@@ -103,5 +104,13 @@ const Group = mongoose.model("Group", groupSchema)
 // }
 // User.create(data)
 
-User.create()
+// var data = { 
+//   name: "Dota2",
+//   price: 200,
+//   sell: 1000,
+//   download: 1000,
+//   image: "dota2.jpg"
+// }
+// Game.create(data)
+
 module.exports = { User, Game, DLC, Review, Transaction, Promotion, Group }
