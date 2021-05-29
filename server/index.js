@@ -42,6 +42,7 @@ app.get("/about", (request, respone) => {
   respone.render("about", { username: usernameSession })
 })
 
+//for Publisher View =====================================================
 app.get("/about_publisher", (request, respone) => {
   var usernameSession = request.session.username
   respone.render("about_publisher", { username: usernameSession })
@@ -50,6 +51,20 @@ app.get("/about_publisher", (request, respone) => {
 app.get("/index_publisher", (request, response) => {
   response.render("index_publisher")
 })
+
+app.get("/Publish_Game", (request, response) => {
+  response.render("Publish_Game_publisher")
+})
+
+app.get("/Publish_DLC", (request, response) => {
+  response.render("Publish_DLC_publisher")
+})
+
+app.get("/Promotion_Code", (request, response) => {
+  response.render("Promotion_Code_publisher")
+})
+
+//End Publisher View =====================================================
 
 app.all("/login", (request, response) => {
   var username = request.body.username
