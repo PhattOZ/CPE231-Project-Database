@@ -13,7 +13,7 @@
   animation-duration: 0.4s;
 }
 
-.dot {
+.dot-1, .dot-2 {
   @apply cursor-pointer h-4 w-4 mx-2 rounded-full inline-block transition-colors ease-in duration-200;
 }
 

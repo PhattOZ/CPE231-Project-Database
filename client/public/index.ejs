@@ -49,40 +49,77 @@
           FEATURED & RECOMMENDED
         </div>
 
-        <div class="">
-          <div class="flex">
-            <div class="
-                max-h-80
-                overflow-hidden
-                m-auto
-                max-w-screen-md
-                shadow-lg
-                hover:shadow-xl
-              ">
-              <div class="slide hidden">
-                <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
-              </div>
-              <div class="slide transition-opacity duration-700 hidden">
-                <img src="img/game_demo/contra.png" alt="" class="w-full" />
-              </div>
-              <div class="slide transition-opacity duration-700 hidden">
-                <img src="img/game_demo/space.png" alt="" class="w-full" />
-              </div>
-              <div class="slide transition-opacity duration-700 hidden">
-                <img src="img/game_demo/diablo.png" alt="" class="w-full" />
-              </div>
+        
+        <div class="flex">
+          <div class="
+              max-h-80
+              overflow-hidden
+              m-auto
+              max-w-screen-md
+              shadow-lg
+              hover:shadow-xl
+            ">
+            <div class="slide1 hidden">
+              <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
+            </div>
+            <div class="slide1 transition-opacity duration-700 hidden">
+              <img src="img/game_demo/contra.png" alt="" class="w-full" />
+            </div>
+            <div class="slide1 transition-opacity duration-700 hidden">
+              <img src="img/game_demo/space.png" alt="" class="w-full" />
+            </div>
+            <div class="slide1 transition-opacity duration-700 hidden">
+              <img src="img/game_demo/diablo.png" alt="" class="w-full" />
             </div>
           </div>
-          <!--end of slides-->
-          <div class="text-center py-3">
-            <span class="dot bg-gray-600" onclick="currentSlide(1)"></span>
-            <span class="dot bg-gray-600" onclick="currentSlide(2)"></span>
-            <span class="dot bg-gray-600" onclick="currentSlide(3)"></span>
-            <span class="dot bg-gray-600" onclick="currentSlide(4)"></span>
-          </div>
-          <!--end of dots-->
         </div>
+        <!--end of slides-->
+        <div class="text-center py-3">
+          <span class="dot-1 bg-gray-600" onclick="currentSlide_1(1)"></span>
+          <span class="dot-1 bg-gray-600" onclick="currentSlide_1(2)"></span>
+          <span class="dot-1 bg-gray-600" onclick="currentSlide_1(3)"></span>
+          <span class="dot-1 bg-gray-600" onclick="currentSlide_1(4)"></span>
+        </div>
+        <!--end of dots-->
+        
         <!--end of slideshow 1-->
+        <div class="mb-10 mx-4 text-white text-lg tracking-wider">
+          SPECIAL OFFERS
+        </div>
+        
+        <div class="flex">
+          <div class="
+              max-h-80
+              overflow-hidden
+              m-auto
+              max-w-screen-md
+              shadow-lg
+              hover:shadow-xl
+            ">
+            <div class="slide2 hidden">
+              <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
+            </div>
+            <div class="slide2 transition-opacity duration-700 hidden">
+              <img src="img/game_demo/contra.png" alt="" class="w-full" />
+            </div>
+            <div class="slide2 transition-opacity duration-700 hidden">
+              <img src="img/game_demo/space.png" alt="" class="w-full" />
+            </div>
+            <div class="slide2 transition-opacity duration-700 hidden">
+              <img src="img/game_demo/diablo.png" alt="" class="w-full" />
+            </div>
+          </div>
+        </div>
+        <!--end of slides-->
+        <div class="text-center py-3">
+          <span class="dot-2 bg-gray-600" onclick="currentSlide_2(1)"></span>
+          <span class="dot-2 bg-gray-600" onclick="currentSlide_2(2)"></span>
+          <span class="dot-2 bg-gray-600" onclick="currentSlide_2(3)"></span>
+          <span class="dot-2 bg-gray-600" onclick="currentSlide_2(4)"></span>
+        </div>
+        <!--end of dots-->
+        
+        <!--end of slideshow 2-->
 
         <div class="pt-3 text-blue-400">
           <span class="tab-tab px-3 rounded-t-md tab-selected" onclick="switchTab(event, 'trending')">
@@ -153,7 +190,7 @@
 
     <!--end of content-->
 
-    <script src="./scripts/slideshow1.js"></script>
+    <script src="./scripts/slideshow.js"></script>
     <script src="./scripts/tabs.js"></script>
 </body>
 
