@@ -42,6 +42,15 @@ app.get("/about", (request, respone) => {
   respone.render("about", { username: usernameSession })
 })
 
+app.get("/about_publisher", (request, respone) => {
+  var usernameSession = request.session.username
+  respone.render("about_publisher", { username: usernameSession })
+})
+
+app.get("/index_publisher", (request, response) => {
+  response.render("index_publisher")
+})
+
 app.all("/login", (request, response) => {
   var username = request.body.username
   var password = request.body.password

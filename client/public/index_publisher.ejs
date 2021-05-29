@@ -7,29 +7,14 @@
     <link rel="stylesheet" href="compiled.css" />
   </head>
   <body class="font-kanit font-light">
-    <%- include("./nav") %>
-    <div>This Is Publisher View</div>
+    <%- include("./nav_publisher") %>
     <!--end of nav-->
-
 
         <div class="pt-3 text-blue-400">
           <span
             class="tab-tab px-3 rounded-t-md tab-selected"
-            onclick="switchTab(event, 'trending')"
           >
-            New and Trending
-          </span>
-          <span
-            class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
-            onclick="switchTab(event, 'topSeller')"
-          >
-            Top Sellers
-          </span>
-          <span
-            class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
-            onclick="switchTab(event, 'popular')"
-          >
-            Popular Upcoming
+            Game
           </span>
         </div>
         <!--end of tabs-->
@@ -47,38 +32,14 @@
         text-gray-300
       "
     >
-      <div class="w-5/6 px-4 flex">
-        <div class="bg-cyan-lightblack w-2/3 mt-3 shadow-mdtab-tab">
-          <div class="flex justify-end py-2">Sort by:</div>
-          <div id="trending" class="tab-content">
-            <% for(d of data){ %>
-            <div class="w-full border-double border-yellow-500 border-2 py-2">
-              <%= d.name %>
-            </div>
-            <% } %>
-          </div>
-          <div id="topSeller" class="tab-content hidden">
-            <% for(d of data){ %>
-            <div class="w-full border-double border-red-500 border-2 py-2">
-              <%= d.name %>
-            </div>
-            <% } %>
-          </div>
-          <div id="popular" class="tab-content hidden">
-            <% for(d of data){ %>
-            <div class="w-full border-double border-blue-500 border-2 py-2">
-              <%= d.name %>
-            </div>
-            <% } %>
-          </div>
-        </div>
+        <!--GAME TABLE INSERT HERE-->
+
         <!--end of game list-->
       </div>
     </div>
     <!--end of 2nd section-->
 
     <!--end of content-->
-
     <script src="./scripts/tabs.js"></script>
   </body>
 </html>
