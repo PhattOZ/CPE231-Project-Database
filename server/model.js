@@ -45,13 +45,12 @@ const gameSchema = new mongoose.Schema({
   name: { type: String, require: true },
   description: String,
   systemReq: String,
-  category: String,
+  category: Array,
   publisherName: String,
   developerName: String,
   releaseDate: Date,
   price: { type: Number, require: true },
-  sales: { type: Number, require: true },
-  downloaded: { type: Number, require: true },
+  downloaded: Number,
   image: String,
 })
 const Game = mongoose.model("Game", gameSchema)
@@ -125,4 +124,13 @@ const Group = mongoose.model("Group", groupSchema)
 // }
 // Game.create(data)
 
-module.exports = { User, Publisher, Game, DLC, Review, Transaction, Promotion, Group }
+module.exports = {
+  User,
+  Publisher,
+  Game,
+  DLC,
+  Review,
+  Transaction,
+  Promotion,
+  Group,
+}
