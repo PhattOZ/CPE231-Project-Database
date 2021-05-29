@@ -21,7 +21,8 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {animation: ['motion-safe'],
+    backgroundColor: ['active']},
   },
   plugins: [],
 };
