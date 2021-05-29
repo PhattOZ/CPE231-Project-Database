@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publisher index</title>
+    <link rel="stylesheet" href="compiled.css" />
+</head>
+<body class="font-kanit">
+    <div class="w-full bg-gray-900 text-gray-300">
+        <div class="px-36 py-7">
+          <div class="flex justify-between">
+            <a href="/" class="animate-bounce">no backendStore</a>
+            <div class="">
+              <a
+                href="/store"
+                class="px-3 transition-colors duration-100 ease-in hover:text-white"
+                >Store</a
+              >
+              <a
+                href="/about"
+                class="px-3 transition-colors duration-100 ease-in hover:text-white"
+                >About</a
+              >
+              <a
+                href=""
+                class="px-3 transition-colors duration-100 ease-in hover:text-white"
+                >Commu</a
+              >
+              <a
+                href=""
+                class="px-3 transition-colors duration-100 ease-in hover:text-white"
+                >Support</a
+              >
+            </div>
+            <div class="">
+              <% if(locals.username){ %>
+              <a
+                href="/userinfo"
+                class="px-3 transition-colors duration-100 ease-in hover:text-white"
+                ><%= username %></a
+              >
+              <a
+                href="/logout"
+                class="px-3 transition-colors duration-100 ease-in hover:text-white"
+                >Log out</a
+              >
+              <% } else{ %>
+              <a
+                href="/login"
+                class="px-3 transition-colors duration-100 ease-in hover:text-white"
+                >Log in</a
+              >
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <div>This is Publisher view</div>
+    
+</body>
+</html>
