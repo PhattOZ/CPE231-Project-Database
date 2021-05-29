@@ -35,10 +35,6 @@ app.get("/", (request, response) => {
   })
 })
 
-app.get("/store", (request, response) => {
-  response.render("store")
-})
-
 app.get("/signup", (request, respone) => {
   respone.render("signup")
 })
@@ -47,40 +43,6 @@ app.get("/about", (request, respone) => {
   var usernameSession = request.session.username
   respone.render("about", { username: usernameSession })
 })
-
-app.get("/Support", (request, respone) => {
-  var usernameSession = request.session.username
-  respone.render("Support", { username: usernameSession })
-})
-
-//for Publisher View =====================================================
-app.get("/about_publisher", (request, respone) => {
-  var usernameSession = request.session.username
-  respone.render("about_publisher", { username: usernameSession })
-})
-
-app.get("/index_publisher", (request, response) => {
-  response.render("index_publisher")
-})
-
-app.get("/Publish_Game", (request, response) => {
-  response.render("Publish_Game_publisher")
-})
-
-app.get("/Publish_DLC", (request, response) => {
-  response.render("Publish_DLC_publisher")
-})
-
-app.get("/Promotion_Code", (request, response) => {
-  response.render("Promotion_Code_publisher")
-})
-
-app.get("/Support_publisher", (request, respone) => {
-  var usernameSession = request.session.username
-  respone.render("Support_publisher", { username: usernameSession })
-})
-
-//End Publisher View =====================================================
 
 app.all("/login", (request, response) => {
   var username = request.body.username
