@@ -29,6 +29,18 @@ const userSchema = new mongoose.Schema({
 })
 const User = mongoose.model("User", userSchema)
 
+const publisherSchema = new mongoose.Schema({
+  username: { type: String, require: true },
+  password: { type: String, require: true },
+})
+const Publisher = mongoose.model("Publisher", publisherSchema)
+
+// var data = {
+//   username: "publisher1",
+//   password: "1234"
+// }
+// Publisher.create(data)
+
 const gameSchema = new mongoose.Schema({
   name: { type: String, require: true },
   description: String,
@@ -113,4 +125,4 @@ const Group = mongoose.model("Group", groupSchema)
 // }
 // Game.create(data)
 
-module.exports = { User, Game, DLC, Review, Transaction, Promotion, Group }
+module.exports = { User, Publisher, Game, DLC, Review, Transaction, Promotion, Group }

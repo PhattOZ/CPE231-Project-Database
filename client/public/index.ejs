@@ -9,8 +9,12 @@
 </head>
 
 <body class="font-kanit font-light">
-  <%- include("./nav") %>
-
+  <% if(role == "publisher"){ %>
+    <%- include("./nav_publisher") %>
+  <% } else { %>
+    <%- include("./nav") %>
+  <% } %> 
+  
     <!--end of nav-->
 
     <div class="flex">
