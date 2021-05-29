@@ -20,9 +20,14 @@
           <% if(logined && !success){ %>
             <h3 style="color: red">Incorrect username or password!</h3>
             <% } %>
-              <form action="/login" method="POST">
+              <form action="/login" method="POST" class="text-black">
                 <label>username : </label><input type="text" name="username" /><br /><br />
                 <label>password : </label><input type="password" name="password" /><br /><br />
+                <label>Role : </label>
+                <select name="role">
+                  <option value="user">User</option>
+                  <option value="publisher">Publisher</option>
+                </select>
                 <button type="submit">LOGIN</button>
               </form>
         </div>

@@ -8,6 +8,7 @@ const Review = require("./model").Review
 const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
+const { Publisher } = require("./model")
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -24,8 +25,13 @@ app.use(
 
 app.get("/", (request, response) => {
   var sessionUsername = request.session.username
+  var sessionRole = request.session.role
   Game.find({}).exec((err, doc) => {
-    response.render("index", { data: doc, username: sessionUsername })
+    response.render("index", {
+      data: doc,
+      username: sessionUsername,
+      role: sessionRole,
+    })
   })
 })
 
@@ -79,18 +85,41 @@ app.get("/Support_publisher", (request, respone) => {
 app.all("/login", (request, response) => {
   var username = request.body.username
   var password = request.body.password
-  if (username && password) {
-    User.find({
-      $and: [{ username: { $eq: username } }, { password: { $eq: password } }],
-    }).exec((err, doc) => {
-      if (doc.length > 0) {
-        //username & password are in database
-        request.session.username = doc[0].username
-        response.redirect("/")
-      } else {
-        response.render("login", { logined: true, success: false })
-      }
-    })
+  var role = request.body.role
+  if (username && password && role) {
+    if (role == "user") {
+      User.find({
+        $and: [
+          { username: { $eq: username } },
+          { password: { $eq: password } },
+        ],
+      }).exec((err, doc) => {
+        if (doc.length > 0) {
+          //username & password are in database
+          request.session.username = doc[0].username
+          request.session.role = "user"
+          response.redirect("/")
+        } else {
+          response.render("login", { logined: true, success: false })
+        }
+      })
+    } else if (role == "publisher") {
+      Publisher.find({
+        $and: [
+          { username: { $eq: username } },
+          { password: { $eq: password } },
+        ],
+      }).exec((err, doc) => {
+        if (doc.length > 0) {
+          //username & password are in database
+          request.session.username = doc[0].username
+          request.session.role = "publisher"
+          response.redirect("/")
+        } else {
+          response.render("login", { logined: true, success: false })
+        }
+      })
+    }
   } else {
     //username & password not in database
     response.render("login", { logined: false, success: false })

@@ -1,63 +1,19 @@
 <div class="w-full bg-gray-900 text-gray-300">
   <div class="px-36 py-8">
     <div class="flex justify-between">
-      <a href="/" class="animate-bounce">STROM for Publisher</a>
-      <div class="">
-        <a
-          href="/index_publisher"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >Publisher Item</a
-        >
-        <a
-          href="/Publish_Game"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >Publish Game</a
-        >
-        <a
-          href="/Publish_DLC"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >Publish DLC</a
-        >
-        <a
-          href="/Promotion_Code"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >Create Promotion Code</a
-        >
-        <a
-          href=""
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >Report</a
-        >
-        <a
-          href="/about_publisher"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >About us</a
-        >
-        <a
-          href="/Support_publisher"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >Support</a
-        >
+      <a href="/" class="animate-bounce"><img src="img/logo/logo4_edit.png" alt="" class="w-25"></a>
+      <div class="flex-shrink-0">
+        <a href="/addGame" class="px-3 transition-colors duration-100 ease-in hover:text-white">Add Game</a>
       </div>
       <div class="">
         <% if(locals.username){ %>
-        <a
-          href="/userinfo"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          ><%= username %></a
-        >
-        <a
-          href="/logout"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >Log out</a
-        >
-        <% } else{ %>
-        <a
-          href="/login"
-          class="px-3 transition-colors duration-100 ease-in hover:text-white"
-          >Log in</a
-        >
-        <% } %>
+          <a href="/userinfo" class="px-3 transition-colors duration-100 ease-in hover:text-white">
+            <%= username %>
+          </a>
+          <a href="/logout" class="px-3 transition-colors duration-100 ease-in hover:text-white">Log out</a>
+          <% } else{ %>
+            <a href="/login" class="px-3 transition-colors duration-100 ease-in hover:text-white">Log in</a>
+            <% } %>
       </div>
     </div>
   </div>
