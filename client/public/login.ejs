@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./compiled.css" />
-    <title>Login</title>
-  </head>
-  <body class="bg-cyan-blackest text-white font-kanit font-light h-screen">
-    <%- include("./nav") %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./compiled.css" />
+  <title>Login</title>
+</head>
+
+<body class="bg-cyan-blackest text-white font-kanit font-light h-screen">
+  <%- include("./nav") %>
     <!--end of nav-->
 
     <div class="bg-transparent flex">
@@ -16,21 +18,19 @@
         <div class="my-32">
           <div class="font-medium text-4xl py-3">Sign In</div>
           <% if(logined && !success){ %>
-          <h3 style="color: red">Incorrect username or password!</h3>
-          <% } %>
-          <form action="/login" method="POST">
-            <label>username : </label
-            ><input type="text" name="username" /><br /><br />
-            <label>password : </label
-            ><input type="password" name="password" /><br /><br />
-            <button type="submit">LOGIN</button>
-          </form>
+            <h3 style="color: red">Incorrect username or password!</h3>
+            <% } %>
+              <form action="/login" method="POST">
+                <label>username : </label><input type="text" name="username" /><br /><br />
+                <label>password : </label><input type="password" name="password" /><br /><br />
+                <button type="submit">LOGIN</button>
+              </form>
         </div>
       </div>
       <div class="w-2/5 bg-cyan-darker">
-        <span>Don't have an account? </span
-        ><a href="/register">Register here</a>
+        <span>Don't have an account? </span><a href="/register">Register here</a>
       </div>
     </div>
-  </body>
+</body>
+
 </html>
