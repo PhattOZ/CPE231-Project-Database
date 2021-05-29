@@ -11,37 +11,37 @@
     <%- include("./nav") %>
     <!--end of nav-->
 
-    <div class="flex">
-      <div class="w-1/6 bg-cyan-blackest text-gray-300">
-        <ul class="px-3">
-          <li>
-            <h6 class="uppercase tracking-wide">Browse category</h6>
-          </li>
-          <li class="">
-            <h6 class="uppercase tracking-wide">Browse by genre</h6>
-            <a href="" class="block">Free to Play </a>
-            <a href="" class="block">Early Access</a>
-            <a href="" class="block">Action</a>
-            <a href="" class="block">Adventure</a>
-            <a href="" class="block">Casual</a>
-            <a href="" class="block">Indie</a>
-            <a href="" class="block">Massively</a>
-            <a href="" class="block">Multiplayer</a>
-            <a href="" class="block">Racing</a>
-            <a href="" class="block">RPG</a>
-            <a href="" class="block">Simulation</a>
-            <a href="" class="block">Sports</a>
-            <a href="" class="block">Strategy</a>
-          </li>
-          <li></li>
-        </ul>
-      </div>
-      <!--end of sidebar-->
+          <div class="flex">
+            <div class="w-1/6 bg-cyan-blackest text-gray-300">
+              <ul class="px-3">
+                <li>
+                  <h6 class="uppercase tracking-wide">Browse category</h6>
+                </li>
+                <li class="">
+                  <h6 class="uppercase tracking-wide">Browse by genre</h6>
+                  <a href="" class="block">Free to Play </a>
+                  <a href="" class="block">Early Access</a>
+                  <a href="" class="block">Action</a>
+                  <a href="" class="block">Adventure</a>
+                  <a href="" class="block">Casual</a>
+                  <a href="" class="block">Indie</a>
+                  <a href="" class="block">Massively</a>
+                  <a href="" class="block">Multiplayer</a>
+                  <a href="" class="block">Racing</a>
+                  <a href="" class="block">RPG</a>
+                  <a href="" class="block">Simulation</a>
+                  <a href="" class="block">Sports</a>
+                  <a href="" class="block">Strategy</a>
+                </li>
+                <li></li>
+              </ul>
+            </div>
+            <!--end of sidebar-->
 
-      <div class="px-4 bg-cyan-black text-gray-300 pt-10 flex-auto">
-        <div class="mb-10 mx-4 text-white text-lg tracking-wider">
-          FEATURED & RECOMMENDED
-        </div>
+            <div class="px-4 bg-cyan-black text-gray-300 pt-10 flex-auto">
+              <div class="mb-10 mx-4 text-white text-lg tracking-wider">
+                FEATURED & RECOMMENDED
+              </div>
 
         <div class="">
           <div class="flex">
@@ -53,59 +53,50 @@
                 max-w-screen-md
                 shadow-lg
                 hover:shadow-xl
-              "
-            >
-              <div class="slide hidden">
-                <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
+              ">
+                    <div class="slide hidden">
+                      <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
+                    </div>
+                    <div class="slide transition-opacity duration-700 hidden">
+                      <img src="img/game_demo/contra.png" alt="" class="w-full" />
+                    </div>
+                    <div class="slide transition-opacity duration-700 hidden">
+                      <img src="img/game_demo/space.png" alt="" class="w-full" />
+                    </div>
+                    <div class="slide transition-opacity duration-700 hidden">
+                      <img src="img/game_demo/diablo.png" alt="" class="w-full" />
+                    </div>
+                  </div>
+                </div>
+                <!--end of slides-->
+                <div class="text-center py-3">
+                  <span class="dot bg-gray-600" onclick="currentSlide(1)"></span>
+                  <span class="dot bg-gray-600" onclick="currentSlide(2)"></span>
+                  <span class="dot bg-gray-600" onclick="currentSlide(3)"></span>
+                  <span class="dot bg-gray-600" onclick="currentSlide(4)"></span>
+                </div>
+                <!--end of dots-->
               </div>
-              <div class="slide transition-opacity duration-700 hidden">
-                <img src="img/game_demo/contra.png" alt="" class="w-full" />
+              <!--end of slideshow 1-->
+
+              <div class="pt-3 text-blue-400">
+                <span class="tab-tab px-3 rounded-t-md tab-selected" onclick="switchTab(event, 'trending')">
+                  New and Trending
+                </span>
+                <span class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
+                  onclick="switchTab(event, 'topSeller')">
+                  Top Sellers
+                </span>
+                <span class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
+                  onclick="switchTab(event, 'popular')">
+                  Popular Upcoming
+                </span>
               </div>
-              <div class="slide transition-opacity duration-700 hidden">
-                <img src="img/game_demo/space.png" alt="" class="w-full" />
-              </div>
-              <div class="slide transition-opacity duration-700 hidden">
-                <img src="img/game_demo/diablo.png" alt="" class="w-full" />
-              </div>
+              <!--end of tabs-->
             </div>
           </div>
-          <!--end of slides-->
-          <div class="text-center py-3">
-            <span class="dot bg-gray-600" onclick="currentSlide(1)"></span>
-            <span class="dot bg-gray-600" onclick="currentSlide(2)"></span>
-            <span class="dot bg-gray-600" onclick="currentSlide(3)"></span>
-            <span class="dot bg-gray-600" onclick="currentSlide(4)"></span>
-          </div>
-          <!--end of dots-->
-        </div>
-        <!--end of slideshow 1-->
-
-        <div class="pt-3 text-blue-400">
-          <span
-            class="tab-tab px-3 rounded-t-md tab-selected"
-            onclick="switchTab(event, 'trending')"
-          >
-            New and Trending
-          </span>
-          <span
-            class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
-            onclick="switchTab(event, 'topSeller')"
-          >
-            Top Sellers
-          </span>
-          <span
-            class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white"
-            onclick="switchTab(event, 'popular')"
-          >
-            Popular Upcoming
-          </span>
-        </div>
-        <!--end of tabs-->
-      </div>
-    </div>
-    <!--end of 1st section-->
-    <div
-      class="
+          <!--end of 1st section-->
+          <div class="
         w-full
         bg-gradient-to-t
         from-cyan-black
@@ -113,46 +104,50 @@
         flex
         justify-end
         text-gray-300
-      "
-    >
-      <div class="w-5/6 px-4 flex">
-        <div class="bg-cyan-lightblack w-2/3 mt-3 shadow-mdtab-tab">
-          <div class="flex justify-end py-2">Sort by:</div>
-          <div id="trending" class="tab-content">
-            <% for(d of data){ %>
-            <div
-              class="w-full border-double border-yellow-500 border-2 py-2 flex"
-            >
-              <img class="h-24" src="/img/uploads/<%= d.image %> " alt="" />
-              <%= d.name %>
+      ">
+            <div class="w-5/6 px-4 flex">
+              <div class="bg-cyan-lightblack w-2/3 mt-3 shadow-mdtab-tab">
+                <div class="flex justify-end py-2">Sort by:</div>
+                <div id="trending" class="tab-content" onclick="sortgame('trending')">
+                  <% for(d of data){ %>
+                    <div class="w-full border-double border-yellow-500 border-2 py-2">
+                      <img src="/img/uploads/<%= d.image %> " alt="">
+                      <a href="/gameinfo?name=<%= d.name %> ">
+                        <%= d.name %>
+                      </a>
+                    </div>
+                    <% } %>
+                </div>
+                <div id="topSeller" class="tab-content hidden" onclick="sortgame('topSeller')">
+                  <% for(d of data){ %>
+                    <div class="w-full border-double border-red-500 border-2 py-2">
+                      <img src="/img/uploads/<%= d.image %> " alt="">
+                      <a href="/gameinfo">
+                        <%= d.name %>
+                      </a>
+                    </div>
+                    <% } %>
+                </div>
+                <div id="popular" class="tab-content hidden" onclick="sortgame('popular')">
+                  <% for(d of data){ %>
+                    <div class="w-full border-double border-blue-500 border-2 py-2">
+                      <img src="/img/uploads/<%= d.image %> " alt="">
+                      <a href="/gameinfo">
+                        <%= d.name %>
+                      </a>
+                    </div>
+                    <% } %>
+                </div>
+              </div>
+              <!--end of game list-->
             </div>
-            <% } %>
           </div>
-          <div id="topSeller" class="tab-content hidden">
-            <% for(d of data){ %>
-            <div class="w-full border-double border-red-500 border-2 py-2 flex">
-              <img src="/img/uploads/<%= d.image %> " alt="" />
-              <%= d.name %>
-            </div>
-            <% } %>
-          </div>
-          <div id="popular" class="tab-content hidden">
-            <% for(d of data){ %>
-            <div class="w-full border-double border-blue-500 border-2 py-2">
-              <img src="/img/uploads/<%= d.image %> " alt="" />
-              <%= d.name %>
-            </div>
-            <% } %>
-          </div>
-        </div>
-        <!--end of game list-->
-      </div>
-    </div>
-    <!--end of 2nd section-->
+          <!--end of 2nd section-->
 
-    <!--end of content-->
+          <!--end of content-->
 
-    <script src="./scripts/slideshow1.js"></script>
-    <script src="./scripts/tabs.js"></script>
-  </body>
+          <script src="./scripts/slideshow1.js"></script>
+          <script src="./scripts/tabs.js"></script>
+      </body>
+
 </html>
