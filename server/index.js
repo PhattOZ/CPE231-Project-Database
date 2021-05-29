@@ -115,7 +115,27 @@ app.get("/userinfo", (request, response) => {
 })
 
 app.all("/register", (request, response) => {
-  response.render("register")
+  var username = request.body.username 
+  var password = request.body.password
+  var fname = request.body.fname
+  var lname = request.body.lname
+  var gender = request.body.gender
+  var dob = request.body.dob
+  var email = request.body.email
+  var tel = request.body.tel
+  var data =  {
+    username : username,
+    password : password,
+    fName : fname,
+    lName : lname,
+    gender : gender,
+    dob : dob,
+    email : email,
+    tel : tel,
+  }
+  User.create(data)
+
+response.render("register")
 })
 
 app.get("/gameinfo", (request, response) => {
@@ -124,6 +144,11 @@ app.get("/gameinfo", (request, response) => {
     response.render("gameinfo", doc[0])
   })
 })
+
+app.get("/userinfo-edit", (request, response) => {
+  response.render("userinfo-edit")
+})
+
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
