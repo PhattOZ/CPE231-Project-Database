@@ -1,6 +1,8 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const session = require("express-session")
+const formidable = require("formidable")
+const fs = require("fs")
 const User = require("./model").User
 const Game = require("./model").Game
 const DLC = require("./model").DLC
@@ -8,7 +10,7 @@ const Review = require("./model").Review
 const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
-const { Publisher } = require("./model")
+const Publisher = require("./model").Publisher
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -105,8 +107,66 @@ app.get("/userinfo", (request, response) => {
   })
 })
 
+app.get("/publisherinfo", (request, response) => {
+  response.render("publisherinfo")
+})
+
+app.all("/addgame", (request, response) => {
+  var form = new formidable.IncomingForm() //read all user input in form
+  form.parse(request, (err, fields, files) => {
+    if (
+      fields.gamename &&
+      fields.category &&
+      fields.price &&
+      files.imgfile &&
+      !err
+    ) {
+      let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
+      let dir = "../client/public/img/uploads/" //ตำแหน่งที่จะเก็บไฟล์รูป
+      let imgName = upfile.name
+      let newPath = dir + imgName
+      if (fs.existsSync(newPath)) {
+        //ตรวจพบว่ามีชื่อไฟล์นี้อยู่ในคอมเราอยู่แล้ว
+        let oldName = upfile.name.split(".") //แยกชื่อกับนามสกุลไฟล์
+        let r = Math.floor(Math.random() * 9999)
+        oldName[0] += "_" + r
+        //เอาชื่อใหม่มาต่อกับนามสกุลไฟล์เดิม
+        imgName = oldName.join(".")
+        newPath = dir + oldName.join(".")
+      }
+      let oldPath = upfile.path
+      let rawData = fs.readFileSync(oldPath)
+      let data = {
+        name: fields.gamename,
+        description: fields.description,
+        systemReq: fields.systemReq,
+        category: fields.category,
+        publisherName: fields.publishername,
+        developerName: fields.developername,
+        // releaseDate: Date,
+        price: fields.price,
+        downloaded: 0,
+        image: imgName,
+      }
+      fs.writeFile(newPath, rawData, (err) => {
+        if (!err) {
+          Game.create(data, (err) => {
+            if (!err) {
+              response.send(`Add success!`)
+            }
+          })
+        } else {
+          response.send(err)
+        }
+      })
+    } else {
+      response.render("addgame_publisher")
+    }
+  })
+})
+
 app.all("/register", (request, response) => {
-  var username = request.body.username 
+  var username = request.body.username
   var password = request.body.password
   var fname = request.body.fname
   var lname = request.body.lname
@@ -114,19 +174,18 @@ app.all("/register", (request, response) => {
   var dob = request.body.dob
   var email = request.body.email
   var tel = request.body.tel
-  var data =  {
-    username : username,
-    password : password,
-    fName : fname,
-    lName : lname,
-    gender : gender,
-    dob : dob,
-    email : email,
-    tel : tel,
+  var data = {
+    username: username,
+    password: password,
+    fName: fname,
+    lName: lname,
+    gender: gender,
+    dob: dob,
+    email: email,
+    tel: tel,
   }
   User.create(data)
-
-response.render("register")
+  response.render("register")
 })
 
 app.get("/gameinfo", (request, response) => {
@@ -139,7 +198,6 @@ app.get("/gameinfo", (request, response) => {
 app.get("/userinfo-edit", (request, response) => {
   response.render("userinfo-edit")
 })
-
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")

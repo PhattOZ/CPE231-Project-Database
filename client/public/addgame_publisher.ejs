@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add game</title>
+</head>
+<body>
+    <h1>Add game</h1>
+    <form action="/addgame" method="POST" enctype="multipart/form-data">
+        <label>Game name : </label><input type="text" name="gamename"><br><br>
+        <label>Category : </label>
+        <input type="checkbox" name="category" value="Action"><label>Action</label>
+        <input type="checkbox" name="category" value="Adventure"><label>Adventure</label>
+        <input type="checkbox" name="category" value="Moba"><label>Moba</label>
+        <input type="checkbox" name="category" value="Multiplayer"><label>Multiplayer</label>
+        <input type="checkbox" name="category" value="Racing"><label>Racing</label>
+        <input type="checkbox" name="category" value="RPG"><label>RPG</label>
+        <input type="checkbox" name="category" value="Strategy"><label>Strategy</label>
+        <br><br><label>Description : </label><br>
+        <textarea name="description"></textarea><br><br>
+        <label>System Requirement : </label><br>
+        <textarea name="systemReq"></textarea><br><br>
+        <label>Publisher name : </label><input type="text" name="publishername"><br><br>
+        <label>Developer name : </label><input type="text" name="developername"><br><br>
+        <label>Price : </label><input type="number" name="price"><br><br>
+        <input type="file" name="imgfile" accept="image/*"><br><br>
+        <button type="submit">OK</button>
+    </form>
+</body>
+</html>
