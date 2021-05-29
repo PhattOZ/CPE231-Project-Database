@@ -5,24 +5,24 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./compiled.css" />
-    <title>Register</title>
+    <title >Register</title>
 </head>
-<body class="bg-cyan-blackest text-white font-kanit font-light h-screen">
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
     <%- include("./nav") %>
       <!--end of nav-->
-    <h1 class="px-24 text-3xl py-14">Register</h1>
-    <form action="/register" method="post" class="px-24">
+    <div class="px-24 text-4xl py-14 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Register</div>
+    <form action="/register" method="post" class="px-24 py-10 bg-gray-900 bg-opacity-70">
         <div class="py-2">
-        <label>Username : </label><input type="text" name="username" class="text-black" required/>
+        <label>Username : </label><input type="text" name="username" placeholder="Username" class="text-black" required/>
         </div>
         <div class="py-2">
-        <label>Password : </label><input type="password" name="password" class="text-black" required/>
+        <label>Password : </label><input type="password" name="password" placeholder="Password" class="text-black" required/>
         </div>
         <div class="py-2">
-        <label>Firstname : </label><input type="text" name="fname" class="text-black" required/>
+        <label>Firstname : </label><input type="text" name="fname" placeholder="Firstname" class="text-black" required/>
         </div>
         <div class="py-2">
-        <label>Lastname: </label><input type="text" name="lname" class="text-black" required/>
+        <label>Lastname: </label><input type="text" name="lname" placeholder="Lastname" class="text-black" required/>
         </div>
         <div class="py-2">
         <label>Gender : </label>
@@ -37,14 +37,15 @@
         <label>Date of birth : </label><input type="date" name="dob" class="text-black" required/>
         </div>
         <div class="py-2">
-        <label>Email : </label><input type="email" name="email" class="text-black" required/>
+        <label>Email : </label><input type="email" name="email" class="text-black" placeholder="testing@mail.com"required/>
         </div>
         <div class="py-2">
-        <label>Tel : </label><input type="tel" name="tel" class="text-black focus:ring-2 focus:ring-blue-600" required/>
+        <label>Tel : </label><input type="tel" name="tel" class="text-black focus:ring-2 focus:ring-blue-600" placeholder="0XXXXXXXXX" pattern="[0-9]{10}" required/>
         </div>
-        <div class="py-2">
-        <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-700 text-white-700 h-7 w-30 transform motion-safe:hover:scale-110"><br /><br />
+        <div class="py-6">
+        <input type="submit" value="Submit" class="button bg-blue-500 hover:bg-blue-700 text-white-700 h-7 w-28">
         </div>
     </form>
+    <%- include ("./footer") %> 
 </body>
 </html>
