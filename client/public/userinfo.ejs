@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="compiled.css" />
-    <title>Info</title>
-    <style>
-      .button {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  
-    <body
-    class="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="compiled.css" />
+  <title>Info</title>
+  <style>
+    .button {
+      background-color: #4CAF50;
+      /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="
       font-kanit font-light
       bg-gradient-to-t
       from-cyan-black
     to-cyan-darkest text-white
-    "
-    >
-    <%- include("./nav") %>
-    <!--end of nav-->
+    ">
+  <%- include("./nav") %>
+  <!--end of nav-->
 
-    <div class="px-32 py-6">
-      <span><b>ข้อมูลของผู้ใช้ (ทดสอบการดึงข้อมูลจาก Database มาแสดง)</b></span
-      ><br /><br />
-      <span>Firstname : </span><%= fName %><br /><br />
-      <span>Lastname : </span><%= lName %><br /><br />
-      <span>Date of Birth : </span><%= dob %><br /><br />
-      <span>Email : </span><%= email %><br /><br />
-      <span>Tel. : </span><%= tel %><br /><br />
-      <span>Owned Game : </span><%= useritem %><br /><br />
-      <span>Owned DLC : </span><%= useritem %><br /><br />
-      <button class="button",onclick = "http://localhost:3000/userinfo-edit">Edit</button>
-    </div>
+  <div class="px-32 py-6">
+    <span><b>ข้อมูลของผู้ใช้ (ทดสอบการดึงข้อมูลจาก Database มาแสดง)</b></span><br /><br />
+    <span>Firstname : </span><%= fName %><br /><br />
+    <span>Lastname : </span><%= lName %><br /><br />
+    <span>Date of Birth : </span><%= dob %><br /><br />
+    <span>Email : </span><%= email %><br /><br />
+    <span>Tel. : </span><%= tel %><br /><br />
+    <span>Owned Game : </span><%= useritem %><br /><br />
+    <span>Owned DLC : </span><%= useritem %><br /><br />
+    <button class="button" ,onclick="http://localhost:3000/userinfo-edit">Edit</button>
+  </div>
 
-    <%- include ("./footer") %> 
-    
-  </body>
+  <%- include ("./footer") %>
+
+</body>
+
 </html>

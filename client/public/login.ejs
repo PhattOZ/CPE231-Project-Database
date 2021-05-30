@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./compiled.css" />
-    <title>wong is leader - Login</title>
-  </head>
 
-  <body
-    class="
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./compiled.css" />
+  <title>wong is leader - Login</title>
+</head>
+
+<body class="
       bg-gradient-to-tr
       from-indigo-900
       via-cyan-blackest
@@ -17,63 +17,66 @@
       text-white
       font-kanit font-light
       h-screen
-    "
-  >
-    <%- include("./nav") %>
-    <!--end of nav-->
+    ">
+  <%- include("./nav") %>
+  <!--end of nav-->
 
-    <div class="flex">
-      <div class="w-3/5 flex justify-center">
-        <div class="my-28 px-10">
-          <div class="font-light text-4xl py-3">Sign In</div>
-          <% if(logined && !success){ %>
-          <h3 style="color: red">Incorrect username or password!</h3>
-          <% } %>
-          <form action="/login" method="POST" class="text-white">
-            <div class="py-2">
-              <div>username</div>
-              <input class="text-black" type="text" name="username" />
-            </div>
-            <div class="py-2">
-              <div>password</div>
-              <input class="text-black" type="password" name="password" />
-            </div>
+  <div class="flex">
+    <div class="w-3/5 flex justify-center">
+      <div class="my-28 px-10">
+        <div class="font-light text-4xl py-3">Sign In</div>
+        <% if(logined && !success){ %>
+        <h3 style="color: red">Incorrect username or password!</h3>
+        <% } %>
+        <form action="/login" method="POST" class="text-white">
+          <div class="py-2">
+            <div>username</div>
+            <input class="text-black" type="text" name="username" />
+          </div>
+          <div class="py-2">
+            <div>password</div>
+            <input class="text-black" type="password" name="password" />
+          </div>
 
-            <div>Role</div>
-            <div class="flex gap-2 justify-items-center">
-              <select name="role" class="text-black">
-                <option value="user">User</option>
-                <option value="publisher">Publisher</option>
-              </select>
-              <button type="submit">LOGIN</button>
-            </div>
-          </form>
-          <span>Don't have an account? </span
-          ><a href="/register">Register here</a>
-        </div>
+          <div>Role</div>
+          <div class="flex gap-2 justify-items-center">
+            <select name="role" class="text-black">
+              <option value="user">User</option>
+              <option value="publisher">Publisher</option>
+            </select>
+            <button type="submit">LOGIN</button>
+          </div>
+        </form>
+        <span>Don't have an account? </span>
+        <a href="/register" class="text-indigo-500 drop-shadow">Register here</a>
       </div>
-      <div class="w-2/5 p-36 border-l-2">
+    </div>
+    <!--end of left section-->
+
+    <div class="w-2/5 border-l-2">
+      <div class="p-36 flex-shrink-0">
         <p class="py-2">Join our community with more than</p>
         <div class="num-counter"></div>
         <p class="py-2">users</p>
-        <a
-          class="
-            border-2 border-indigo-700
-            text-indigo-700
-            rounded-md
-            shadow
-            my-6
-            inline-block
-            transition-colors
-            duration-100
-            hover:text-white
-            hover:bg-indigo-700
-            cursor-pointer
-          "
-        >
+        <a href="/register" class="
+              border-2 border-indigo-700
+              text-indigo-700
+              rounded-md
+              shadow
+              my-6
+              inline-block
+              transition-colors
+              duration-100
+              hover:text-white
+              hover:bg-indigo-700
+              cursor-pointer
+            ">
           <div class="py-2 px-3">JOIN NOW!</div>
         </a>
       </div>
     </div>
-  </body>
+    <!--end of right section-->
+  </div>
+</body>
+
 </html>
