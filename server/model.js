@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   fName: { type: String, require: true },
   lName: { type: String, require: true },
   gender: { type: String, require: true },
-  dob: Date,
+  dob: String,
   email: String,
   tel: String,
   useritem: {
@@ -54,7 +54,7 @@ const gameSchema = new mongoose.Schema({
   category: Array,
   publisherName: String,
   developerName: String,
-  releaseDate: Date,
+  releaseDate: String,
   price: { type: Number, require: true },
   downloaded: Number,
   image: String,

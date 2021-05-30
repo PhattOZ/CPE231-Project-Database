@@ -112,66 +112,70 @@ app.get("/publisherinfo", (request, response) => {
 })
 
 app.all("/addgame", (request, response) => {
-  var form = new formidable.IncomingForm() //read all user input in form
-  form.parse(request, (err, fields, files) => {
-    if (
-      fields.gamename &&
-      fields.category &&
-      fields.price &&
-      files.imgfile &&
-      !err
-    ) {
-      console.log(`IN`)
-      let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
-      let dir = "../client/public/img/uploads/" //ตำแหน่งที่จะเก็บไฟล์รูป
-      let imgName = upfile.name
-      let newPath = dir + imgName
-      if (fs.existsSync(newPath)) {
-        //ตรวจพบว่ามีชื่อไฟล์นี้อยู่ในคอมเราอยู่แล้ว
-        let oldName = upfile.name.split(".") //แยกชื่อกับนามสกุลไฟล์
-        let r = Math.floor(Math.random() * 9999)
-        oldName[0] += "_" + r
-        //เอาชื่อใหม่มาต่อกับนามสกุลไฟล์เดิม
-        imgName = oldName.join(".")
-        newPath = dir + oldName.join(".")
-      }
-      let oldPath = upfile.path
-      let rawData = fs.readFileSync(oldPath)
-      let date = new Date()
-      let day = date.toLocaleDateString() //get current dd/mm/yy as string
-      let data = {
-        name: fields.gamename,
-        description: fields.description,
-        systemReq: {
-          os: fields.os,
-          cpu: fields.cpu,
-          ram: fields.ram,
-          gpu: fields.gpu,
-          hdd: fields.hdd,
-        },
-        category: fields.category,
-        publisherName: fields.publishername,
-        developerName: fields.developername,
-        releaseDate: day,
-        price: Number(fields.price),
-        downloaded: 0,
-        image: imgName,
-      }
-      fs.writeFile(newPath, rawData, (err) => {
-        if (!err) {
-          Game.create(data, (err) => {
-            if (!err) {
-              response.send(`Add success!`)
-            }
-          })
-        } else {
-          response.send(err)
+  var role = request.session.role
+  if (role != "publisher") {
+    response.redirect("/login")
+  } else {
+    var form = new formidable.IncomingForm() //read all user input in form
+    form.parse(request, (err, fields, files) => {
+      if (
+        fields.gamename &&
+        fields.category &&
+        fields.price &&
+        files.imgfile &&
+        !err
+      ) {
+        let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
+        let dir = "../client/public/img/uploads/" //ตำแหน่งที่จะเก็บไฟล์รูป
+        let imgName = upfile.name
+        let newPath = dir + imgName
+        if (fs.existsSync(newPath)) {
+          //ตรวจพบว่ามีชื่อไฟล์นี้อยู่ในคอมเราอยู่แล้ว
+          let oldName = upfile.name.split(".") //แยกชื่อกับนามสกุลไฟล์
+          let r = Math.floor(Math.random() * 9999)
+          oldName[0] += "_" + r
+          //เอาชื่อใหม่มาต่อกับนามสกุลไฟล์เดิม
+          imgName = oldName.join(".")
+          newPath = dir + oldName.join(".")
         }
-      })
-    } else {
-      response.render("addgame_publisher")
-    }
-  })
+        let oldPath = upfile.path
+        let rawData = fs.readFileSync(oldPath)
+        let date = new Date()
+        let day = date.toLocaleDateString() //get current dd/mm/yy as string
+        let data = {
+          name: fields.gamename,
+          description: fields.description,
+          systemReq: {
+            os: fields.os,
+            cpu: fields.cpu,
+            ram: fields.ram,
+            gpu: fields.gpu,
+            hdd: fields.hdd,
+          },
+          category: fields.category,
+          publisherName: fields.publishername,
+          developerName: fields.developername,
+          releaseDate: day,
+          price: Number(fields.price),
+          downloaded: 0,
+          image: imgName,
+        }
+        fs.writeFile(newPath, rawData, (err) => {
+          if (!err) {
+            Game.create(data, (err) => {
+              if (!err) {
+                response.send(`Add success!`)
+              }
+            })
+          } else {
+            response.send(err)
+          }
+        })
+      } else {
+        response.render("addgame_publisher")
+      }
+    })
+  }
 })
 
 app.all("/register", (request, response) => {
