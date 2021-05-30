@@ -11,7 +11,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, require: true },
+  username: { type: String, require: true, unique: true },
   password: { type: String, require: true },
   fName: { type: String, require: true },
   lName: { type: String, require: true },
@@ -32,12 +32,25 @@ const User = mongoose.model("User", userSchema)
 const publisherSchema = new mongoose.Schema({
   username: { type: String, require: true },
   password: { type: String, require: true },
+  publisherName: { type: String, require: true },
+  email: String,
+  tel: String,
+  added_game: [
+    {
+      name: String,
+      date: String,
+    },
+  ],
+  added_dlc: Array,
 })
 const Publisher = mongoose.model("Publisher", publisherSchema)
 
 // var data = {
 //   username: "publisher1",
-//   password: "1234"
+//   password: "1234",
+//   publisherName: "Sorawong Inc.",
+//   email: "Sorawong1@hotmail.com",
+//   tel: "0954975790",
 // }
 // Publisher.create(data)
 

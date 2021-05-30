@@ -108,13 +108,22 @@ app.get("/userinfo", (request, response) => {
 })
 
 app.get("/publisherinfo", (request, response) => {
-  response.render("publisherinfo")
-})
-
-app.all("/addgame", (request, response) => {
+  var username = request.session.username
   var role = request.session.role
   if (role != "publisher") {
     response.redirect("/login")
+  } else {
+    Publisher.find({ username: { $eq: username } }).exec((err, doc) => {
+      response.render("publisherinfo", { data: doc[0] })
+    })
+  }
+})
+
+app.all("/add-game", (request, response) => {
+  var username = request.session.username
+  var role = request.session.role
+  if (role != "publisher") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
     var form = new formidable.IncomingForm() //read all user input in form
     form.parse(request, (err, fields, files) => {
@@ -162,9 +171,20 @@ app.all("/addgame", (request, response) => {
         }
         fs.writeFile(newPath, rawData, (err) => {
           if (!err) {
+            var gamename_addDate = {
+              name: fields.gamename,
+              date: day,
+            }
             Game.create(data, (err) => {
               if (!err) {
-                response.send(`Add success!`)
+                Publisher.findOneAndUpdate(
+                  { username: { $eq: username } },
+                  { $push: { added_game: gamename_addDate } }
+                ).exec((err, doc) => {
+                  if (!err) {
+                    response.send(`Add success!`) //เปลี่ยนเป็นหน้า static ที่บอกว่าเพิ่มเกมสำเร็จ
+                  }
+                })
               }
             })
           } else {
@@ -172,8 +192,27 @@ app.all("/addgame", (request, response) => {
           }
         })
       } else {
-        response.render("addgame_publisher")
+        Publisher.find({ username: { $eq: username } }).exec((err, doc) => {
+          let publisherName = doc[0].publisherName
+          response.render("addgame_publisher", {
+            username: username,
+            publishername: publisherName,
+          })
+        })
       }
+    })
+  }
+})
+
+app.get("/history-publisher", (request, respone) => {
+  var username = request.session.username
+  var role = request.session.role
+  if (role != "publisher") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    Publisher.find({ username: { $eq: username } }).exec((err, doc) => {
+      var data = doc[0].added_game
+      respone.render("history_publisher", { data: data })
     })
   }
 })
@@ -194,10 +233,12 @@ app.all("/register", (request, response) => {
     User.create(data, (err) => {
       if (!err) {
         response.send(`Success!`) //แก้เป็น ejs ที่แสดงหน้าบอกสมัครสำเร็จ และมีแท็ก a href ไปหน้า login
+      } else {
+        response.render("register", { success: false })
       }
     })
   } else {
-    response.render("register")
+    response.render("register", { success: true })
   }
 })
 

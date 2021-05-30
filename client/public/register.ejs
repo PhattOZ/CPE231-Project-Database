@@ -11,6 +11,9 @@
     <%- include("./nav") %>
       <!--end of nav-->
     <div class="px-24 text-4xl py-14 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Register</div>
+    <% if(!success){ %>
+        <div>This username already exists!</div>
+    <% } %> 
     <form action="/register" method="post" class="px-24 py-10 bg-gray-900 bg-opacity-70">
         <div class="py-2">
         <label>Username : </label><input type="text" name="username" placeholder="Username" class="text-black" required/>

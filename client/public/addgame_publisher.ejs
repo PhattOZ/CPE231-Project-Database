@@ -9,10 +9,10 @@
     <title>Add game</title>
 </head>
 <body class="bg-cyan-black text-white font-kanit font-light h-screen">
-    <%- include("./nav") %>
+    <%- include("./nav_publisher.ejs") %>
       <!--end of nav-->
     <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Add game</div>
-    <form action="/addgame" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
+    <form action="/add-game" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
 
         <div class="py-2">
             <label>Game name : </label><input type="text" name="gamename" placeholder="Game name" class="text-black" required/>
@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="py-2">
-            <label>Publisher name : </label><input type="text" name="publishername" placeholder="publisher name" class="text-black" required/>
+            <label>Publisher name : </label><input type="text" name="publishername" value=<%= publishername %> class="text-black" readonly/>
         </div>
         <div class="py-2">
             <label>Developer name : </label><input type="text" name="developername"placeholder="developer name" class="text-black" required/>
