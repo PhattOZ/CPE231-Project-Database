@@ -20,13 +20,16 @@
         <div class="py-2">
             <label>Category : </label>
             <div class="px-2">
-            <input type="checkbox" name="category" value="Action"/><label> Action  </label>
-            <input type="checkbox" name="category" value="Adventure"/><label> Adventure  </label>
-            <input type="checkbox" name="category" value="Moba"/><label> Moba  </label>
-            <input type="checkbox" name="category" value="Multiplayer"/><label> Multiplayer  </label>
-            <input type="checkbox" name="category" value="Racing"/><label> Racing  </label>
-            <input type="checkbox" name="category" value="RPG"/><label> RPG  </label>
-            <input type="checkbox" name="category" value="Strategy"/><label> Strategy</label>
+                <input type="text" name="category" size="50" list="game_category" class="text-black" multiple>
+                <datalist id="game_category">
+                    <option value="Action">
+                    <option value="Adventure">
+                    <option value="Moba">
+                    <option value="Multiplayer">
+                    <option value="Racing">
+                    <option value="RPG">
+                    <option value="Strategy">
+                </datalist>
             </div>
         </div>
             <label>Description : </label><br><textarea cols='50' rows='5' name="description" placeholder="Game description" class="text-black" required></textarea>
@@ -54,6 +57,9 @@
         </div>
         <div class="py-2">
             <label>Developer name : </label><input type="text" name="developername"placeholder="developer name" class="text-black" required/>
+        </div>
+        <div class="py-2">
+            <label>Price : </label><input type="number" name="price" class="text-black"><br><br>
         </div>
         <div class="py-4">
             <input type="file" name="imgfile" accept="image/*" required/>

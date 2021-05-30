@@ -44,7 +44,13 @@ const Publisher = mongoose.model("Publisher", publisherSchema)
 const gameSchema = new mongoose.Schema({
   name: { type: String, require: true },
   description: String,
-  systemReq: String,
+  systemReq: {
+    os: String,
+    cpu: String,
+    ram: String,
+    gpu: String,
+    hdd: String,
+  },
   category: Array,
   publisherName: String,
   developerName: String,

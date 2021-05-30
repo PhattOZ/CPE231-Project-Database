@@ -13,7 +13,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "formidable": "^1.2.2",
+    "formidable": "^2.0.0-canary.20200504.1",
     "mongoose": "^5.12.7",
     "nodemon": "^2.0.7"
   }

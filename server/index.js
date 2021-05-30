@@ -113,9 +113,6 @@ app.get("/publisherinfo", (request, response) => {
 
 app.all("/addgame", (request, response) => {
   var form = new formidable.IncomingForm() //read all user input in form
-  if (request.body.category) {
-    console.log(`${request.body.category}`)
-  }
   form.parse(request, (err, fields, files) => {
     if (
       fields.gamename &&
@@ -124,6 +121,7 @@ app.all("/addgame", (request, response) => {
       files.imgfile &&
       !err
     ) {
+      console.log(`IN`)
       let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
       let dir = "../client/public/img/uploads/" //ตำแหน่งที่จะเก็บไฟล์รูป
       let imgName = upfile.name
