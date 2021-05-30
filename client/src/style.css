@@ -32,6 +32,29 @@
   @apply cursor-default bg-cyan-darkest text-white;
 }
 
-#banner-about {
-  background-image: url(https://cdn.shopify.com/s/files/1/0504/2932/9574/files/Flower_Wallpaper_Desktop_2_1.jpg?v=1617119371);
+/* Animated number */
+
+@property --num {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.num-counter {
+  animation: counter 3s ease-in;
+  animation-fill-mode: forwards;
+  counter-reset: num var(--num);
+  font: 800 48px system-ui;
+}
+.num-counter::after {
+  content: counter(num);
+}
+
+@keyframes counter {
+  from {
+    --num: 0;
+  }
+  to {
+    --num: 234567;
+  }
 }
