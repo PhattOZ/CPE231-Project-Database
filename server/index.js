@@ -136,6 +136,8 @@ app.all("/addgame", (request, response) => {
       }
       let oldPath = upfile.path
       let rawData = fs.readFileSync(oldPath)
+      let date = new Date()
+      let day = date.toLocaleDateString() //get current dd/mm/yy as string
       let data = {
         name: fields.gamename,
         description: fields.description,
@@ -143,8 +145,8 @@ app.all("/addgame", (request, response) => {
         category: fields.category,
         publisherName: fields.publishername,
         developerName: fields.developername,
-        // releaseDate: Date,
-        price: fields.price,
+        releaseDate: day,
+        price: Number(fields.price),
         downloaded: 0,
         image: imgName,
       }
@@ -166,26 +168,26 @@ app.all("/addgame", (request, response) => {
 })
 
 app.all("/register", (request, response) => {
-  var username = request.body.username
-  var password = request.body.password
-  var fname = request.body.fname
-  var lname = request.body.lname
-  var gender = request.body.gender
-  var dob = request.body.dob
-  var email = request.body.email
-  var tel = request.body.tel
-  var data = {
-    username: username,
-    password: password,
-    fName: fname,
-    lName: lname,
-    gender: gender,
-    dob: dob,
-    email: email,
-    tel: tel,
+  var form = request.body
+  if (form.username && form.password) {
+    var data = {
+      username: form.username,
+      password: form.password,
+      fName: form.fname,
+      lName: form.lname,
+      gender: form.gender,
+      dob: form.dob,
+      email: form.email,
+      tel: form.tel,
+    }
+    User.create(data, (err) => {
+      if (!err) {
+        response.send(`Success!`) //แก้เป็น ejs ที่แสดงหน้าบอกสมัครสำเร็จ และมีแท็ก a href ไปหน้า login
+      }
+    })
+  } else {
+    response.render("register")
   }
-  User.create(data)
-  response.render("register")
 })
 
 app.get("/gameinfo", (request, response) => {
