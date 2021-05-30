@@ -16,14 +16,14 @@ const userSchema = new mongoose.Schema({
   fName: { type: String, require: true },
   lName: { type: String, require: true },
   gender: { type: String, require: true },
-  dob: String,
+  dob: Date,
   email: String,
   tel: String,
   useritem: {
     game: Array,
     dlc: Array,
   },
-  transaction: Array, //complex form
+  transaction: Array,
   friends: Array,
   group: Array,
 })
@@ -44,17 +44,11 @@ const Publisher = mongoose.model("Publisher", publisherSchema)
 const gameSchema = new mongoose.Schema({
   name: { type: String, require: true },
   description: String,
-  systemReq: {
-    os: String,
-    cpu: String,
-    ram: String,
-    gpu: String,
-    hdd: String,
-  },
-  category: Array, //complex form
+  systemReq: String,
+  category: Array,
   publisherName: String,
   developerName: String,
-  releaseDate: String,
+  releaseDate: Date,
   price: { type: Number, require: true },
   downloaded: Number,
   image: String,

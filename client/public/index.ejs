@@ -15,58 +15,43 @@
   <%- include("./nav") %>
   <% } %>
 
+  <!--end of nav-->
+
   <div class="flex">
     <div class="w-1/6 bg-cyan-blackest text-gray-300">
       <ul class="px-3">
+        <li>
+          <h6 class="uppercase tracking-wide">Browse category</h6>
+        </li>
         <li class="">
-          <h6 class="uppercase tracking-wide text-xl">Sort by</h6>
-          <a href="" class="block hover:text-white px-4">Download </a>
-          <a href="" class="block hover:text-white px-4">Price</a>
+          <h6 class="uppercase tracking-wide">Browse by genre</h6>
+          <a href="" class="block">Free to Play </a>
+          <a href="" class="block">Early Access</a>
+          <a href="" class="block">Action</a>
+          <a href="" class="block">Adventure</a>
+          <a href="" class="block">Casual</a>
+          <a href="" class="block">Indie</a>
+          <a href="" class="block">Massively</a>
+          <a href="" class="block">Multiplayer</a>
+          <a href="" class="block">Racing</a>
+          <a href="" class="block">RPG</a>
+          <a href="" class="block">Simulation</a>
+          <a href="" class="block">Sports</a>
+          <a href="" class="block">Strategy</a>
         </li>
         <li></li>
       </ul>
     </div>
+    <!--end of sidebar-->
 
-
-    <div class="flex">
-      <div class="
-              max-h-80
-              overflow-hidden
-              m-auto
-              max-w-screen-md
-              shadow-lg
-              hover:shadow-xl
-            ">
-        <div class="slide1 hidden">
-          <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
-        </div>
-        <div class="slide1 transition-opacity duration-700 hidden">
-          <img src="img/game_demo/contra.png" alt="" class="w-full" />
-        </div>
-        <div class="slide1 transition-opacity duration-700 hidden">
-          <img src="img/game_demo/space.png" alt="" class="w-full" />
-        </div>
-        <div class="slide1 transition-opacity duration-700 hidden">
-          <img src="img/game_demo/diablo.png" alt="" class="w-full" />
-        </div>
+    <div class="px-4 bg-cyan-black text-gray-300 pt-10 flex-auto">
+      <div class="mb-10 mx-4 text-white text-lg tracking-wider">
+        FEATURED & RECOMMENDED
       </div>
-    </div>
-    <!--end of slides-->
-    <div class="text-center py-3">
-      <span class="dot-1 bg-gray-600" onclick="currentSlide_1(1)"></span>
-      <span class="dot-1 bg-gray-600" onclick="currentSlide_1(2)"></span>
-      <span class="dot-1 bg-gray-600" onclick="currentSlide_1(3)"></span>
-      <span class="dot-1 bg-gray-600" onclick="currentSlide_1(4)"></span>
-    </div>
-    <!--end of dots-->
 
-    <!--end of slideshow 1-->
-    <div class="mb-10 mx-4 text-white text-lg tracking-wider">
-      SPECIAL OFFERS
-    </div>
 
-    <div class="flex">
-      <div class="
+      <div class="flex">
+        <div class="
               max-h-80
               overflow-hidden
               m-auto
@@ -74,47 +59,84 @@
               shadow-lg
               hover:shadow-xl
             ">
-        <div class="slide2 hidden">
-          <div class=" grid grid-cols-2">
+          <div class="slide1 hidden">
             <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
-            <img src="img/game_demo/contra.png" alt="" class="w-full">
+          </div>
+          <div class="slide1 transition-opacity duration-700 hidden">
+            <img src="img/game_demo/contra.png" alt="" class="w-full" />
+          </div>
+          <div class="slide1 transition-opacity duration-700 hidden">
+            <img src="img/game_demo/space.png" alt="" class="w-full" />
+          </div>
+          <div class="slide1 transition-opacity duration-700 hidden">
+            <img src="img/game_demo/diablo.png" alt="" class="w-full" />
           </div>
         </div>
-        <div class="slide2 transition-opacity duration-700 hidden">
-          <img src="img/game_demo/contra.png" alt="" class="w-full" />
-        </div>
-        <div class="slide2 transition-opacity duration-700 hidden">
-          <img src="img/game_demo/space.png" alt="" class="w-full" />
-        </div>
-        <div class="slide2 transition-opacity duration-700 hidden">
-          <img src="img/game_demo/diablo.png" alt="" class="w-full" />
+      </div>
+      <!--end of slides-->
+      <div class="text-center py-3">
+        <span class="dot-1 bg-gray-600" onclick="currentSlide_1(1)"></span>
+        <span class="dot-1 bg-gray-600" onclick="currentSlide_1(2)"></span>
+        <span class="dot-1 bg-gray-600" onclick="currentSlide_1(3)"></span>
+        <span class="dot-1 bg-gray-600" onclick="currentSlide_1(4)"></span>
+      </div>
+      <!--end of dots-->
+
+      <!--end of slideshow 1-->
+      <div class="mb-10 mx-4 text-white text-lg tracking-wider">
+        SPECIAL OFFERS
+      </div>
+
+      <div class="flex">
+        <div class="
+              max-h-80
+              overflow-hidden
+              m-auto
+              max-w-screen-md
+              shadow-lg
+              hover:shadow-xl
+            ">
+          <div class="slide2 hidden">
+            <div class=" grid grid-cols-2">
+              <img src="img/game_demo/pacma.jpg" alt="" class="w-full" />
+              <img src="img/game_demo/contra.png" alt="" class="w-full">
+            </div>
+          </div>
+          <div class="slide2 transition-opacity duration-700 hidden">
+            <img src="img/game_demo/contra.png" alt="" class="w-full" />
+          </div>
+          <div class="slide2 transition-opacity duration-700 hidden">
+            <img src="img/game_demo/space.png" alt="" class="w-full" />
+          </div>
+          <div class="slide2 transition-opacity duration-700 hidden">
+            <img src="img/game_demo/diablo.png" alt="" class="w-full" />
+          </div>
         </div>
       </div>
-    </div>
-    <!--end of slides-->
-    <div class="text-center py-3">
-      <span class="dot-2 bg-gray-600" onclick="currentSlide_2(1)"></span>
-      <span class="dot-2 bg-gray-600" onclick="currentSlide_2(2)"></span>
-      <span class="dot-2 bg-gray-600" onclick="currentSlide_2(3)"></span>
-      <span class="dot-2 bg-gray-600" onclick="currentSlide_2(4)"></span>
-    </div>
-    <!--end of dots-->
+      <!--end of slides-->
+      <div class="text-center py-3">
+        <span class="dot-2 bg-gray-600" onclick="currentSlide_2(1)"></span>
+        <span class="dot-2 bg-gray-600" onclick="currentSlide_2(2)"></span>
+        <span class="dot-2 bg-gray-600" onclick="currentSlide_2(3)"></span>
+        <span class="dot-2 bg-gray-600" onclick="currentSlide_2(4)"></span>
+      </div>
+      <!--end of dots-->
 
-    <!--end of slideshow 2-->
+      <!--end of slideshow 2-->
 
-    <div class="pt-3 text-blue-400">
-      <span class="tab-tab px-3 rounded-t-md tab-selected" onclick="switchTab(event, 'trending')">
-        New and Trending
-      </span>
-      <span class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white" onclick="switchTab(event, 'topSeller')">
-        Top Sellers
-      </span>
-      <span class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white" onclick="switchTab(event, 'popular')">
-        Popular Upcoming
-      </span>
+      <div class="pt-3 text-blue-400">
+        <span class="tab-tab px-3 rounded-t-md tab-selected" onclick="switchTab(event, 'trending')">
+          New and Trending
+        </span>
+        <span class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white" onclick="switchTab(event, 'topSeller')">
+          Top Sellers
+        </span>
+        <span class="tab-tab px-3 rounded-t-md cursor-pointer hover:text-white" onclick="switchTab(event, 'popular')">
+          Popular Upcoming
+        </span>
+      </div>
+      <!--end of tabs-->
     </div>
-    <!--end of tabs-->
-  </div>
   </div>
   <!--end of 1st section-->
   <div class="
