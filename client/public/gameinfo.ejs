@@ -14,7 +14,12 @@
     </h1>
     <img src="/img/uploads/<%= image %> "><br><br>
     <div>Description : <%= description %></div><br>
-    <div>System Requirement : <%= systemReq %></div><br>
+    <div>System Requirement</div>
+    <div>OS : <%= systemReq.os %></div>
+    <div>CPU : <%= systemReq.cpu %></div>
+    <div>RAM : <%= systemReq.ram %></div>
+    <div>GPU : <%= systemReq.gpu %></div>
+    <div>HDD : <%= systemReq.hdd %></div><br>
     <div>Category : <%= category %></div><br>
     <div>Publisher Name : <%= publisherName %></div><br>
     <div>Developer Name : <%= developerName %></div><br>

@@ -113,6 +113,9 @@ app.get("/publisherinfo", (request, response) => {
 
 app.all("/addgame", (request, response) => {
   var form = new formidable.IncomingForm() //read all user input in form
+  if (request.body.category) {
+    console.log(`${request.body.category}`)
+  }
   form.parse(request, (err, fields, files) => {
     if (
       fields.gamename &&
@@ -138,29 +141,35 @@ app.all("/addgame", (request, response) => {
       let rawData = fs.readFileSync(oldPath)
       let date = new Date()
       let day = date.toLocaleDateString() //get current dd/mm/yy as string
-      let data = {
-        name: fields.gamename,
-        description: fields.description,
-        systemReq: fields.systemReq,
-        category: fields.category,
-        publisherName: fields.publishername,
-        developerName: fields.developername,
-        releaseDate: day,
-        price: Number(fields.price),
-        downloaded: 0,
-        image: imgName,
-      }
-      fs.writeFile(newPath, rawData, (err) => {
-        if (!err) {
-          Game.create(data, (err) => {
-            if (!err) {
-              response.send(`Add success!`)
-            }
-          })
-        } else {
-          response.send(err)
-        }
-      })
+      // let data = {
+      //   name: fields.gamename,
+      //   description: fields.description,
+      //   systemReq: {
+      //     os: fields.os,
+      //     cpu: fields.cpu,
+      //     ram: fields.ram,
+      //     gpu: fields.gpu,
+      //     hdd: fields.hdd,
+      //   },
+      //   category: fields.category,
+      //   publisherName: fields.publishername,
+      //   developerName: fields.developername,
+      //   releaseDate: day,
+      //   price: Number(fields.price),
+      //   downloaded: 0,
+      //   image: imgName,
+      // }
+      // fs.writeFile(newPath, rawData, (err) => {
+      //   if (!err) {
+      //     Game.create(data, (err) => {
+      //       if (!err) {
+      //         response.send(`Add success!`)
+      //       }
+      //     })
+      //   } else {
+      //     response.send(err)
+      //   }
+      // })
     } else {
       response.render("addgame_publisher")
     }
