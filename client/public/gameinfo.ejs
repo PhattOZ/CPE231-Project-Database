@@ -5,27 +5,48 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./compiled.css" />
     <title>Document</title>
 </head>
 
-<body>
-    <h1>
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light">
+    <%- include("./nav") %>
+    <!--end of nav-->
+    <br>
+    <div class="text-4xl text-center p-6 font-semibold">
         <%= name %>
-    </h1>
-    <img src="/img/uploads/<%= image %> "><br><br>
-    <div>Description : <%= description %></div><br>
-    <div>System Requirement</div>
-    <div>OS : <%= systemReq.os %></div>
-    <div>CPU : <%= systemReq.cpu %></div>
-    <div>RAM : <%= systemReq.ram %></div>
-    <div>GPU : <%= systemReq.gpu %></div>
-    <div>HDD : <%= systemReq.hdd %></div><br>
-    <div>Category : <%= category %></div><br>
-    <div>Publisher Name : <%= publisherName %></div><br>
-    <div>Developer Name : <%= developerName %></div><br>
-    <div>Release Date : <%= releaseDate %></div><br>
-    <div>Price : <%= price %></div><br>
-    <div>Downloaded : <%= downloaded %></div><br>
+    </div>
+    <!--end of Game Name-->
+    <div class="flex justify-evenly justify-items-center 
+    object-scale-down 
+    h-96
+    w-full
+    bg-gradient-to-tr
+    from-gray-900
+    to-black-900">
+        <img src="/img/uploads/<%= image %> ">
+    </div>
+    <!--end of image-->
+    <div>
+        <div class="text-l pt-6 px-20 ">Description :
+            <p class="text-l text-justify px-20"><%= description %></p>
+        </div>
+        <div class="text-l pt-6 px-20">System Requirement
+            <div class="text-l px-20">OS : <%= systemReq.os %></div>
+            <div class="text-l px-20">CPU : <%= systemReq.cpu %></div>
+            <div class="text-l px-20">RAM : <%= systemReq.ram %></div>
+            <div class="text-l px-20">GPU : <%= systemReq.gpu %></div>
+            <div class="text-l px-20">HDD : <%= systemReq.hdd %></div>
+        </div>
+        <div class="text-l pt-6 px-20">Category : <%= category %></div>
+        <div class="text-l pt-3 px-20">Publisher Name : <%= publisherName %></div>
+        <div class="text-l pt-3 px-20">Developer Name : <%= developerName %></div>
+        <div class="text-l pt-3 px-20">Release Date : <%= releaseDate %></div>
+        <div class="text-l pt-6 px-20">Price : <span class="text-xl"><%= price %> Bath (THB)</span></div>
+        <div class="text-l py-6 px-20">Downloaded : <span class="text-xl"><%= downloaded %> Download</span></div>
+    </div>
+    <!--end of Game information-->
+    <%- include ("./footer") %> 
 </body>
 
 </html>
