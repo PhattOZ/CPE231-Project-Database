@@ -115,12 +115,25 @@ const Group = mongoose.model("Group", groupSchema)
 // }
 // User.create(data)
 
+// var date = new Date()
+// var day = date.toLocaleDateString() //get current dd/mm/yy as string
 // var data = {
-//   name: "Dota2",
-//   price: 200,
-//   sell: 1000,
-//   download: 1000,
-//   image: "dota2.jpg"
+//   name: "Street Fighter V",
+//   description:
+//     'Street Fighter V carries on the 2D fighting gameplay of its predecessors, in which two fighters use a variety of attacks and special abilities to knock out their opponent. The game features the EX gauge introduced in Street Fighter III, which builds as the player lands attacks and can be used to either power up special moves or perform super combos known as Critical Arts, although the Focus Attacks from the previous game have been removed. New to this game is the "V-Gauge", which builds as the player receives attacks and adds four new techniques: V-Skills, V-Reversals, V-Triggers, and V-Shifts. V-Skills are special attacks unique to each fighter',
+//   systemReq: `OS: Windows 7 64-bit.
+//   CPU: Intel Core i3-4160 @ 3.60GHz.
+//   RAM: 6GB
+//   GPU: NVIDIA® GeForce® GTX 480, GTX 570, GTX 670, or better.
+//   HARD DRIVE: 40GB
+//   `,
+//   category: "Action",
+//   publisherName: "Capcom",
+//   developerName: "Capcom",
+//   releaseDate: day,
+//   price: 270,
+//   downloaded: 5854,
+//   image: "street fighter v.jpg",
 // }
 // Game.create(data)
 
