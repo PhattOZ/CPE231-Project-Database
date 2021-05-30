@@ -28,8 +28,8 @@
     </div>
     <!--end of image-->
     <div>
-        <div class="text-l pt-6 px-20 ">Description :
-            <p class="text-l text-justify px-20"><%= description %></p>
+        <div class="text-l pt-6 px-20">About This Game :
+            <p class="text-l text-justify pl-20 pr-40 bg-gray-800 bg-opacity-75 rounded-2xl"><%= description %></p>
         </div>
         <div class="text-l pt-6 px-20">System Requirement
             <div class="text-l px-20">OS : <%= systemReq.os %></div>
@@ -41,9 +41,9 @@
         <div class="text-l pt-6 px-20">Category : <%= category %></div>
         <div class="text-l pt-3 px-20">Publisher Name : <%= publisherName %></div>
         <div class="text-l pt-3 px-20">Developer Name : <%= developerName %></div>
-        <div class="text-l pt-3 px-20">Release Date : <%= releaseDate %></div>
-        <div class="text-l pt-6 px-20">Price : <span class="text-xl"><%= price %> Bath (THB)</span></div>
-        <div class="text-l py-6 px-20">Downloaded : <span class="text-xl"><%= downloaded %> Download</span></div>
+        <div class="text-l px-20 py-3">Release Date : <%= releaseDate %></div>
+        <div class="text-l pt-6 px-20 bg-gray-800 bg-opacity-75">Price : <span class="text-xl"><%= price %> Bath (THB)</span></div>
+        <div class="text-l py-6 px-20 bg-gray-800 bg-opacity-75">Downloaded : <span class="text-xl"><%= downloaded %> Download</span></div>
     </div>
     <!--end of Game information-->
     <%- include ("./footer") %> 
