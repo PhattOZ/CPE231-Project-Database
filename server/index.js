@@ -155,6 +155,8 @@ app.get("/publisherinfo", (request, response) => {
         owned: true,
       })
     })
+  } else {
+    response.redirect("/login")
   }
 })
 
