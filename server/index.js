@@ -315,6 +315,7 @@ app.get("/gameinfo", (request, response) => {
 })
 
 app.get("/userinfo-edit", (request, response) => {
+  console.log("book")
   response.render("userinfo-edit")
 })
 
