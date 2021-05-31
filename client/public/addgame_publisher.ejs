@@ -8,17 +8,20 @@
     <link rel="stylesheet" href="./compiled.css" />
     <title>Add game</title>
 </head>
+
 <body class="bg-cyan-black text-white font-kanit font-light h-screen">
     <%- include("./nav_publisher.ejs") %>
-      <!--end of nav-->
-    <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Add game</div>
+    <!--end of nav-->
+    <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Add game
+    </div>
     <form action="/add-game" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
 
         <div class="py-2">
-            <label>Game name : </label><input type="text" name="gamename" placeholder="Game name" class="text-black" required/>
+            <label>Game name : </label><input type="text" name="gamename" placeholder="Game name" class="text-black"
+                required />
         </div>
         <div class="py-2">
-            <label>Category : </label>
+            <!-- <label>Category : </label>
             <div class="px-2">
                 <input type="text" name="category" size="50" list="game_category" class="text-black" multiple>
                 <datalist id="game_category">
@@ -30,44 +33,62 @@
                     <option value="RPG">
                     <option value="Strategy">
                 </datalist>
+            </div> -->
+            <div class=" border-2 w-3/5 p-1 flex flex-wrap" id="tag-container">
+                <div class=" rounded-full bg-white text-indigo-600 font-normal text-xl p-1 px-3.5 my-1"
+                    onclick="enableInput()">+</div>
+                <input type="text" class=" flex-1  p-1 px-2 outline-none" onkeyup="filterSearch()" disabled>
             </div>
         </div>
-            <label>Description : </label><br><textarea cols='50' rows='5' name="description" placeholder="Game description" class="text-black" required></textarea>
+        <label>Description : </label><br><textarea cols='50' rows='5' name="description" placeholder="Game description"
+            class="text-black" required></textarea>
         </div>
         <div class="py-4">
             <label>System Requirement</label>
             <div class="px-2 py-2">
-            <label>OS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="os" class="text-black" class="text-black inline-block" required/>
+                <label>OS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="os"
+                    class="text-black" class="text-black inline-block" required />
             </div>
             <div class="px-2 py-2">
-            <label>CPU&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="cpu" class="text-black" class="text-black inline-block" required/>
+                <label>CPU&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="cpu" class="text-black"
+                    class="text-black inline-block" required />
             </div>
             <div class="px-2 py-2">
-            <label>RAM&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="ram" class="text-black" class="text-black inline-block" required/>
+                <label>RAM&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="ram" class="text-black"
+                    class="text-black inline-block" required />
             </div>
             <div class="px-2 py-2">
-            <label>GPU&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="gpu" class="text-black" class="text-black inline-block" required/>
+                <label>GPU&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="gpu" class="text-black"
+                    class="text-black inline-block" required />
             </div>
             <div class="px-2 py-2">
-            <label>HDD&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="hdd" class="text-black" class="text-black inline-block" required/>
+                <label>HDD&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;</label><input type="text" name="hdd" class="text-black"
+                    class="text-black inline-block" required />
             </div>
         </div>
         <div class="py-2">
-            <label>Publisher name : </label><input type="text" name="publishername" value="<%= publishername %>"" class="text-black" readonly/>
+            <label>Publisher name : </label><input type="text" name="publishername"
+                value="<%= publishername %>"" class=" text-black" readonly />
         </div>
         <div class="py-2">
-            <label>Developer name : </label><input type="text" name="developername"placeholder="developer name" class="text-black" required/>
+            <label>Developer name : </label><input type="text" name="developername" placeholder="developer name"
+                class="text-black" required />
         </div>
         <div class="py-2">
             <label>Price : </label><input type="number" name="price" class="text-black"><br><br>
         </div>
         <div class="py-4">
-            <input type="file" name="imgfile" accept="image/*" required/>
+            <input type="file" name="imgfile" accept="image/*" required />
         </div>
         <div class="py-6">
             <button type="submit" class="button bg-blue-500 hover:bg-blue-700 text-white-700 h-7 w-28">OK</button>
         </div>
     </form>
-    <%- include ("./footer") %> 
+    <%- include ("./footer") %>
+
+    <!-- end of content -->
+
+    <script src="scripts/tags.js"></script>
 </body>
+
 </html>
