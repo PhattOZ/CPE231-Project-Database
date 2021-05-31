@@ -365,7 +365,26 @@ app.get("/gameinfo", (request, response) => {
 })
 
 app.get("/userinfo-edit", (request, response) => {
-  response.render("userinfo-edit")
+  var form = request.body
+  var sessionUsername = request.session.username 
+  var data =  {
+    username : form.username,
+    password : form.password,
+    fName : form.fname,
+    lName : form.lname,
+    gender : form.gender,
+    dob : form.dob,
+    email : form.email,
+    tel : form.tel,
+  }
+  console.log(sessionUsername)
+  User.findOneAndUpdate({username : {$eq :sessionUsername}},data,{useFindAndModify : false}).exec((err,doc)=>{
+    if(err){
+      console.log("Something wrong")
+    }
+    console.log(doc)
+    response.render("userinfo-edit", doc[0])
+  })
 })
 
 app.listen(3000, () => {
