@@ -277,7 +277,7 @@ app.all("/register", (request, response) => {
     }
     User.create(data, (err) => {
       if (!err) {
-        response.send(`Success!`) //แก้เป็น ejs ที่แสดงหน้าบอกสมัครสำเร็จ และมีแท็ก a href ไปหน้า login
+        response.render("Register_success")
       } else {
         response.render("register", { success: false })
       }
