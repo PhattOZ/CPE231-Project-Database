@@ -315,7 +315,11 @@ app.get("/gameinfo", (request, response) => {
 })
 
 app.get("/userinfo-edit", (request, response) => {
+<<<<<<< HEAD
   console.log("book")
+=======
+  console.log("SSSSS")
+>>>>>>> 030a9fd115814b902466385107727b943ae6b247
   response.render("userinfo-edit")
 })
 
