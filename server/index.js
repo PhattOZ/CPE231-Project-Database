@@ -224,7 +224,7 @@ app.all("/add-game", (request, response) => {
                   { $push: { added_game: gamename_addDate } }
                 ).exec((err, doc) => {
                   if (!err) {
-                    response.send(`Add success!`) //เปลี่ยนเป็นหน้า static ที่บอกว่าเพิ่มเกมสำเร็จ
+                    response.send("addgame_success") 
                   }
                 })
               }
@@ -322,4 +322,8 @@ app.get("/userinfo-edit", (request, response) => {
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
+})
+
+app.get("/addgame_success", (request, response) => {
+  response.render("addgame_success")
 })

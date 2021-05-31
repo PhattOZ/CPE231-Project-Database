@@ -12,7 +12,7 @@
     <%- include("./nav_publisher.ejs") %>
       <!--end of nav-->
     <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Add game</div>
-    <form action="/add-game" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
+    <form action="/add-game" method="POST" enctype="multipart/form-data" class="pl-44 pt-10 pb-2 bg-gray-850 bg-opacity-70">
 
         <div class="py-2">
             <label>Game name : </label><input type="text" name="gamename" placeholder="Game name" class="text-black" required/>
@@ -62,10 +62,24 @@
             <label>Price : </label><input type="number" name="price" class="text-black"><br><br>
         </div>
         <div class="py-4">
+            Game Image :
             <input type="file" name="imgfile" accept="image/*" required/>
         </div>
         <div class="py-6">
-            <button type="submit" class="button bg-blue-500 hover:bg-blue-700 text-white-700 h-7 w-28">OK</button>
+            <button type="submit" class="
+            border-2 border-cyan-lightest
+            text-cyan-lightest
+            rounded-md
+            shadow
+            inline-block
+            transition-colors
+            duration-100
+            bg-transparent
+            hover:text-white
+            hover:bg-cyan-lightest
+            cursor-pointer
+            px-2
+            ">SUMMIT</button>
         </div>
     </form>
     <%- include ("./footer") %> 
