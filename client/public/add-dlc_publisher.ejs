@@ -7,6 +7,9 @@
     <title>Add DLC</title>
 </head>
 <body>
-    
+    <h1>Select game to add DLC</h1>
+    <% for(d of data) { %>
+        <div><a href="/add-dlc?name=<%= d.name %> "><%= d.name %> </a></div>
+    <% } %> 
 </body>
 </html>
