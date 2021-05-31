@@ -29,6 +29,8 @@ function addTags() {
       const input = createTag(label);
       tagContainer.prepend(input);
     });
+
+  console.log(tags);
 }
 
 input.addEventListener("keyup", (e) => {
