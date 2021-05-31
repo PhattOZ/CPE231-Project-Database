@@ -14,7 +14,10 @@
   width: 100%;
 }
     table, th, td {
-        border: 1px solid black;
+        border: 2px solid rgba(176, 230, 225, 0.575);
+        text-align: center;
+        margin-left: 10%;
+        margin-right: 10%;
 }
 </style>
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
@@ -23,9 +26,9 @@
 
     <div class="text-4xl text-center p-6 font-semibold">History</div>
 
-    <table style="width:50%" class="px-36 table-auto border-double border-red-500 border-2">
+    <table style="width:80%" class="px-36 table-auto">
         <thead>
-            <tr>
+            <tr class="bg-gray-800 bg-opacity-75">
               <th>DATE</th>
               <th>GAME TITLE</th>
             </tr>
@@ -34,7 +37,7 @@
             <% for(d of data){ %>
                 <tr>
                     <td><%= d.date %></td>
-                    <td><a href="/gameinfo?name=<%= d.name %>"><%= d.name %> </a> </td>
+                    <td><a href="/gameinfo?name=<%= d.name %>" class="hover:text-blue-300"><%= d.name %> </a> </td>
                 </tr>
             <% } %> 
            </tbody>

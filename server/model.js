@@ -90,20 +90,19 @@ const gameSchema = new mongoose.Schema({
   price: { type: Number, require: true },
   downloaded: Number,
   image: String,
+  dlc: [
+    {
+      dlcname: String,
+      publisherName: String,
+      developerName: String,
+      releaseDate: String,
+      price: { type: Number, require: true },
+      downloaded: Number,
+      image: String,
+    },
+  ],
 })
 const Game = mongoose.model("Game", gameSchema)
-
-const dlcSchema = mongoose.Schema({
-  name: { type: String, require: true },
-  gameName: { type: String, require: true },
-  publisherName: String,
-  developerName: String,
-  releaseDate: Date,
-  price: { type: Number, require: true },
-  downloaded: Number,
-  image: String,
-})
-const DLC = mongoose.model("DLC", dlcSchema)
 
 const reviewSchema = mongoose.Schema({
   username: { type: String, require: true },
@@ -145,7 +144,6 @@ module.exports = {
   User,
   Publisher,
   Game,
-  DLC,
   Review,
   Transaction,
   Promotion,

@@ -176,7 +176,7 @@ app.all("/add-game", (request, response) => {
         !err
       ) {
         let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
-        let dir = "../client/public/img/uploads/" //ตำแหน่งที่จะเก็บไฟล์รูป
+        let dir = "../client/public/img/games/" //ตำแหน่งที่จะเก็บไฟล์รูป
         let imgName = upfile.name
         let newPath = dir + imgName
         if (fs.existsSync(newPath)) {
@@ -224,7 +224,7 @@ app.all("/add-game", (request, response) => {
                   { $push: { added_game: gamename_addDate } }
                 ).exec((err, doc) => {
                   if (!err) {
-                    response.send(`Add success!`) //เปลี่ยนเป็นหน้า static ที่บอกว่าเพิ่มเกมสำเร็จ
+                    response.send("addgame_success") 
                   }
                 })
               }
@@ -252,12 +252,60 @@ app.all("/add-dlc", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   var query = request.query.name //game name (string query)
-  if (query) {
-    response.send(`${query}`)
+  if (roleSession != "publisher") {
+    response.redirect("/login")
   } else {
-    Publisher.find({ username: { $eq: usernameSession } }).exec((err, doc) => {
-      response.render("add-dlc_publisher")
-    })
+    if (query) {
+      var form = new formidable.IncomingForm()
+      form.parse(request, (err, fields, files) => {
+        if (fields.dlcname && fields.price && files.imgfile && !err) {
+          let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
+          let dir = "../client/public/img/dlc/" //ตำแหน่งที่จะเก็บไฟล์รูป
+          let imgName = upfile.name
+          let newPath = dir + imgName
+          if (fs.existsSync(newPath)) {
+            //ตรวจพบว่ามีชื่อไฟล์นี้อยู่ในคอมเราอยู่แล้ว
+            let oldName = upfile.name.split(".") //แยกชื่อกับนามสกุลไฟล์
+            let r = Math.floor(Math.random() * 9999)
+            oldName[0] += "_" + r
+            //เอาชื่อใหม่มาต่อกับนามสกุลไฟล์เดิม
+            imgName = oldName.join(".")
+            newPath = dir + oldName.join(".")
+          }
+          let oldPath = upfile.path
+          let rawData = fs.readFileSync(oldPath)
+          let date = new Date()
+          let day = date.toLocaleDateString() //get current dd/mm/yy as string
+          let data = {
+            dlcname: fields.name,
+            publisherName: fields.publishername,
+            developerName: fields.developername,
+            releaseDate: day,
+            price: Number(fields.price),
+            downloaded: 0,
+            image: imgName,
+          }
+        } else {
+          Publisher.find({ username: { $eq: usernameSession } }).exec(
+            (err, doc) => {
+              var publisherName = doc[0].publisherName
+              response.render("add-dlc_form", {
+                username: usernameSession,
+                publishername: publisherName,
+              })
+            }
+          )
+        }
+      })
+      response.send(`${query}`)
+    } else {
+      Publisher.find({ username: { $eq: usernameSession } }).exec(
+        (err, doc) => {
+          var game_history = doc[0].added_game
+          response.render("add-dlc_publisher", { data: game_history })
+        }
+      )
+    }
   }
 })
 
@@ -322,4 +370,8 @@ app.get("/userinfo-edit", (request, response) => {
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
+})
+
+app.get("/addgame_success", (request, response) => {
+  response.render("addgame_success")
 })
