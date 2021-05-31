@@ -58,6 +58,7 @@ const publisherSchema = new mongoose.Schema({
     {
       gamename: String,
       dlcname: String,
+      image: String,
       date: String,
     },
   ],
@@ -74,7 +75,7 @@ const Publisher = mongoose.model("Publisher", publisherSchema)
 // Publisher.create(data)
 
 const gameSchema = new mongoose.Schema({
-  name: { type: String, require: true },
+  name: { type: String, require: true, unique: true },
   description: String,
   systemReq: {
     os: String,

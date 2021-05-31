@@ -8,13 +8,14 @@
 </head>
 <body>
     <h1>Add DLC Form</h1>
-    <form action="/add-dlc" method="POST" enctype="multipart/form-data">
-        <label>Game Name : </label><input type="text" name="gamename"><br>
+    <form action="/add-dlc?name=<%= gamename %> " method="POST" enctype="multipart/form-data">
+        <label>Game Name : </label><input type="text" name="gamename" value="<%= gamename %>" readonly><br>
         <label>DLC Name : </label><input type="text" name="dlcname"><br>
-        <label>Publisher Name : </label><input type="text" name="publishername"><br>
+        <label>Publisher Name : </label><input type="text" name="publishername" value="<%= publishername %>" readonly><br>
         <label>Developer Name : </label><input type="text" name="developername"><br>
         <label>Price : </label><input type="number" name="price"><br>
-        <input type="file" name="imgfile" accept="image/*" required/>
+        <input type="file" name="imgfile" accept="image/*" required/><br>
+        <button type="submit">OK</button>
     </form>
 </body>
 </html>

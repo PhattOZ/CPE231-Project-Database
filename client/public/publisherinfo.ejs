@@ -15,7 +15,11 @@
 }
 </style>
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
-    <%- include("./nav") %>
+    <% if(role == "publisher") { %>
+        <%- include("./nav_publisher.ejs") %>
+    <% } else { %> 
+        <%- include("./nav") %>
+    <% } %>
       <!--end of nav-->
     <div class="text-4xl text-center p-6 font-semibold">
         <%= data.publisherName %>
