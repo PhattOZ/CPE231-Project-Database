@@ -28,10 +28,10 @@
     bg-gradient-to-tr
     from-gray-900
     to-black-900">
-        <img src="/img/uploads/<%= data.image %> ">
+        <img src="/img/games/<%= data.image %> ">
     </div>
     <!--end of image-->
-    <div>
+    <div class="px-20">
         <div class="text-l pt-6 px-20">About This Game :
             <p class="text-l text-justify pl-20 pr-40 bg-gray-800 bg-opacity-75 rounded-2xl"><%= data.description %></p>
         </div>
@@ -43,12 +43,12 @@
             <div class="text-l px-20">HDD : <%= data.systemReq.hdd %></div>
         </div>
         <div class="text-l pt-6 px-20">Category : <%= data.category %></div>
-        <a href="/publisherinfo?name=<%= data.publisherName %> " class="text-l pt-3 px-20">Publisher Name : <%= data.publisherName %></a>
+        <div class="text-l pt-3 px-20">Publisher Name : <a href="/publisherinfo?name=<%= data.publisherName %> " class="hover:text-blue-300"><%= data.publisherName %></a></div>
         <div class="text-l pt-3 px-20">Developer Name : <%= data.developerName %></div>
         <div class="text-l px-20 py-3">Release Date : <%= data.releaseDate %></div>
+    </div>
         <div class="text-l pt-6 px-20 bg-gray-800 bg-opacity-75">Price : <span class="text-xl"><%= data.price %> Bath (THB)</span></div>
         <div class="text-l py-6 px-20 bg-gray-800 bg-opacity-75">Downloaded : <span class="text-xl"><%= data.downloaded %> Download</span></div>
-    </div>
     <!--end of Game information-->
     <%- include ("./footer") %> 
 </body>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add DLC</title>
+</head>
+<body>
+    <h1>Add DLC Form</h1>
+    <form action="/add-dlc" method="POST" enctype="multipart/form-data">
+        <label>Game Name : </label><input type="text" name="gamename"><br>
+        <label>DLC Name : </label><input type="text" name="dlcname"><br>
+        <label>Publisher Name : </label><input type="text" name="publishername"><br>
+        <label>Developer Name : </label><input type="text" name="developername"><br>
+        <label>Price : </label><input type="number" name="price"><br>
+        <input type="file" name="imgfile" accept="image/*" required/>
+    </form>
+</body>
+</html>

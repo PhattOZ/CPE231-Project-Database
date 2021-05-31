@@ -4,16 +4,59 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
+    <link rel="stylesheet" href="./compiled.css" />
+    <title><%= data.publisherName %></title>
 </head>
-<body>
-    <h1>About Publisher</h1>
-    <div>username : <%= data.username %> </div>
-    <div>Publisher Name : <%= data.publisherName %> </div>
-    <div>Email : <%= data.email %> </div>
-    <div>Tel. : <%= data.tel %> </div>
-    <% if(role == "publisher" && owned){ %>
-        <a href="/edit-publisher">Edit Profile</a>
-    <% } %> 
+<style>
+    div.bottom {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+</style>
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
+    <%- include("./nav") %>
+      <!--end of nav-->
+    <div class="text-4xl text-center p-6 font-semibold">
+        <%= data.publisherName %>
+    </div>
+    <div class="rounded-md mx-96 my-2 px-10 py-14 bg-gray-900 bg-opacity-70 divide-y-2 divide-gray-600 divide-opacity-70">
+        <div class="text-xl text-center py-2">About Publisher</div>
+        <div>
+            <% if(role == "publisher" && owned){ %>
+                <div class="text-center pt-2">username : <%= data.username %> </div>
+            <% } %> 
+            <div class="text-center py-2 pb-14">Publisher Name : <%= data.publisherName %> </div>
+            <div class="text-xl text-center py-2">Contact</div>
+        </div>
+        <div>
+            <div class="text-center py-2">Email : <%= data.email %> </div>
+            <div class="text-center py-2">Telephone : <%= data.tel %> </div>
+        <% if(role == "publisher" && owned){ %>
+            <div class="px-10">
+                <a href="/edit-publisher" class="
+                border-2 border-cyan-lightest
+                text-cyan-lightest
+                rounded-md
+                shadow
+                inline-block
+                transition-colors
+                duration-100
+                hover:text-white
+                hover:bg-cyan-lightest
+                cursor-pointer
+                px-2
+              ">
+                    <div>Edit Profile</div>
+                </a>
+            </div>
+        <% } %> 
+        </div>
+    </div>
+    <!--end of Content-->
+    <div class="bottom">
+        <%- include ("./footer") %> 
+    </div>
+    <!--end of footer-->
 </body>
 </html>
