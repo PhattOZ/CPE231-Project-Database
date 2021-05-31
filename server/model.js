@@ -50,6 +50,7 @@ const publisherSchema = new mongoose.Schema({
   added_game: [
     {
       name: String,
+      image: String,
       date: String,
     },
   ],
