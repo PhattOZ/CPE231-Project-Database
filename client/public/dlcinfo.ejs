@@ -8,13 +8,11 @@
 </head>
 <body>
     <a href="/gameinfo?name=<%= gamename %> "><%= gamename %> </a> 
-    <% for(d in data) { %> 
-        <div><%= d.image %> </div>
-        <div><%= d.dlcname %> </div>
-        <div><%= d.publisherName %> </div>
-        <div><%= d.developerName %> </div>
-        <div><%= d.releaseDate %> </div>
-        <div><%= d.price %> </div>
-    <% } %> 
+        <div><img src="/img/dlc/<%= data.image %> "></div>
+        <div><%= data.dlcname %> </div>
+        <div><%= data.publisherName %> </div>
+        <div><%= data.developerName %> </div>
+        <div><%= data.releaseDate %> </div>
+        <div><%= data.price %> </div>
 </body>
 </html>

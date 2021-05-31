@@ -397,32 +397,36 @@ app.get("/gameinfo", (request, response) => {
 app.get("/dlcinfo", (request, response) => {
   var gamenamequery = request.query.gamename //game name
   var dlcnamequery = request.query.dlcname //dlc name
-  Game.find({ "dlc.dlcname": { $eq: dlcnamequery } }).exec((err, doc) => {
+  Game.find({ name: { $eq: gamenamequery } }).exec((err, doc) => {
     if (!err) {
-      response.render("dlcinfo", { gamename: gamenamequery, data: doc[0] })
+      for (data of doc[0].dlc) {
+        if (data.dlcname == dlcnamequery) {
+          response.render("dlcinfo", { gamename: gamenamequery, data: data })
+        }
+      }
     }
   })
 })
 
 app.get("/userinfo-edit", (request, response) => {
   var form = request.body
-  var sessionUsername = request.session.username 
-  var data =  {
-    username : form.username,
-    password : form.password,
-    fName : form.fname,
-    lName : form.lname,
-    gender : form.gender,
-    dob : form.dob,
-    email : form.email,
-    tel : form.tel,
+  var sessionUsername = request.session.username
+  var data = {
+    username: form.username,
+    password: form.password,
+    fName: form.fname,
+    lName: form.lname,
+    gender: form.gender,
+    dob: form.dob,
+    email: form.email,
+    tel: form.tel,
   }
-  console.log(sessionUsername)
-  User.findOneAndUpdate({username : {$eq :sessionUsername}},data,{useFindAndModify : false}).exec((err,doc)=>{
-    if(err){
+  User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
+    useFindAndModify: false,
+  }).exec((err, doc) => {
+    if (err) {
       console.log("Something wrong")
     }
-    console.log(doc)
     response.render("userinfo-edit", doc[0])
   })
 })
