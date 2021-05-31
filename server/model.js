@@ -64,11 +64,11 @@ const publisherSchema = new mongoose.Schema({
 const Publisher = mongoose.model("Publisher", publisherSchema)
 
 // var data = {
-//   username: "publisher1",
+//   username: "publisher2",
 //   password: "1234",
-//   publisherName: "Sorawong Inc.",
-//   email: "Sorawong1@hotmail.com",
-//   tel: "0954975790",
+//   publisherName: "PhattOZ Inc.",
+//   email: "PhattOZ@hotmail.com",
+//   tel: "0123456789",
 // }
 // Publisher.create(data)
 

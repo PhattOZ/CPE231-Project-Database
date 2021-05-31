@@ -102,35 +102,66 @@ app.get("/logout", (request, response) => {
 
 app.get("/userinfo", (request, response) => {
   var sessionUsername = request.session.username
-  User.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
-    response.render("userinfo", doc[0])
-  })
+  if (sessionUsername) {
+    //user คลิกเข้ามาดูข้อมูลส่วนตัว โดย user คนนั้นมีการ login แล้ว
+    User.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
+      response.render("userinfo", doc[0])
+    })
+  } else {
+    //path เป็น /userinfo แต่ไม่มีการ login
+    response.redirect("login")
+  }
 })
 
 app.get("/publisherinfo", (request, response) => {
-  var username = request.session.username
-  var role = request.session.role
-  if (username && role == "publisher") {
-    //publisher role click username in navbar
-    console.log("1")
-    Publisher.find({ username: { $eq: username } }).exec((err, doc) => {
-      response.render("publisherinfo", { data: doc[0], role: role })
-    })
-  } else {
-    //user click publishername in gameinfo
-    console.log("2")
-    var query = request.query.name
-    console.log(query)
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var query = request.query.name //publisher name (string query)
+  if (query) {
+    //go to publisher info from gameinfo
     Publisher.find({ publisherName: { $eq: query } }).exec((err, doc) => {
-      response.render("publisherinfo", { data: doc[0], role: "user" })
+      if (usernameSession == doc[0].username) {
+        //publisher role and owned game
+        response.render("publisherinfo", {
+          data: doc[0],
+          username: usernameSession,
+          role: roleSession,
+          owned: true,
+        })
+      } else if (roleSession == "publisher") {
+        //publisher role but not owned game (publisher role for navbar_publisher)
+        response.render("publisherinfo", {
+          data: doc[0],
+          username: usernameSession,
+          role: roleSession,
+          owned: false,
+        })
+      } else {
+        //user want to view publisher profile
+        response.render("publisherinfo", {
+          data: doc[0],
+          username: usernameSession,
+          role: roleSession,
+          owned: false,
+        })
+      }
+    })
+  } else if (roleSession == "publisher") {
+    Publisher.find({ username: { $eq: usernameSession } }).exec((err, doc) => {
+      response.render("publisherinfo", {
+        data: doc[0],
+        username: usernameSession,
+        role: roleSession,
+        owned: true,
+      })
     })
   }
 })
 
 app.all("/add-game", (request, response) => {
-  var username = request.session.username
-  var role = request.session.role
-  if (role != "publisher") {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "publisher") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
     var form = new formidable.IncomingForm() //read all user input in form
@@ -186,7 +217,7 @@ app.all("/add-game", (request, response) => {
             Game.create(data, (err) => {
               if (!err) {
                 Publisher.findOneAndUpdate(
-                  { username: { $eq: username } },
+                  { username: { $eq: usernameSession } },
                   { $push: { added_game: gamename_addDate } }
                 ).exec((err, doc) => {
                   if (!err) {
@@ -200,28 +231,33 @@ app.all("/add-game", (request, response) => {
           }
         })
       } else {
-        Publisher.find({ username: { $eq: username } }).exec((err, doc) => {
-          var publisherName = doc[0].publisherName
-          console.log(publisherName)
-          response.render("addgame_publisher", {
-            username: username,
-            publishername: publisherName,
-          })
-        })
+        Publisher.find({ username: { $eq: usernameSession } }).exec(
+          (err, doc) => {
+            var publisherName = doc[0].publisherName
+            response.render("addgame_publisher", {
+              username: usernameSession,
+              publishername: publisherName,
+            })
+          }
+        )
       }
     })
   }
 })
 
 app.get("/history-publisher", (request, respone) => {
-  var username = request.session.username
-  var role = request.session.role
-  if (role != "publisher") {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "publisher") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    Publisher.find({ username: { $eq: username } }).exec((err, doc) => {
+    Publisher.find({ username: { $eq: usernameSession } }).exec((err, doc) => {
       var data = doc[0].added_game
-      respone.render("history_publisher", { data: data })
+      respone.render("history_publisher", {
+        data: data,
+        username: usernameSession,
+        role: roleSession,
+      })
     })
   }
 })
@@ -253,8 +289,14 @@ app.all("/register", (request, response) => {
 
 app.get("/gameinfo", (request, response) => {
   var query = request.query.name
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
   Game.find({ name: { $eq: query } }).exec((err, doc) => {
-    response.render("gameinfo", doc[0])
+    response.render("gameinfo", {
+      data: doc[0],
+      username: usernameSession,
+      role: roleSession,
+    })
   })
 })
 
