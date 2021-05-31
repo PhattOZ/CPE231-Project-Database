@@ -105,7 +105,7 @@ app.get("/userinfo", (request, response) => {
   if (sessionUsername) {
     //user คลิกเข้ามาดูข้อมูลส่วนตัว โดย user คนนั้นมีการ login แล้ว
     User.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
-      response.render("userinfo", doc[0])
+      response.render("userinfo", doc[0]) //doc[0] เป็น object แล้ว ส่งเข้าไป ejs ได้เลย ไม่ต้องทำ {data: doc[0]}
     })
   } else {
     //path เป็น /userinfo แต่ไม่มีการ login
@@ -155,6 +155,8 @@ app.get("/publisherinfo", (request, response) => {
         owned: true,
       })
     })
+  } else {
+    response.redirect("/login")
   }
 })
 
@@ -212,6 +214,7 @@ app.all("/add-game", (request, response) => {
           if (!err) {
             var gamename_addDate = {
               name: fields.gamename,
+              image: imgName,
               date: day,
             }
             Game.create(data, (err) => {
@@ -241,6 +244,19 @@ app.all("/add-game", (request, response) => {
           }
         )
       }
+    })
+  }
+})
+
+app.all("/add-dlc", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var query = request.query.name //game name (string query)
+  if (query) {
+    response.send(`${query}`)
+  } else {
+    Publisher.find({ username: { $eq: usernameSession } }).exec((err, doc) => {
+      response.render("add-dlc_publisher")
     })
   }
 })
