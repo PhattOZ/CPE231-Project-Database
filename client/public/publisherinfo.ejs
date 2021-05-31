@@ -12,5 +12,8 @@
     <div>Publisher Name : <%= data.publisherName %> </div>
     <div>Email : <%= data.email %> </div>
     <div>Tel. : <%= data.tel %> </div>
+    <% if(role == "publisher"){ %>
+        <a href="/edit-publisher">Edit Profile</a>
+    <% } %> 
 </body>
 </html>

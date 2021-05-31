@@ -110,11 +110,19 @@ app.get("/userinfo", (request, response) => {
 app.get("/publisherinfo", (request, response) => {
   var username = request.session.username
   var role = request.session.role
-  if (role != "publisher") {
-    response.redirect("/login")
-  } else {
+  if (username && role == "publisher") {
+    //publisher role click username in navbar
+    console.log("1")
     Publisher.find({ username: { $eq: username } }).exec((err, doc) => {
-      response.render("publisherinfo", { data: doc[0] })
+      response.render("publisherinfo", { data: doc[0], role: role })
+    })
+  } else {
+    //user click publishername in gameinfo
+    console.log("2")
+    var query = request.query.name
+    console.log(query)
+    Publisher.find({ publisherName: { $eq: query } }).exec((err, doc) => {
+      response.render("publisherinfo", { data: doc[0], role: "user" })
     })
   }
 })
@@ -193,7 +201,8 @@ app.all("/add-game", (request, response) => {
         })
       } else {
         Publisher.find({ username: { $eq: username } }).exec((err, doc) => {
-          let publisherName = doc[0].publisherName
+          var publisherName = doc[0].publisherName
+          console.log(publisherName)
           response.render("addgame_publisher", {
             username: username,
             publishername: publisherName,
