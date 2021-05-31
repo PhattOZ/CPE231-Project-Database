@@ -8,8 +8,11 @@
 </head>
 <body>
     <h1>edit</h1>
-    <form action="/userinfo-edit" method="post">
-        <label>Username : </label><input type="text" name="username" /><br /><br /> 
+    <form action="/userinfo-edit" method="POST">
+        <label>Username :</label><input type="text" name="username" value= <%= username%> ><br><br>
+        <label>Password :</label><input type="password" name="password"value= <%= password%> ><br><br>
+        <label>Firstname :</label><input type="text" name="fname"value= <%= fName %>><br><br>
+        <label>Lastname :</label><input type="text" name="lname" value= <%= lName %>><br><br>
     </form>
 </body>
 </html>
