@@ -15,7 +15,7 @@ const app = express()
 app.use(express.static("../client/public")) //Set static floder (.css)
 app.set("views", "../client/public") //Set views folder (.ejs)
 app.set("view engine", "ejs") //Set view engine
-app.use(bodyParser.urlencoded({ extended: true })) //Set bodyParser
+app.use(express.urlencoded({ extended: true })) //Set bodyParser
 app.use(
   session({
     secret: "login",
@@ -167,6 +167,7 @@ app.all("/add-game", (request, response) => {
   } else {
     var form = new formidable.IncomingForm() //read all user input in form
     form.parse(request, (err, fields, files) => {
+      console.log(fields)
       if (
         fields.gamename &&
         // fields.category &&
