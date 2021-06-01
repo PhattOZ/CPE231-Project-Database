@@ -169,7 +169,7 @@ app.all("/add-game", (request, response) => {
     form.parse(request, (err, fields, files) => {
       if (
         fields.gamename &&
-        fields.category &&
+        // fields.category &&
         fields.price &&
         files.imgfile &&
         !err
@@ -430,7 +430,6 @@ app.get("/userinfo-edit", (request, response) => {
   })
 })
 
-
 // app.get("/publisherinfo-edit", (request, response) => {
 //   var form = request.body
 //   var sessionUsername = request.session.username
@@ -453,6 +452,24 @@ app.get("/userinfo-edit", (request, response) => {
 
 app.get("/addgame_success", (request, response) => {
   response.render("addgame_success")
+})
+
+app.all("/buygame", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "user") {
+    response.redirect("login")
+  } else {
+    var gamename_query = request.query.gamename
+    if (request.method == "GET") {
+      Game.find({ name: { $eq: gamename_query } }).exec((err, doc) => {
+        console.log(doc[0])
+        response.render("buygame", { data: doc[0] })
+      })
+    } else if (request.method == "POST") {
+      response.send(`BUY`)
+    }
+  }
 })
 
 app.listen(3000, () => {

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Game</title>
+</head>
+<body>
+    <h1>Buy Game</h1>
+    <form action="/buygame" method="POST">
+        <div>GAME</div>
+        <div><%= data.name %> : <%= data.price %> THB</div>
+        <br>
+        <div>DLC Bundle</div>
+        <% 
+            var dlc_total = 0
+            for (d of data.dlc) { 
+                dlc_total += d.price
+        %>
+            <div><%= d.dlcname %> : <%= d.price %> THB </div>
+        <% } %> 
+        <br>
+        <% var total = data.price + dlc_total %> 
+        <div>Total : <%= total %></div>
+        <button type="submit">BUY</button>
+    </form>
+</body>
+</html>

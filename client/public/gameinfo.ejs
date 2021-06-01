@@ -55,6 +55,8 @@
     <% for(d of data.dlc) { %>
         <a href="/dlcinfo?gamename=<%= data.name %>&dlcname=<%= d.dlcname %> "><%= d.dlcname %> </a><br>
     <% } %> 
+    <br>
+    <div><a href="/buygame?gamename=<%= data.name %> ">BUY THIS GAME & DLC</a></div>
     <%- include ("./footer") %> 
 </body>
 
