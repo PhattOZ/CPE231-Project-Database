@@ -217,13 +217,16 @@ app.all("/add-game", (request, response) => {
                 Publisher.findOneAndUpdate(
                   { username: { $eq: usernameSession } },
                   { $push: { added_game: gamename_addDate } }
-                ).exec((err, doc) => {
+                ).exec((err) => {
                   if (!err) {
-                    response.send("addgame_success")
+                    response.render("addgame_success", {
+                      username: usernameSession,
+                      role: roleSession,
+                    })
                   }
                 })
               } else {
-                response.send(`This game name already exists!`)
+                response.send(`This game name already exists!`) //ทำหน้า static ที่บอกว่ามีเกมนี้ในระบบแล้ว
               }
             })
           } else {
@@ -303,11 +306,14 @@ app.all("/add-dlc", (request, response) => {
                     { $push: { added_dlc: dlc_data_publisher } }
                   ).exec((err) => {
                     if (!err) {
-                      response.render("add-dlc_success")
+                      response.render("add-dlc_success", {
+                        username: usernameSession,
+                        role: roleSession,
+                      })
                     }
                   })
                 } else {
-                  response.render(`This DLC name already exists!`)
+                  response.send(`This DLC name already exists!`)
                 }
               })
             }
@@ -329,7 +335,11 @@ app.all("/add-dlc", (request, response) => {
       Publisher.find({ username: { $eq: usernameSession } }).exec(
         (err, doc) => {
           var game_history = doc[0].added_game
-          response.render("add-dlc_publisher", { data: game_history })
+          response.render("add-dlc_publisher", {
+            data: game_history,
+            username: usernameSession,
+            role: roleSession,
+          })
         }
       )
     }
@@ -410,8 +420,6 @@ app.all("/userinfo-edit", (request, response) => {
     var sessionUsername = request.session.username
     User.findOne({ username: { $eq: sessionUsername } }).exec((err, doc) => {
       response.render("userinfo-edit", { data: doc })
-      console.log(sessionUsername)
-      console.log(doc)
     })
   } else if (request.method == "POST") {
     var sessionUsername = request.session.username
@@ -432,6 +440,7 @@ app.all("/userinfo-edit", (request, response) => {
     }).exec((err) => response.redirect("userinfo"))
   }
 })
+
 app.all("/publisherinfo-edit", (request, response) => {
   if (request.method == "GET") {
     var sessionUsername = request.session.username
@@ -457,13 +466,6 @@ app.all("/publisherinfo-edit", (request, response) => {
   }
 })
 
-app.get("/addgame_success", (request, response) => {
-  response.render("addgame_success")
-})
-app.get("/add-dlc_success", (request, response) => {
-  response.render("add-dlc_success")
-})
-
 app.all("/buygame", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
@@ -482,9 +484,27 @@ app.all("/buygame", (request, response) => {
   }
 })
 
-app.all("/search",(request,response)=>{
-  
+app.get("/store", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var sort_query = request.query.sort
+  Game.find({})
+    .sort(sort_query)
+    .exec((err, doc) => {
+      if (!err) {
+        response.render("store", {
+          data: doc,
+          sort: sort_query,
+          username: usernameSession,
+          role: roleSession,
+        })
+      } else {
+        response.send(err)
+      }
+    })
 })
+
+app.all("/search", (request, response) => {})
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
