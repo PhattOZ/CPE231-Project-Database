@@ -307,7 +307,7 @@ app.all("/add-dlc", (request, response) => {
                     { $push: { added_dlc: dlc_data_publisher } }
                   ).exec((err) => {
                     if (!err) {
-                      response.send(`Add DLC Success!`)
+                      response.render("add-dlc_success")
                     }
                   })
                 }
@@ -452,6 +452,9 @@ app.get("/userinfo-edit", (request, response) => {
 
 app.get("/addgame_success", (request, response) => {
   response.render("addgame_success")
+})
+app.get("/add-dlc_success", (request, response) => {
+  response.render("add-dlc_success")
 })
 
 app.all("/buygame", (request, response) => {
