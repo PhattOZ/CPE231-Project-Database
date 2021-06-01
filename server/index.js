@@ -11,6 +11,8 @@ const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
+const { request, response } = require("express")
+const { stringify } = require("querystring")
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
