@@ -4,18 +4,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./compiled.css" />
     <title>Add DLC</title>
 </head>
-<body>
-    <h1>Add DLC Form</h1>
-    <form action="/add-dlc?name=<%= gamename %> " method="POST" enctype="multipart/form-data">
-        <label>Game Name : </label><input type="text" name="gamename" value="<%= gamename %>" readonly><br>
-        <label>DLC Name : </label><input type="text" name="dlcname"><br>
-        <label>Publisher Name : </label><input type="text" name="publishername" value="<%= publishername %>" readonly><br>
-        <label>Developer Name : </label><input type="text" name="developername"><br>
-        <label>Price : </label><input type="number" name="price"><br>
-        <input type="file" name="imgfile" accept="image/*" required/><br>
-        <button type="submit">OK</button>
+<style>
+    div.bottom {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+</style>
+<body class="bg-cyan-black text-white font-kanit font-light h-screen">
+    <%- include("./nav_publisher.ejs") %>
+    <!--end of nav-->
+
+    <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Add DLC Form
+    </div>
+    <form action="/add-dlc?name=<%= gamename %> " method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
+        <div class="py-2">
+        <label>Game Name : </label><input type="text" name="gamename" value="<%= gamename %>" class="text-black" readonly>
+        </div>
+        <div class="py-2">
+        <label>DLC Name : </label><input type="text" name="dlcname" class="text-black" required>
+        </div>
+        <div class="py-2">
+        <label>Publisher Name : </label><input type="text" name="publishername" value="<%= publishername %>" class="text-black" readonly>
+        </div>
+        <div class="py-2">
+        <label>Developer Name : </label><input type="text" name="developername" class="text-black" required>
+        </div>
+        <div class="py-2">
+        <label>Price : </label><input type="number" name="price" class="text-black" required>
+        </div>
+        <div class="py-2">
+            <label>DLC Image : </label>
+            <input type="file" name="imgfile" accept="image/*" required/>
+        </div>
+        <div class="py-2">
+        <button type="submit" class="
+        border-2 border-cyan-lightest
+        text-cyan-lightest
+        rounded-md
+        shadow
+        inline-block
+        transition-colors
+        duration-100
+        bg-transparent
+        hover:text-white
+        hover:bg-cyan-lightest
+        cursor-pointer
+        px-2
+        ">SUMMIT</button>
+        </div>
+
     </form>
+    <!--end of Content-->
+    <div class="bottom">
+        <%- include ("./footer") %> 
+    </div>
+    <!--end of footer-->
 </body>
 </html>

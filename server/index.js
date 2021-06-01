@@ -5,20 +5,17 @@ const formidable = require("formidable")
 const fs = require("fs")
 const User = require("./model").User
 const Game = require("./model").Game
-const DLC = require("./model").DLC
 const Review = require("./model").Review
 const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
-const { request, response } = require("express")
-const { stringify } = require("querystring")
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
 app.set("views", "../client/public") //Set views folder (.ejs)
 app.set("view engine", "ejs") //Set view engine
-app.use(bodyParser.urlencoded({ extended: true })) //Set bodyParser
+app.use(express.urlencoded({ extended: true })) //Set bodyParser
 app.use(
   session({
     secret: "login",
@@ -170,9 +167,10 @@ app.all("/add-game", (request, response) => {
   } else {
     var form = new formidable.IncomingForm() //read all user input in form
     form.parse(request, (err, fields, files) => {
+      console.log(fields)
       if (
         fields.gamename &&
-        fields.category &&
+        // fields.category &&
         fields.price &&
         files.imgfile &&
         !err
@@ -310,9 +308,11 @@ app.all("/add-dlc", (request, response) => {
                     { $push: { added_dlc: dlc_data_publisher } }
                   ).exec((err) => {
                     if (!err) {
-                      response.send(`Add DLC Success!`)
+                      response.render("add-dlc_success")
                     }
                   })
+                } else {
+                  response.render(`This DLC name already exists!`)
                 }
               })
             }
@@ -462,8 +462,49 @@ app.all("/publisherinfo-edit", (request, response) => {
 }
 })
 
+// app.get("/publisherinfo-edit", (request, response) => {
+//   var form = request.body
+//   var sessionUsername = request.session.username
+//   var data = {
+//     username: form.username,
+//     password: form.password,
+//     publisherName : form.publisherName,
+//     email : form.email,
+//     tel: form.tel,
+//   }
+//   User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
+//     useFindAndModify: false,
+//   }).exec((err, doc) => {
+//     if (err) {
+//       console.log("Something wrong")
+//     }
+//     response.render("userinfo-edit", doc[0])
+//   })
+// })
+
 app.get("/addgame_success", (request, response) => {
   response.render("addgame_success")
+})
+app.get("/add-dlc_success", (request, response) => {
+  response.render("add-dlc_success")
+})
+
+app.all("/buygame", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "user") {
+    response.redirect("login")
+  } else {
+    var gamename_query = request.query.gamename
+    if (request.method == "GET") {
+      Game.find({ name: { $eq: gamename_query } }).exec((err, doc) => {
+        console.log(doc[0])
+        response.render("buygame", { data: doc[0] })
+      })
+    } else if (request.method == "POST") {
+      response.send(`BUY`)
+    }
+  }
 })
 
 app.listen(3000, () => {
