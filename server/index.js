@@ -1,54 +1,54 @@
-const express = require("express")
-const bodyParser = require("body-parser")
-const session = require("express-session")
-const formidable = require("formidable")
-const fs = require("fs")
-const User = require("./model").User
-const Game = require("./model").Game
-const Review = require("./model").Review
-const Transaction = require("./model").Transaction
-const Promotion = require("./model").Promotion
-const Group = require("./model").Group
-const Publisher = require("./model").Publisher
-const app = express()
+const express = require("express");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const formidable = require("formidable");
+const fs = require("fs");
+const User = require("./model").User;
+const Game = require("./model").Game;
+const Review = require("./model").Review;
+const Transaction = require("./model").Transaction;
+const Promotion = require("./model").Promotion;
+const Group = require("./model").Group;
+const Publisher = require("./model").Publisher;
+const app = express();
 
-app.use(express.static("../client/public")) //Set static floder (.css)
-app.set("views", "../client/public") //Set views folder (.ejs)
-app.set("view engine", "ejs") //Set view engine
-app.use(bodyParser.urlencoded({ extended: true })) //Set bodyParser
+app.use(express.static("../client/public")); //Set static floder (.css)
+app.set("views", "../client/public"); //Set views folder (.ejs)
+app.set("view engine", "ejs"); //Set view engine
+app.use(express.urlencoded({ extended: true })); //Set bodyParser
 app.use(
   session({
     secret: "login",
     resave: false,
     saveUninitialized: false,
   })
-)
+);
 
 app.get("/", (request, response) => {
-  var sessionUsername = request.session.username
-  var sessionRole = request.session.role
+  var sessionUsername = request.session.username;
+  var sessionRole = request.session.role;
   Game.find({}).exec((err, doc) => {
     response.render("index", {
       data: doc,
       username: sessionUsername,
       role: sessionRole,
-    })
-  })
-})
+    });
+  });
+});
 
 app.get("/signup", (request, respone) => {
-  respone.render("signup")
-})
+  respone.render("signup");
+});
 
 app.get("/about", (request, respone) => {
-  var usernameSession = request.session.username
-  respone.render("about", { username: usernameSession })
-})
+  var usernameSession = request.session.username;
+  respone.render("about", { username: usernameSession });
+});
 
 app.all("/login", (request, response) => {
-  var username = request.body.username
-  var password = request.body.password
-  var role = request.body.role
+  var username = request.body.username;
+  var password = request.body.password;
+  var role = request.body.role;
   if (username && password && role) {
     if (role == "user") {
       User.find({
@@ -59,13 +59,13 @@ app.all("/login", (request, response) => {
       }).exec((err, doc) => {
         if (doc.length > 0) {
           //username & password are in database
-          request.session.username = doc[0].username
-          request.session.role = "user"
-          response.redirect("/")
+          request.session.username = doc[0].username;
+          request.session.role = "user";
+          response.redirect("/");
         } else {
-          response.render("login", { logined: true, success: false })
+          response.render("login", { logined: true, success: false });
         }
-      })
+      });
     } else if (role == "publisher") {
       Publisher.find({
         $and: [
@@ -75,47 +75,47 @@ app.all("/login", (request, response) => {
       }).exec((err, doc) => {
         if (doc.length > 0) {
           //username & password are in database
-          request.session.username = doc[0].username
-          request.session.role = "publisher"
-          response.redirect("/")
+          request.session.username = doc[0].username;
+          request.session.role = "publisher";
+          response.redirect("/");
         } else {
-          response.render("login", { logined: true, success: false })
+          response.render("login", { logined: true, success: false });
         }
-      })
+      });
     }
   } else {
     //username & password not in database
-    response.render("login", { logined: false, success: false })
+    response.render("login", { logined: false, success: false });
   }
-})
+});
 
 app.get("/logout", (request, response) => {
   request.session.destroy((error) => {
     if (!error) {
-      response.redirect("/")
+      response.redirect("/");
     } else {
-      console.log(error)
+      console.log(error);
     }
-  })
-})
+  });
+});
 
 app.get("/userinfo", (request, response) => {
-  var sessionUsername = request.session.username
+  var sessionUsername = request.session.username;
   if (sessionUsername) {
     //user คลิกเข้ามาดูข้อมูลส่วนตัว โดย user คนนั้นมีการ login แล้ว
     User.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
-      response.render("userinfo", doc[0]) //doc[0] เป็น object แล้ว ส่งเข้าไป ejs ได้เลย ไม่ต้องทำ {data: doc[0]}
-    })
+      response.render("userinfo", doc[0]); //doc[0] เป็น object แล้ว ส่งเข้าไป ejs ได้เลย ไม่ต้องทำ {data: doc[0]}
+    });
   } else {
     //path เป็น /userinfo แต่ไม่มีการ login
-    response.redirect("login")
+    response.redirect("login");
   }
-})
+});
 
 app.get("/publisherinfo", (request, response) => {
-  var usernameSession = request.session.username
-  var roleSession = request.session.role
-  var query = request.query.name //publisher name (string query)
+  var usernameSession = request.session.username;
+  var roleSession = request.session.role;
+  var query = request.query.name; //publisher name (string query)
   if (query) {
     //go to publisher info from gameinfo
     Publisher.find({ publisherName: { $eq: query } }).exec((err, doc) => {
@@ -126,7 +126,7 @@ app.get("/publisherinfo", (request, response) => {
           username: usernameSession,
           role: roleSession,
           owned: true,
-        })
+        });
       } else if (roleSession == "publisher") {
         //publisher role but not owned game (publisher role for navbar_publisher)
         response.render("publisherinfo", {
@@ -134,7 +134,7 @@ app.get("/publisherinfo", (request, response) => {
           username: usernameSession,
           role: roleSession,
           owned: false,
-        })
+        });
       } else {
         //user want to view publisher profile
         response.render("publisherinfo", {
@@ -142,9 +142,9 @@ app.get("/publisherinfo", (request, response) => {
           username: usernameSession,
           role: roleSession,
           owned: false,
-        })
+        });
       }
-    })
+    });
   } else if (roleSession == "publisher") {
     Publisher.find({ username: { $eq: usernameSession } }).exec((err, doc) => {
       response.render("publisherinfo", {
@@ -152,21 +152,22 @@ app.get("/publisherinfo", (request, response) => {
         username: usernameSession,
         role: roleSession,
         owned: true,
-      })
-    })
+      });
+    });
   } else {
-    response.redirect("/login")
+    response.redirect("/login");
   }
-})
+});
 
 app.all("/add-game", (request, response) => {
-  var usernameSession = request.session.username
-  var roleSession = request.session.role
+  var usernameSession = request.session.username;
+  var roleSession = request.session.role;
   if (roleSession != "publisher") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.redirect("/login"); //role isn't publisher -> redirect to login page
   } else {
-    var form = new formidable.IncomingForm() //read all user input in form
+    var form = new formidable.IncomingForm(); //read all user input in form
     form.parse(request, (err, fields, files) => {
+      console.log(fields);
       if (
         fields.gamename &&
         fields.category &&
@@ -174,23 +175,23 @@ app.all("/add-game", (request, response) => {
         files.imgfile &&
         !err
       ) {
-        let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
-        let dir = "../client/public/img/games/" //ตำแหน่งที่จะเก็บไฟล์รูป
-        let imgName = upfile.name
-        let newPath = dir + imgName
+        let upfile = files.imgfile; //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
+        let dir = "../client/public/img/games/"; //ตำแหน่งที่จะเก็บไฟล์รูป
+        let imgName = upfile.name;
+        let newPath = dir + imgName;
         if (fs.existsSync(newPath)) {
           //ตรวจพบว่ามีชื่อไฟล์นี้อยู่ในคอมเราอยู่แล้ว
-          let oldName = upfile.name.split(".") //แยกชื่อกับนามสกุลไฟล์
-          let r = Math.floor(Math.random() * 9999)
-          oldName[0] += "_" + r
+          let oldName = upfile.name.split("."); //แยกชื่อกับนามสกุลไฟล์
+          let r = Math.floor(Math.random() * 9999);
+          oldName[0] += "_" + r;
           //เอาชื่อใหม่มาต่อกับนามสกุลไฟล์เดิม
-          imgName = oldName.join(".")
-          newPath = dir + oldName.join(".")
+          imgName = oldName.join(".");
+          newPath = dir + oldName.join(".");
         }
-        let oldPath = upfile.path
-        let rawData = fs.readFileSync(oldPath)
-        let date = new Date()
-        let day = date.toLocaleDateString() //get current dd/mm/yy as string
+        let oldPath = upfile.path;
+        let rawData = fs.readFileSync(oldPath);
+        let date = new Date();
+        let day = date.toLocaleDateString(); //get current dd/mm/yy as string
         let data = {
           name: fields.gamename,
           description: fields.description,
@@ -208,14 +209,14 @@ app.all("/add-game", (request, response) => {
           price: Number(fields.price),
           downloaded: 0,
           image: imgName,
-        }
+        };
         fs.writeFile(newPath, rawData, (err) => {
           if (!err) {
             var gamename_addDate = {
               name: fields.gamename,
               image: imgName,
               date: day,
-            }
+            };
             Game.create(data, (err) => {
               if (!err) {
                 Publisher.findOneAndUpdate(
@@ -223,61 +224,61 @@ app.all("/add-game", (request, response) => {
                   { $push: { added_game: gamename_addDate } }
                 ).exec((err, doc) => {
                   if (!err) {
-                    response.send("addgame_success")
+                    response.send("addgame_success");
                   }
-                })
+                });
               } else {
-                response.send(`This game name already exists!`)
+                response.send(`This game name already exists!`);
               }
-            })
+            });
           } else {
-            response.send(err)
+            response.send(err);
           }
-        })
+        });
       } else {
         Publisher.find({ username: { $eq: usernameSession } }).exec(
           (err, doc) => {
-            var publisherName = doc[0].publisherName
+            var publisherName = doc[0].publisherName;
             response.render("addgame_publisher", {
               username: usernameSession,
               publishername: publisherName,
-            })
+            });
           }
-        )
+        );
       }
-    })
+    });
   }
-})
+});
 
 app.all("/add-dlc", (request, response) => {
-  var usernameSession = request.session.username
-  var roleSession = request.session.role
-  var query = request.query.name //game name (string query)
+  var usernameSession = request.session.username;
+  var roleSession = request.session.role;
+  var query = request.query.name; //game name (string query)
   if (roleSession != "publisher") {
-    response.redirect("/login")
+    response.redirect("/login");
   } else {
     if (query) {
-      var form = new formidable.IncomingForm()
+      var form = new formidable.IncomingForm();
       form.parse(request, (err, fields, files) => {
         if (fields.dlcname && fields.price && files.imgfile && !err) {
           //Publisher submit DLC data in form
-          let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
-          let dir = "../client/public/img/dlc/" //ตำแหน่งที่จะเก็บไฟล์รูป
-          let imgName = upfile.name
-          let newPath = dir + imgName
+          let upfile = files.imgfile; //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
+          let dir = "../client/public/img/dlc/"; //ตำแหน่งที่จะเก็บไฟล์รูป
+          let imgName = upfile.name;
+          let newPath = dir + imgName;
           if (fs.existsSync(newPath)) {
             //ตรวจพบว่ามีชื่อไฟล์นี้อยู่ในคอมเราอยู่แล้ว
-            let oldName = upfile.name.split(".") //แยกชื่อกับนามสกุลไฟล์
-            let r = Math.floor(Math.random() * 9999)
-            oldName[0] += "_" + r
+            let oldName = upfile.name.split("."); //แยกชื่อกับนามสกุลไฟล์
+            let r = Math.floor(Math.random() * 9999);
+            oldName[0] += "_" + r;
             //เอาชื่อใหม่มาต่อกับนามสกุลไฟล์เดิม
-            imgName = oldName.join(".")
-            newPath = dir + oldName.join(".")
+            imgName = oldName.join(".");
+            newPath = dir + oldName.join(".");
           }
-          let oldPath = upfile.path
-          let rawData = fs.readFileSync(oldPath)
-          let date = new Date()
-          let day = date.toLocaleDateString() //get current dd/mm/yy as string
+          let oldPath = upfile.path;
+          let rawData = fs.readFileSync(oldPath);
+          let date = new Date();
+          let day = date.toLocaleDateString(); //get current dd/mm/yy as string
           let data = {
             //data for dlc in game schema
             dlcname: fields.dlcname,
@@ -287,7 +288,7 @@ app.all("/add-dlc", (request, response) => {
             price: Number(fields.price),
             downloaded: 0,
             image: imgName,
-          }
+          };
           fs.writeFile(newPath, rawData, (err) => {
             if (!err) {
               //Add DLC data to dlc in game schema
@@ -301,42 +302,42 @@ app.all("/add-dlc", (request, response) => {
                     dlcname: fields.dlcname,
                     image: imgName,
                     date: day,
-                  }
+                  };
                   Publisher.findOneAndUpdate(
                     { username: { $eq: usernameSession } },
                     { $push: { added_dlc: dlc_data_publisher } }
                   ).exec((err) => {
                     if (!err) {
-                      response.send(`Add DLC Success!`)
+                      response.send(`Add DLC Success!`);
                     }
-                  })
+                  });
                 }
-              })
+              });
             }
-          })
+          });
         } else {
           Publisher.find({ username: { $eq: usernameSession } }).exec(
             (err, doc) => {
-              var publisherName = doc[0].publisherName
+              var publisherName = doc[0].publisherName;
               response.render("add-dlc_form", {
                 username: usernameSession,
                 publishername: publisherName,
                 gamename: query,
-              })
+              });
             }
-          )
+          );
         }
-      })
+      });
     } else {
       Publisher.find({ username: { $eq: usernameSession } }).exec(
         (err, doc) => {
-          var game_history = doc[0].added_game
-          response.render("add-dlc_publisher", { data: game_history })
+          var game_history = doc[0].added_game;
+          response.render("add-dlc_publisher", { data: game_history });
         }
-      )
+      );
     }
   }
-})
+});
 
 // app.get("/history-publisher", (request, respone) => {
 //   var usernameSession = request.session.username
@@ -356,7 +357,7 @@ app.all("/add-dlc", (request, response) => {
 // })
 
 app.all("/register", (request, response) => {
-  var form = request.body
+  var form = request.body;
   if (form.username && form.password) {
     var data = {
       username: form.username,
@@ -367,49 +368,49 @@ app.all("/register", (request, response) => {
       dob: form.dob,
       email: form.email,
       tel: form.tel,
-    }
+    };
     User.create(data, (err) => {
       if (!err) {
-        response.render("Register_success")
+        response.render("Register_success");
       } else {
-        response.render("register", { success: false })
+        response.render("register", { success: false });
       }
-    })
+    });
   } else {
-    response.render("register", { success: true })
+    response.render("register", { success: true });
   }
-})
+});
 
 app.get("/gameinfo", (request, response) => {
-  var query = request.query.name
-  var usernameSession = request.session.username
-  var roleSession = request.session.role
+  var query = request.query.name;
+  var usernameSession = request.session.username;
+  var roleSession = request.session.role;
   Game.find({ name: { $eq: query } }).exec((err, doc) => {
     response.render("gameinfo", {
       data: doc[0],
       username: usernameSession,
       role: roleSession,
-    })
-  })
-})
+    });
+  });
+});
 
 app.get("/dlcinfo", (request, response) => {
-  var gamenamequery = request.query.gamename //game name
-  var dlcnamequery = request.query.dlcname //dlc name
+  var gamenamequery = request.query.gamename; //game name
+  var dlcnamequery = request.query.dlcname; //dlc name
   Game.find({ name: { $eq: gamenamequery } }).exec((err, doc) => {
     if (!err) {
       for (data of doc[0].dlc) {
         if (data.dlcname == dlcnamequery) {
-          response.render("dlcinfo", { gamename: gamenamequery, data: data })
+          response.render("dlcinfo", { gamename: gamenamequery, data: data });
         }
       }
     }
-  })
-})
+  });
+});
 
 app.get("/userinfo-edit", (request, response) => {
-  var form = request.body
-  var sessionUsername = request.session.username
+  var form = request.body;
+  var sessionUsername = request.session.username;
   var data = {
     username: form.username,
     password: form.password,
@@ -419,17 +420,16 @@ app.get("/userinfo-edit", (request, response) => {
     dob: form.dob,
     email: form.email,
     tel: form.tel,
-  }
+  };
   User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
     useFindAndModify: false,
   }).exec((err, doc) => {
     if (err) {
-      response.send(err)
+      response.send(err);
     }
-    response.render("userinfo-edit", doc[0])
-  })
-})
-
+    response.render("userinfo-edit", doc[0]);
+  });
+});
 
 // app.get("/publisherinfo-edit", (request, response) => {
 //   var form = request.body
@@ -452,9 +452,9 @@ app.get("/userinfo-edit", (request, response) => {
 // })
 
 app.get("/addgame_success", (request, response) => {
-  response.render("addgame_success")
-})
+  response.render("addgame_success");
+});
 
 app.listen(3000, () => {
-  console.log("Server started at : http://localhost:3000")
-})
+  console.log("Server started at : http://localhost:3000");
+});
