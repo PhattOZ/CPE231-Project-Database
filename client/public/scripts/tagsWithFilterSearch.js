@@ -3,14 +3,20 @@ const tagContainer = document.querySelector("#tag-container");
 const input = document.querySelector("#tag-container input");
 
 const availableTags = [
-  "RPG",
-  "Adventure",
   "Action",
+  "Adventure",
+  "Battle Royale",
   "MOBA",
   "Multiplayer",
+  "Puzzle",
+  "RPG",
   "Racing",
+  "Simulation",
+  "Sports",
   "Strategy",
-  "SIM",
+  "Survival",
+  "Text",
+  "Tower defense",
 ];
 
 let tags = [];
