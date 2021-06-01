@@ -11,6 +11,8 @@ const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
+const { request, response } = require("express")
+const { stringify } = require("querystring")
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -364,33 +366,73 @@ app.get("/gameinfo", (request, response) => {
   })
 })
 
-app.get("/userinfo-edit", (request, response) => {
-  var form = request.body
-  var sessionUsername = request.session.username 
-  var data =  {
-    username : form.username,
-    password : form.password,
-    fName : form.fname,
-    lName : form.lname,
-    gender : form.gender,
-    dob : form.dob,
-    email : form.email,
-    tel : form.tel,
-  }
-  console.log(sessionUsername)
-  User.findOneAndUpdate({username : {$eq :sessionUsername}},data,{useFindAndModify : false}).exec((err,doc)=>{
-    if(err){
-      console.log("Something wrong")
+app.all("/userinfo-edit", (request, response) => {
+  if(request.method == "GET"){
+    var sessionUsername = request.session.username 
+    console.log(sessionUsername)
+    User.findOne({username: { $eq :sessionUsername}}).exec((err,doc)=>{
+      console.log(doc)
+      response.render("userinfo-edit",{data: doc})
+    })
+  }else if(request.method == "POST"){
+    var form = request.body
+    var sessionUsername = request.session.username 
+    var data =  {
+      username : form.username,
+      password : form.password,
+      fName : form.fname,
+      lName : form.lname,
+      gender : form.gender,
+      dob : form.dob,
+      email : form.email,
+      tel : form.tel,
     }
-    console.log(doc)
-    response.render("userinfo-edit", doc[0])
-  })
+    console.log(data)
+    User.findOneAndUpdate({username: { $eq :sessionUsername}},data,{useFindAndModify:false}).exec((err) => 
+    response.redirect("userinfo"))
+  }
 })
+
+app.all("/publisherinfo-edit",(request,response)=>{
+  if(request.method == "GET"){
+    var sessionUsername = request.session.username
+    console.log(sessionUsername)
+    Publisher.findOne({username : {$eq : usernameSession}}).exec((err,doc)=>{
+     console.log(doc)
+     response.render("publisherinfo-edit",{data : doc})
+    })
+  }
+  else if(request.method == "POST"){
+    var form = request.body
+    var sessionUsername = request.session.username 
+    var data =  {
+      username : form.username,
+      password : form.password,
+      publishername : form.publisherName,
+      email : form.email,
+      tel : form.tel,
+    }
+    console.log(data)
+    Publisher.findOneAndUpdate({username: { $eq :sessionUsername}},data,{useFindAndModify:false}).exec((err) => 
+    response.redirect("publisherinfo"))
+  }
+})
+
+
+
+
+
+
+
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
 })
 
-app.get("/addgame_success", (request, response) => {
-  response.render("addgame_success")
-})
+var data = {
+  username      : form.username,
+  password      : form.password,
+  publishername : form.publisherName,
+  email         : form.email,
+  tel           : form.tel,
+}

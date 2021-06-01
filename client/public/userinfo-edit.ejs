@@ -9,10 +9,28 @@
 <body>
     <h1>edit</h1>
     <form action="/userinfo-edit" method="POST">
-        <label>Username :</label><input type="text" name="username" value= <%= username%> ><br><br>
-        <label>Password :</label><input type="password" name="password"value= <%= password%> ><br><br>
-        <label>Firstname :</label><input type="text" name="fname"value= <%= fName %>><br><br>
-        <label>Lastname :</label><input type="text" name="lname" value= <%= lName %>><br><br>
+        <label>Username :</label>
+        <input type="text" name="username" value= <%= data.username %> required><br><br>
+        <label>Password :</label>
+        <input type="password" name="password"value= <%= data.password %> required><br><br>
+        <label>Firstname :</label>
+        <input type="text" name="fname"value= <%= data.fName %> required><br><br>
+        <label>Lastname :</label>
+        <input type="text" name="lname" value= <%= data.lName %> required><br><br>
+        <label>Gender :</label>
+        <input type="radio"  name="gender" value= <%= data.gender %>>
+        <label for="male">Male</label>
+        <input type="radio"  name="gender" value= <%= data.gender %>>
+        <label for="female">Female</label>
+        <input type="radio"  name="gender" value= <%= data.gender %>>
+        <label for="other">Other</label><br><br>
+        <label>Date of birth : </label>
+        <input type="date" name="dob" value = <%= data.dob%> required/><br><br>
+        <label>Email :</label>
+        <input type="text" name="email" value= <%= data.email %> required><br><br>
+        <label>Tel :</label>
+        <input type="text" name="tel"value= <%= data.tel %> required><br><br>
+        <input type="submit" value="Submit">
     </form>
 </body>
 </html>
