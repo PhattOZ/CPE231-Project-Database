@@ -10,6 +10,7 @@ const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
+const { request, response } = require("express")
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -462,26 +463,6 @@ app.all("/publisherinfo-edit", (request, response) => {
 }
 })
 
-// app.get("/publisherinfo-edit", (request, response) => {
-//   var form = request.body
-//   var sessionUsername = request.session.username
-//   var data = {
-//     username: form.username,
-//     password: form.password,
-//     publisherName : form.publisherName,
-//     email : form.email,
-//     tel: form.tel,
-//   }
-//   User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
-//     useFindAndModify: false,
-//   }).exec((err, doc) => {
-//     if (err) {
-//       console.log("Something wrong")
-//     }
-//     response.render("userinfo-edit", doc[0])
-//   })
-// })
-
 app.get("/addgame_success", (request, response) => {
   response.render("addgame_success")
 })
@@ -505,6 +486,10 @@ app.all("/buygame", (request, response) => {
       response.send(`BUY`)
     }
   }
+})
+
+app.all("/search",(request,response)=>{
+  
 })
 
 app.listen(3000, () => {
