@@ -167,14 +167,8 @@ app.all("/add-game", (request, response) => {
   } else {
     var form = new formidable.IncomingForm() //read all user input in form
     form.parse(request, (err, fields, files) => {
-      console.log(fields)
-      if (
-        fields.gamename &&
-        // fields.category &&
-        fields.price &&
-        files.imgfile &&
-        !err
-      ) {
+      if (fields.gamename && fields.price && files.imgfile && !err) {
+        let array_category = fields.category.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
         let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
         let dir = "../client/public/img/games/" //ตำแหน่งที่จะเก็บไฟล์รูป
         let imgName = upfile.name
@@ -202,7 +196,7 @@ app.all("/add-game", (request, response) => {
             gpu: fields.gpu,
             hdd: fields.hdd,
           },
-          category: fields.category,
+          category: array_category,
           publisherName: fields.publishername,
           developerName: fields.developername,
           releaseDate: day,
@@ -411,14 +405,14 @@ app.get("/dlcinfo", (request, response) => {
 })
 
 app.all("/userinfo-edit", (request, response) => {
-  if (request.method == "GET"){
+  if (request.method == "GET") {
     var sessionUsername = request.session.username
-    User.findOne({username :{$eq:sessionUsername}}).exec((err,doc)=>{
-    response.render("userinfo-edit",{data:doc})
-    console.log(sessionUsername)
-    console.log(doc)
-  })
-} else if(request.method == "POST"){
+    User.findOne({ username: { $eq: sessionUsername } }).exec((err, doc) => {
+      response.render("userinfo-edit", { data: doc })
+      console.log(sessionUsername)
+      console.log(doc)
+    })
+  } else if (request.method == "POST") {
     var sessionUsername = request.session.username
     var form = request.body
     var data = {
@@ -432,34 +426,34 @@ app.all("/userinfo-edit", (request, response) => {
       tel: form.tel,
     }
     console.log(data)
-    User.findOneAndUpdate({username :{$eq:sessionUsername}},data, {
-      useFindAndModify : false,
-    }).exec((err)=>response.redirect("userinfo"))
+    User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
+      useFindAndModify: false,
+    }).exec((err) => response.redirect("userinfo"))
   }
 })
 app.all("/publisherinfo-edit", (request, response) => {
-  if (request.method == "GET"){
+  if (request.method == "GET") {
     var sessionUsername = request.session.username
     console.log(sessionUsername)
-    Publisher.find({username :{$eq:sessionUsername}}).exec((err,doc)=>{
+    Publisher.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
       console.log(doc)
-      response.render("publisherinfo-edit",{data:doc[0]})
-  })
-}else if(request.method == "POST"){
-  var sessionUsername = request.session.username
-  var form = request.body
-  var data = {
-    username: form.username,
-    password: form.password,
-    publisherName : form.publishername,
-    email : form.email,
-    tel: form.tel,
+      response.render("publisherinfo-edit", { data: doc[0] })
+    })
+  } else if (request.method == "POST") {
+    var sessionUsername = request.session.username
+    var form = request.body
+    var data = {
+      username: form.username,
+      password: form.password,
+      publisherName: form.publishername,
+      email: form.email,
+      tel: form.tel,
+    }
+    console.log(data)
+    Publisher.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
+      useFindAndModify: false,
+    }).exec((err) => response.redirect("publisherinfo"))
   }
-  console.log(data)
-  Publisher.findOneAndUpdate({username :{$eq:sessionUsername}},data, {
-    useFindAndModify : false,
-  }).exec((err)=>response.redirect("publisherinfo"))
-}
 })
 
 // app.get("/publisherinfo-edit", (request, response) => {
@@ -510,4 +504,3 @@ app.all("/buygame", (request, response) => {
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
 })
-
