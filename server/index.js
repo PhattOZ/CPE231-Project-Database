@@ -170,7 +170,7 @@ app.all("/add-game", (request, response) => {
       console.log(fields);
       if (
         fields.gamename &&
-        fields.category &&
+        // fields.category &&
         fields.price &&
         files.imgfile &&
         !err
@@ -308,7 +308,7 @@ app.all("/add-dlc", (request, response) => {
                     { $push: { added_dlc: dlc_data_publisher } }
                   ).exec((err) => {
                     if (!err) {
-                      response.send(`Add DLC Success!`);
+                      response.render("add-dlc_success");
                     }
                   });
                 }
@@ -453,6 +453,27 @@ app.get("/userinfo-edit", (request, response) => {
 
 app.get("/addgame_success", (request, response) => {
   response.render("addgame_success");
+});
+app.get("/add-dlc_success", (request, response) => {
+  response.render("add-dlc_success");
+});
+
+app.all("/buygame", (request, response) => {
+  var usernameSession = request.session.username;
+  var roleSession = request.session.role;
+  if (roleSession != "user") {
+    response.redirect("login");
+  } else {
+    var gamename_query = request.query.gamename;
+    if (request.method == "GET") {
+      Game.find({ name: { $eq: gamename_query } }).exec((err, doc) => {
+        console.log(doc[0]);
+        response.render("buygame", { data: doc[0] });
+      });
+    } else if (request.method == "POST") {
+      response.send(`BUY`);
+    }
+  }
 });
 
 app.listen(3000, () => {

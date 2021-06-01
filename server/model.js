@@ -56,7 +56,7 @@ const publisherSchema = new mongoose.Schema({
   ],
   added_dlc: [
     {
-      gamename: String,
+      gamename: { type: String, unique: true },
       dlcname: String,
       image: String,
       date: String,

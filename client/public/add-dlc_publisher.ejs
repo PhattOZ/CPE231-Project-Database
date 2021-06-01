@@ -4,12 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./compiled.css" />
     <title>Add DLC</title>
 </head>
+<style>
+    div.bottom {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+    table, th, td {
+        border: 2px solid rgba(129, 148, 146, 0.575);
+        text-align: center;
+        margin-left: 15%;
+        margin-right: 15%;
+}
+tr:hover {background-color:#63626242;}
+</style>
 <body>
-    <h1>Select game to add DLC</h1>
-    <% for(d of data) { %>
-        <div><a href="/add-dlc?name=<%= d.name %> "><%= d.name %> </a></div>
-    <% } %> 
+    <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
+        <%- include("./nav") %>
+          <!--end of nav-->
+
+    <div class="text-4xl text-center p-6 font-semibold">Select game to add DLC</div>
+    <div class="text-l text-center p-6">Sort by : </div>
+    <table style="width:70%">
+        <thead>
+            <tr class="bg-gray-800 bg-opacity-75">
+              <th>GAME IMAGE</th>
+              <th>GAME TITLE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(d of data) { %>
+                <tr>
+                    <td style="width: 30%"><a href="/add-dlc?name=<%= d.name %> "><img src="/img/games/<%= d.image %> " class="object-scale-down pl-36 h-20"></a></td>
+                    <td style="width: 40%"><a href="/add-dlc?name=<%= d.name %> " class="hover:text-blue-300"><%= d.name %> </a></td>
+                </tr>
+            <% } %> 
+           </tbody>
+    </table>
+
+    <!--end of Content-->
+    <div class="pt-28">
+        <%- include ("./footer") %> 
+    </div>
+
+    <!--end of footer-->
 </body>
 </html>
