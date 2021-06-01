@@ -410,27 +410,56 @@ app.get("/dlcinfo", (request, response) => {
   })
 })
 
-app.get("/userinfo-edit", (request, response) => {
-  var form = request.body
+app.all("/userinfo-edit", (request, response) => {
+  if (request.method == "GET"){
+    var sessionUsername = request.session.username
+    User.findOne({username :{$eq:sessionUsername}}).exec((err,doc)=>{
+    response.render("userinfo-edit",{data:doc})
+    console.log(sessionUsername)
+    console.log(doc)
+  })
+} else if(request.method == "POST"){
+    var sessionUsername = request.session.username
+    var form = request.body
+    var data = {
+      username: form.username,
+      password: form.password,
+      fName: form.fname,
+      lName: form.lname,
+      gender: form.gender,
+      dob: form.dob,
+      email: form.email,
+      tel: form.tel,
+    }
+    console.log(data)
+    User.findOneAndUpdate({username :{$eq:sessionUsername}},data, {
+      useFindAndModify : false,
+    }).exec((err)=>response.redirect("userinfo"))
+  }
+})
+app.all("/publisherinfo-edit", (request, response) => {
+  if (request.method == "GET"){
+    var sessionUsername = request.session.username
+    console.log(sessionUsername)
+    Publisher.find({username :{$eq:sessionUsername}}).exec((err,doc)=>{
+      console.log(doc)
+      response.render("publisherinfo-edit",{data:doc[0]})
+  })
+}else if(request.method == "POST"){
   var sessionUsername = request.session.username
+  var form = request.body
   var data = {
     username: form.username,
     password: form.password,
-    fName: form.fname,
-    lName: form.lname,
-    gender: form.gender,
-    dob: form.dob,
-    email: form.email,
+    publisherName : form.publishername,
+    email : form.email,
     tel: form.tel,
   }
-  User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
-    useFindAndModify: false,
-  }).exec((err, doc) => {
-    if (err) {
-      response.send(err)
-    }
-    response.render("userinfo-edit", doc[0])
-  })
+  console.log(data)
+  Publisher.findOneAndUpdate({username :{$eq:sessionUsername}},data, {
+    useFindAndModify : false,
+  }).exec((err)=>response.redirect("publisherinfo"))
+}
 })
 
 // app.get("/publisherinfo-edit", (request, response) => {
@@ -481,3 +510,4 @@ app.all("/buygame", (request, response) => {
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
 })
+

@@ -7,8 +7,19 @@
     <title>Edit</title>
 </head>
 <body>
-    <h1>
-        Edit publisher
-    </h1>
+    <h1>Edit publisher</h1>
+    <form action="/publisherinfo-edit" method="POST">
+        <label>Username :</label>
+        <input type="text" name="username" value= <%= data.username %> required><br><br>
+        <label>Password :</label>
+        <input type="password" name="password"value= <%= data.password %> required><br><br>
+        <label>PublisherName: </label>
+        <input type="text" name="publishername" value= <%= data.publisherName%> required><br><br>
+        <label>Email :</label>
+        <input type="text" name="email" value= <%= data.email %> required><br><br>
+        <label>Tel :</label>
+        <input type="text" name="tel" value= <%= data.tel %> required><br><br>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
