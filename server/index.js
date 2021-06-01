@@ -310,6 +310,8 @@ app.all("/add-dlc", (request, response) => {
                       response.render("add-dlc_success")
                     }
                   })
+                } else {
+                  response.render(`This DLC name already exists!`)
                 }
               })
             }
