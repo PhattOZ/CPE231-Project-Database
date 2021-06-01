@@ -427,7 +427,7 @@ app.get("/userinfo-edit", (request, response) => {
     useFindAndModify: false,
   }).exec((err, doc) => {
     if (err) {
-      console.log("Something wrong")
+      response.send(err)
     }
     response.render("userinfo-edit", doc[0])
   })
@@ -461,5 +461,3 @@ app.get("/addgame_success", (request, response) => {
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
 })
-
-
