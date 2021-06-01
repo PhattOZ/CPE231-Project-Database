@@ -63,5 +63,20 @@
 /* tags in add game */
 
 .tag {
-  @apply bg-white text-indigo-600 border-2 p-1 px-2 my-1 rounded-full transition-colors duration-100 hover:bg-red-600 hover:text-white;
+  @apply bg-white text-indigo-600 border-2 p-1 px-2 rounded-full cursor-pointer transition-colors duration-100 hover:bg-red-600 hover:text-white;
+}
+
+@keyframes input-expand {
+  from {
+    max-width: 2rem;
+  }
+  to {
+    max-width: 12rem;
+  }
+}
+
+#tag-container input {
+  animation-name: input-expand;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
 }

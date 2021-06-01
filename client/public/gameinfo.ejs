@@ -50,6 +50,11 @@
         <div class="text-l pt-6 px-20 bg-gray-800 bg-opacity-75">Price : <span class="text-xl"><%= data.price %> Bath (THB)</span></div>
         <div class="text-l py-6 px-20 bg-gray-800 bg-opacity-75">Downloaded : <span class="text-xl"><%= data.downloaded %> Download</span></div>
     <!--end of Game information-->
+    <!--List DLC of this game-->
+    <div>DLC list</div>
+    <% for(d of data.dlc) { %>
+        <a href="/dlcinfo?gamename=<%= data.name %>&dlcname=<%= d.dlcname %> "><%= d.dlcname %> </a><br>
+    <% } %> 
     <%- include ("./footer") %> 
 </body>
 

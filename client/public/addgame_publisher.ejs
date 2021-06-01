@@ -34,10 +34,15 @@
                     <option value="Strategy">
                 </datalist>
             </div> -->
-            <div class=" border-2 w-3/5 p-1 flex flex-wrap" id="tag-container">
-                <div class=" rounded-full bg-white text-indigo-600 font-normal text-xl p-1 px-3.5 my-1"
-                    onclick="enableInput()">+</div>
-                <input type="text" class=" flex-1  p-1 px-2 outline-none" onkeyup="filterSearch()" disabled>
+            <div>Category:</div>
+            <div class=" w-2/5 p-1 flex flex-wrap gap-1" id="tag-container">
+                <div class=" rounded-full bg-white text-indigo-600 font-normal text-xl p-1 px-3.5 cursor-pointer transition-colors duration-100 hover:bg-yellow-500"
+                    onclick="enableInput()" id="plus-sign">+</div>
+                <input type="text"
+                    class=" flex-1 bg-white text-black p-1 px-2 outline-none transition-transform duration-1000 hidden"
+                    onkeyup="filterSearch()">
+                <!-- search goes here-->
+                <ul></ul>
             </div>
         </div>
         <label>Description : </label><br><textarea cols='50' rows='5' name="description" placeholder="Game description"
@@ -102,6 +107,7 @@
     <!-- end of content -->
 
     <script src="scripts/tags.js"></script>
+    <script src="scripts/filterSearch.js"></script>
 </body>
 
 </html>

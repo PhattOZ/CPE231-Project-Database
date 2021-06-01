@@ -226,9 +226,11 @@ app.all("/add-game", (request, response) => {
                   { $push: { added_game: gamename_addDate } }
                 ).exec((err, doc) => {
                   if (!err) {
-                    response.send("addgame_success") 
+                    response.send("addgame_success")
                   }
                 })
+              } else {
+                response.send(`This game name already exists!`)
               }
             })
           } else {
@@ -261,6 +263,7 @@ app.all("/add-dlc", (request, response) => {
       var form = new formidable.IncomingForm()
       form.parse(request, (err, fields, files) => {
         if (fields.dlcname && fields.price && files.imgfile && !err) {
+          //Publisher submit DLC data in form
           let upfile = files.imgfile //อ้างอิงถึง Tag input ที่ชื่อ imgfile ใน index.ejs
           let dir = "../client/public/img/dlc/" //ตำแหน่งที่จะเก็บไฟล์รูป
           let imgName = upfile.name
@@ -279,7 +282,8 @@ app.all("/add-dlc", (request, response) => {
           let date = new Date()
           let day = date.toLocaleDateString() //get current dd/mm/yy as string
           let data = {
-            dlcname: fields.name,
+            //data for dlc in game schema
+            dlcname: fields.dlcname,
             publisherName: fields.publishername,
             developerName: fields.developername,
             releaseDate: day,
@@ -287,6 +291,32 @@ app.all("/add-dlc", (request, response) => {
             downloaded: 0,
             image: imgName,
           }
+          fs.writeFile(newPath, rawData, (err) => {
+            if (!err) {
+              //Add DLC data to dlc in game schema
+              Game.findOneAndUpdate(
+                { name: { $eq: query } },
+                { $push: { dlc: data } }
+              ).exec((err) => {
+                if (!err) {
+                  var dlc_data_publisher = {
+                    gamename: query,
+                    dlcname: fields.dlcname,
+                    image: imgName,
+                    date: day,
+                  }
+                  Publisher.findOneAndUpdate(
+                    { username: { $eq: usernameSession } },
+                    { $push: { added_dlc: dlc_data_publisher } }
+                  ).exec((err) => {
+                    if (!err) {
+                      response.send(`Add DLC Success!`)
+                    }
+                  })
+                }
+              })
+            }
+          })
         } else {
           Publisher.find({ username: { $eq: usernameSession } }).exec(
             (err, doc) => {
@@ -294,12 +324,12 @@ app.all("/add-dlc", (request, response) => {
               response.render("add-dlc_form", {
                 username: usernameSession,
                 publishername: publisherName,
+                gamename: query,
               })
             }
           )
         }
       })
-      response.send(`${query}`)
     } else {
       Publisher.find({ username: { $eq: usernameSession } }).exec(
         (err, doc) => {
@@ -311,22 +341,22 @@ app.all("/add-dlc", (request, response) => {
   }
 })
 
-app.get("/history-publisher", (request, respone) => {
-  var usernameSession = request.session.username
-  var roleSession = request.session.role
-  if (roleSession != "publisher") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
-  } else {
-    Publisher.find({ username: { $eq: usernameSession } }).exec((err, doc) => {
-      var data = doc[0].added_game
-      respone.render("history_publisher", {
-        data: data,
-        username: usernameSession,
-        role: roleSession,
-      })
-    })
-  }
-})
+// app.get("/history-publisher", (request, respone) => {
+//   var usernameSession = request.session.username
+//   var roleSession = request.session.role
+//   if (roleSession != "publisher") {
+//     response.redirect("/login") //role isn't publisher -> redirect to login page
+//   } else {
+//     Publisher.find({ username: { $eq: usernameSession } }).exec((err, doc) => {
+//       var data = doc[0].added_game
+//       respone.render("history_publisher", {
+//         data: data,
+//         username: usernameSession,
+//         role: roleSession,
+//       })
+//     })
+//   }
+// })
 
 app.all("/register", (request, response) => {
   var form = request.body
@@ -366,73 +396,49 @@ app.get("/gameinfo", (request, response) => {
   })
 })
 
-app.all("/userinfo-edit", (request, response) => {
-  if(request.method == "GET"){
-    var sessionUsername = request.session.username 
-    console.log(sessionUsername)
-    User.findOne({username: { $eq :sessionUsername}}).exec((err,doc)=>{
-      console.log(doc)
-      response.render("userinfo-edit",{data: doc})
-    })
-  }else if(request.method == "POST"){
-    var form = request.body
-    var sessionUsername = request.session.username 
-    var data =  {
-      username : form.username,
-      password : form.password,
-      fName : form.fname,
-      lName : form.lname,
-      gender : form.gender,
-      dob : form.dob,
-      email : form.email,
-      tel : form.tel,
+app.get("/dlcinfo", (request, response) => {
+  var gamenamequery = request.query.gamename //game name
+  var dlcnamequery = request.query.dlcname //dlc name
+  Game.find({ name: { $eq: gamenamequery } }).exec((err, doc) => {
+    if (!err) {
+      for (data of doc[0].dlc) {
+        if (data.dlcname == dlcnamequery) {
+          response.render("dlcinfo", { gamename: gamenamequery, data: data })
+        }
+      }
     }
-    console.log(data)
-    User.findOneAndUpdate({username: { $eq :sessionUsername}},data,{useFindAndModify:false}).exec((err) => 
-    response.redirect("userinfo"))
-  }
+  })
 })
 
-app.all("/publisherinfo-edit",(request,response)=>{
-  if(request.method == "GET"){
-    var sessionUsername = request.session.username
-    console.log(sessionUsername)
-    Publisher.findOne({username : {$eq : usernameSession}}).exec((err,doc)=>{
-     console.log(doc)
-     response.render("publisherinfo-edit",{data : doc})
-    })
+app.get("/userinfo-edit", (request, response) => {
+  var form = request.body
+  var sessionUsername = request.session.username
+  var data = {
+    username: form.username,
+    password: form.password,
+    fName: form.fname,
+    lName: form.lname,
+    gender: form.gender,
+    dob: form.dob,
+    email: form.email,
+    tel: form.tel,
   }
-  else if(request.method == "POST"){
-    var form = request.body
-    var sessionUsername = request.session.username 
-    var data =  {
-      username : form.username,
-      password : form.password,
-      publishername : form.publisherName,
-      email : form.email,
-      tel : form.tel,
+  User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
+    useFindAndModify: false,
+  }).exec((err, doc) => {
+    if (err) {
+      console.log("Something wrong")
     }
-    console.log(data)
-    Publisher.findOneAndUpdate({username: { $eq :sessionUsername}},data,{useFindAndModify:false}).exec((err) => 
-    response.redirect("publisherinfo"))
-  }
+    response.render("userinfo-edit", doc[0])
+  })
 })
 
-
-
-
-
-
-
+app.get("/addgame_success", (request, response) => {
+  response.render("addgame_success")
+})
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
 })
 
-var data = {
-  username      : form.username,
-  password      : form.password,
-  publishername : form.publisherName,
-  email         : form.email,
-  tel           : form.tel,
-}
+
