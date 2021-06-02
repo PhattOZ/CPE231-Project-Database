@@ -349,34 +349,49 @@ app.all("/addfriend", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   var form = new formidable.IncomingForm() //read all user input in form
-  form.parse(request, (err, fields) => {
-    if (fields.friends && !err) {
-      let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
-      var data = { friends: array_friends,}
-      User.findOneAndUpdate(
-        { username: { $eq: usernameSession } },
-        { $push: { friends: data } }).exec((err) => {
-        if (!err) {
-          response.send("friends success", {
-            username: usernameSession,
-            role: roleSession,
-          })
-        }
-        else {
-          response.send(`Add error`)
-        }
-      })
-    } 
-    else {
-      User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>
-        User.find({username : {$nin : uname.friends}}).exec((docs) =>
-        response.render("addfriend_user", {
-          data: docs
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    form.parse(request, (err, fields) => {
+      if (fields.friends && !err) {
+        let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
+        User.findOneAndUpdate(
+          { username: { $eq: usernameSession } },
+          { $addToSet: { friends: {$each: array_friends} } }).exec((err) => {
+          if (!err) {
+            console.log(`Add friends success`)
+            response.send("friends success", {
+              username: usernameSession,
+              role: roleSession,
+            })
+          }
+          else {
+            console.log(`Add friend error`)
+            response.send(`Add friend error`)
+          }
         })
-        )
-      )
-    }
-  })
+      } 
+      else {
+        User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>{
+          console.log(`findone here 376`)
+          console.log(JSON.stringify(uname, null, 4))
+          User.find({username : {$nin : uname.friends}}).exec((err,docs) =>{
+          console.log(`find here 378`)
+          console.log(JSON.stringify(docs, null, 4))
+          console.log(typeof d.username)
+          for(d of docs){
+            console.log(d.username)
+        }
+        var data = {}
+        data = {
+          name : docs.username
+        }
+          response.render("addfriend_user", {data})
+          })
+        })
+      }
+    })
+  }
 })
 
 // app.get("/history-publisher", (request, respone) => {
