@@ -368,7 +368,7 @@ app.all("/addfriend", (request, response) => {
   } else {
     form.parse(request, (err, fields) => {
       if (fields.friends && !err) {
-        console.log('In Here Woo')
+        console.log("In Here Woo")
         console.log(fields.friends)
         response.send(`Add friend 55`)
         /*let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
@@ -387,26 +387,29 @@ app.all("/addfriend", (request, response) => {
             response.send(`Add friend error`)
           }
         })*/
-      } 
-      else {
-        User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>{
-          var friendname = []
-          /*console.log(`findone here 376`)
+      } else {
+        User.findOne({ username: { $eq: usernameSession } }).exec(
+          (err, uname) => {
+            var friendname = []
+            /*console.log(`findone here 376`)
           console.log(uname)*/
-          User.find({$and: [
-            {username : {$nin : uname.friends}},
-            {username : {$ne : uname.username}}
-          ]}).exec((err,docs) =>{
+            User.find({
+              $and: [
+                { username: { $nin: uname.friends } },
+                { username: { $ne: uname.username } },
+              ],
+            }).exec((err, docs) => {
               /*console.log(`find here 378`)
               console.log(docs)
               console.log(`forasdasdasdasdasd`)*/
-              for(d of docs){
+              for (d of docs) {
                 friendname.push(d.username)
               }
               console.log(friendname)
-              response.render("addfriend_user", {data : docs})
-          })
-        })
+              response.render("addfriend_user", { data: docs })
+            })
+          }
+        )
       }
     })
   }
@@ -542,21 +545,37 @@ app.get("/store", (request, response) => {
   var roleSession = request.session.role
   var sort_order = request.query.order //sort order (ascending || descending)
   var sort_query = request.query.sort //sort by (name || downloaded || price)
-  sort_query = sort_order == "ascending" ? sort_query : "-" + sort_query
-  Game.find({})
-    .sort(sort_query)
-    .exec((err, doc) => {
-      if (!err) {
-        response.render("store", {
-          data: doc,
-          sort: sort_query,
-          username: usernameSession,
-          role: roleSession,
-        })
-      } else {
-        response.send(err)
-      }
-    })
+  if (sort_order == "ascending") {
+    Game.find({})
+      .sort(sort_query)
+      .exec((err, doc) => {
+        if (!err) {
+          response.render("store", {
+            data: doc,
+            sort: sort_query,
+            username: usernameSession,
+            role: roleSession,
+          })
+        } else {
+          response.send(err)
+        }
+      })
+  } else if (sort_order == "descending") {
+    Game.find({})
+      .sort("-" + sort_query)
+      .exec((err, doc) => {
+        if (!err) {
+          response.render("store", {
+            data: doc,
+            sort: sort_query,
+            username: usernameSession,
+            role: roleSession,
+          })
+        } else {
+          response.send(err)
+        }
+      })
+  }
 })
 
 app.all("/buygame", (request, response) => {
