@@ -607,11 +607,16 @@ app.all("/buygame", (request, response) => {
 })
 
 app.all("/search", (request, response) => {
-  var gamename = request.body.searchGame
-  console.log(gamename)
-  Game.find({
-    Name: { $regex: gamename, $options: "i" },
-  }).exec((err, doc) => response.render("search"), { data: doc })
+    
+  if (request.method == "GET"){
+    var gamename = request.body.searchGame
+    console.log(gamename)
+    Game.find({
+      name: { $regex : gamename, $options: "i" }
+    }).exec((err, doc) => response.render("search",{data: doc}))
+  }else if (request.method == "POST"){
+    
+  }
 })
 
 app.listen(3000, () => {
