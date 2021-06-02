@@ -520,6 +520,26 @@ app.all("/publisherinfo-edit", (request, response) => {
   }
 })
 
+app.get("/store", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var sort_query = request.query.sort
+  Game.find({})
+    .sort(sort_query)
+    .exec((err, doc) => {
+      if (!err) {
+        response.render("store", {
+          data: doc,
+          sort: sort_query,
+          username: usernameSession,
+          role: roleSession,
+        })
+      } else {
+        response.send(err)
+      }
+    })
+})
+
 app.all("/buygame", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
@@ -537,15 +557,13 @@ app.all("/buygame", (request, response) => {
   }
 })
 
-app.all("/search",(request,response)=>{
-  var gamename = request.body.searchGame 
+app.all("/search", (request, response) => {
+  var gamename = request.body.searchGame
   console.log(gamename)
   Game.find({
-    Name: {$regex: gamename,$options:"i"}
-  }).exec((err,doc) => response.render("search"),{data : doc})
+    Name: { $regex: gamename, $options: "i" },
+  }).exec((err, doc) => response.render("search"), { data: doc })
 })
-
-
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
