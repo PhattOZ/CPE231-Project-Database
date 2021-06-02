@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
@@ -17,12 +19,12 @@ module.exports = {
           black: "#072234",
           blackest: "#041F30",
         },
+        fuchsia: colors.fuchsia,
       },
     },
   },
   variants: {
-    extend: {animation: ['motion-safe'],
-    backgroundColor: ['active']},
+    extend: { animation: ["motion-safe"], backgroundColor: ["active"] },
   },
   plugins: [],
 };
