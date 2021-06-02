@@ -368,40 +368,44 @@ app.all("/addfriend", (request, response) => {
   } else {
     form.parse(request, (err, fields) => {
       if (fields.friends && !err) {
-        console.log("In Here Woo")
-        console.log(fields.friends)
-        response.send(`Add friend 55`)
-        /*let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
+        let array_friends = fields.friends.split(",") //split "friend1,friend2,..."" to array : ["friend1", "friend2"]
+        //Update in User
         User.findOneAndUpdate(
           { username: { $eq: usernameSession } },
           { $push: { friends: array_friends} }).exec((err) => {
           if (!err) {
-            console.log(`Add friends success`)
-            response.send("friends success", {
-              username: usernameSession,
-              role: roleSession,
-            })
+            //Update in Friend
+            User.updateOne(
+              { username: { $in: array_friends }/*{ $in: array_friends }*/ },
+              { $push: { friends: usernameSession} }).exec((err) => {
+                if (!err) {
+                  console.log(`Add friends success`)
+                  response.render("addfriend_success", {
+                    username: usernameSession,
+                    role: roleSession,
+                  })
+                }
+                else{
+                  console.log(`Add friend error`)
+                  response.send(`Add friend error`)
+                }
+              })
           }
           else {
             console.log(`Add friend error`)
             response.send(`Add friend error`)
           }
-        })*/
+        })
       } else {
         User.findOne({ username: { $eq: usernameSession } }).exec(
           (err, uname) => {
             var friendname = []
-            /*console.log(`findone here 376`)
-          console.log(uname)*/
             User.find({
               $and: [
                 { username: { $nin: uname.friends } },
                 { username: { $ne: uname.username } },
               ],
             }).exec((err, docs) => {
-              /*console.log(`find here 378`)
-              console.log(docs)
-              console.log(`forasdasdasdasdasd`)*/
               for (d of docs) {
                 friendname.push(d.username)
               }
