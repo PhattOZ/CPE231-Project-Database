@@ -345,6 +345,40 @@ app.all("/add-dlc", (request, response) => {
   }
 })
 
+app.all("/addfriend", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var form = new formidable.IncomingForm() //read all user input in form
+  form.parse(request, (err, fields) => {
+    if (fields.friends && !err) {
+      let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
+      var data = { friends: array_friends,}
+      User.findOneAndUpdate(
+        { username: { $eq: usernameSession } },
+        { $push: { friends: data } }).exec((err) => {
+        if (!err) {
+          response.send("friends success", {
+            username: usernameSession,
+            role: roleSession,
+          })
+        }
+        else {
+          response.send(`Add error`)
+        }
+      })
+    } 
+    else {
+      User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>
+        User.find({username : {$nin : uname.friends}}).exec((docs) =>
+        response.render("addfriend_user", {
+          data: docs
+        })
+        )
+      )
+    }
+  })
+})
+
 // app.get("/history-publisher", (request, respone) => {
 //   var usernameSession = request.session.username
 //   var roleSession = request.session.role
