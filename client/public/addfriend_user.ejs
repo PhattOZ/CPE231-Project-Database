@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./compiled.css" />
+    <title>Add Friends</title>
+</head>
+
+<body class="bg-cyan-black text-white font-kanit font-light h-screen">
+    <%- include("./nav_publisher.ejs") %>
+    <!--end of nav-->
+    <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Add friend
+    </div>
+    <form action="/addfriend" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
+            <div>Friend Name:</div>
+        <div class="py-6">
+            <button type="submit" class="
+            border-2 border-cyan-lightest
+            text-cyan-lightest
+            rounded-md
+            shadow
+            inline-block
+            transition-colors
+            duration-100
+            bg-transparent
+            hover:text-white
+            hover:bg-cyan-lightest
+            cursor-pointer
+            px-2
+            ">SUMMIT</button>
+        </div>
+    </form>
+    <%- include ("./footer") %>
+
+    <!-- end of content -->
+
+
+
+    <script src="scripts/tagsWithFilterSearch.js"></script>
+</body>
+
+</html>
