@@ -1,36 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="compiled.css">
+    <title>Edit profile</title>
 </head>
-<body>
-    <h1>edit</h1>
-    <form action="/userinfo-edit" method="POST">
-        <label>Username :</label>
-        <input type="text" name="username" value= <%= data.username %> required><br><br>
-        <label>Password :</label>
-        <input type="password" name="password"value= <%= data.password %> required><br><br>
-        <label>Firstname :</label>
-        <input type="text" name="fname"value= <%= data.fName %> required><br><br>
-        <label>Lastname :</label>
-        <input type="text" name="lname" value= <%= data.lName %> required><br><br>
-        <label>Gender :</label>
-        <input type="radio"  name="gender" value= <%= data.gender %>>
-        <label for="male">Male</label>
-        <input type="radio"  name="gender" value= <%= data.gender %>>
-        <label for="female">Female</label>
-        <input type="radio"  name="gender" value= <%= data.gender %>>
-        <label for="other">Other</label><br><br>
-        <label>Date of birth : </label>
-        <input type="date" name="dob" value = <%= data.dob%> required/><br><br>
-        <label>Email :</label>
-        <input type="text" name="email" value= <%= data.email %> required><br><br>
-        <label>Tel :</label>
-        <input type="text" name="tel"value= <%= data.tel %> required><br><br>
-        <input type="submit" value="Submit">
+
+<body class="
+font-kanit font-light
+bg-gradient-to-tr
+from-indigo-900
+via-cyan-blackest
+to-cyan-blackest 
+text-white h-screen">
+    <!--Import navigation bar-->
+    <%- include("./nav") %>
+
+    <div class="text-3xl p-3 flex justify-center">Edit profile</div>
+    <form action="/userinfo-edit" method="POST" class="text-black flex space-x-12 justify-center">
+        <div>
+            <div>Username :</div>
+            <input class=" rounded border-2 bg-gradient-to-r from-white to-indigo-500" type="text" name="username"
+                value=<%= data.username %> required><br><br>
+            <div>Password :</div>
+            <input type="password" name="password" value=<%= data.password %> required><br><br>
+            <div>Email :</div>
+            <input type="text" name="email" value=<%= data.email %> required><br><br>
+            <div>Tel :</div>
+            <input type="text" name="tel" value=<%= data.tel %> required><br><br>
+        </div>
+        <div>
+            <div>Firstname :</div>
+            <input type="text" name="fname" value=<%= data.fName %> required><br><br>
+            <div>Lastname :</div>
+            <input type="text" name="lname" value=<%= data.lName %> required><br><br>
+            <div>Gender :</div>
+            <input type="radio" name="gender" value=<%= data.gender %>>
+            <label for="male">Male</label>
+            <input type="radio" name="gender" value=<%= data.gender %>>
+            <label for="female">Female</label>
+            <input type="radio" name="gender" value=<%= data.gender %>>
+            <label for="other">Other</label><br><br>
+            <div>Date of birth : </div>
+            <input type="date" name="dob" value=<%= data.dob%> required /><br><br>
+            <input type="submit" value="Submit">
+        </div>
     </form>
+
+    <%- include("./footer")  %>
 </body>
+
 </html>
