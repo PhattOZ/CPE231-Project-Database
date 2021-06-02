@@ -362,12 +362,11 @@ app.all("/add-dlc", (request, response) => {
 app.all("/addfriend", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
-  var form = new formidable.IncomingForm() //read all user input in form
+  var form = request.body
   if (roleSession != "user") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    form.parse(request, (err, fields) => {
-      if (fields.friends && !err) {
+      if (form.friendL) {
         let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
         User.findOneAndUpdate(
           { username: { $eq: usernameSession } },
@@ -387,24 +386,24 @@ app.all("/addfriend", (request, response) => {
       } 
       else {
         User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>{
+          var friendname = []
           console.log(`findone here 376`)
-          console.log(JSON.stringify(uname, null, 4))
-          User.find({username : {$nin : uname.friends}}).exec((err,docs) =>{
-          console.log(`find here 378`)
-          console.log(JSON.stringify(docs, null, 4))
-          console.log(typeof d.username)
-          for(d of docs){
-            console.log(d.username)
-        }
-        var data = {}
-        data = {
-          name : docs.username
-        }
-          response.render("addfriend_user", {data})
+          console.log(uname)
+          User.find({$and: [
+            {username : {$nin : uname.friends}},
+            {username : {$ne : uname.username}}
+          ]}).exec((err,docs) =>{
+              /*console.log(`find here 378`)
+              console.log(docs)
+              console.log(`forasdasdasdasdasd`)*/
+              for(d of docs){
+                friendname.push(d.username)
+              }
+              console.log(friendname)
+              response.render("addfriend_user", {data : docs})
           })
         })
       }
-    })
   }
 })
 

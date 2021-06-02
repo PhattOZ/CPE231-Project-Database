@@ -16,16 +16,21 @@
     </div>
     <form action="/addfriend" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
             <div>Friend Name:</div>
-            <% for(d of data.name) { %>
-                <div><%= d.name %></div>
+            <% 
+            var friendlist = ""
+            for(d of data) { 
+                friendlist += d.username + ","
+             %> 
+                <div><%= d.username %> </div>
             <% } %> 
+            <div><%= friendlist %></div>
             <div class=" w-3/5 p-1 m-1 flex flex-wrap gap-1" id="tag-container">
                 <div class=" rounded-full bg-white text-indigo-700 font-normal text-xl p-1 px-3.5 cursor-pointer transition-colors duration-100 hover:bg-indigo-700 hover:text-white"
                     onclick="enableInput()" id="plus-sign">+</div>
                 <div class="relative">
                     <input type="text" class=" flex-1 bg-white text-black p-1.5 px-2 outline-none rounded-full hidden"
                         onkeyup="filterSearch()">
-                    <!-- search goes here-->
+                        <!-- search goes here-->
                     <ul class="myUl absolute w-48 bg-white text-black hidden">
 
                     </ul>
@@ -51,12 +56,10 @@
         </div>
     </form>
     <%- include ("./footer") %>
+    <script>const availableTags = "<%= friendlist%>".split(",");
 
-    <!-- end of content -->
-    <script> const availableTags = [asd,asdasd,asdasdasd];
     </script>
-
-    <script src="scripts/tagsWithFilterSearch_custom.js"></script>
+    <script src="scripts/tagsWithFilterSearch_friend.js"></script>
 </body>
 
 </html>

@@ -137,7 +137,7 @@ function handleSubmit() {
   const parser = document.querySelector("#submit-parser");
   const categoryArray = document.createElement("input");
   categoryArray.setAttribute("type", "hidden");
-  categoryArray.setAttribute("name", "category");
+  categoryArray.setAttribute("name", "friendL");//Name 
   categoryArray.setAttribute("value", tags);
 
   parser.innerHTML = "";
