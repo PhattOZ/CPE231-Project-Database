@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
   dob: String,
   email: String,
   tel: String,
+  money: Number,
   useritem: {
     game: Array,
     dlc: Array,

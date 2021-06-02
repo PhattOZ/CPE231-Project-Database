@@ -10,7 +10,6 @@ const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
-const { request, response } = require("express")
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -346,6 +345,40 @@ app.all("/add-dlc", (request, response) => {
   }
 })
 
+app.all("/addfriend", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var form = new formidable.IncomingForm() //read all user input in form
+  form.parse(request, (err, fields) => {
+    if (fields.friends && !err) {
+      let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
+      var data = { friends: array_friends,}
+      User.findOneAndUpdate(
+        { username: { $eq: usernameSession } },
+        { $push: { friends: data } }).exec((err) => {
+        if (!err) {
+          response.send("friends success", {
+            username: usernameSession,
+            role: roleSession,
+          })
+        }
+        else {
+          response.send(`Add error`)
+        }
+      })
+    } 
+    else {
+      User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>
+        User.find({username : {$nin : uname.friends}}).exec((docs) =>
+        response.render("addfriend_user", {
+          data: docs
+        })
+        )
+      )
+    }
+  })
+})
+
 // app.get("/history-publisher", (request, respone) => {
 //   var usernameSession = request.session.username
 //   var roleSession = request.session.role
@@ -470,12 +503,11 @@ app.all("/buygame", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
-    response.redirect("login")
+    response.redirect("login") //if role isn't 'user' role -> can't buy game -> redirect to login page
   } else {
     var gamename_query = request.query.gamename
     if (request.method == "GET") {
       Game.find({ name: { $eq: gamename_query } }).exec((err, doc) => {
-        console.log(doc[0])
         response.render("buygame", { data: doc[0] })
       })
     } else if (request.method == "POST") {
@@ -484,27 +516,15 @@ app.all("/buygame", (request, response) => {
   }
 })
 
-app.get("/store", (request, response) => {
-  var usernameSession = request.session.username
-  var roleSession = request.session.role
-  var sort_query = request.query.sort
-  Game.find({})
-    .sort(sort_query)
-    .exec((err, doc) => {
-      if (!err) {
-        response.render("store", {
-          data: doc,
-          sort: sort_query,
-          username: usernameSession,
-          role: roleSession,
-        })
-      } else {
-        response.send(err)
-      }
-    })
+app.all("/search",(request,response)=>{
+  var gamename = request.body.searchGame 
+  console.log(gamename)
+  Game.find({
+    Name: {$regex: gamename,$options:"i"}
+  }).exec((err,doc) => response.render("search"),{data : doc})
 })
 
-app.all("/search", (request, response) => {})
+
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")
