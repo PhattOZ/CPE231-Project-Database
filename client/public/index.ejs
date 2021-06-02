@@ -20,13 +20,12 @@
   <div class="flex">
     <div class="w-1/6 bg-cyan-blackest text-gray-300">
       <ul class="px-3">
-        <li>
-          <h6 class="uppercase tracking-wide text-xl">Sort by</h6>
-          <a href="/store?sort=name" class="block hover:text-white px-4">Game Name </a>
-          <a href="/store?sort=downloaded" class="block hover:text-white px-4">Download </a>
-          <a href="/store?sort=price" class="block hover:text-white px-4">Price</a>
+        <li class="space-y-1">
+          <h6 class="uppercase tracking-wide text-xl pb-1">Sort by</h6>
+          <a href="/store?sort=name" class="block hover:text-white px-4">name </a>
+          <a href="/store?sort=downloaded" class="block hover:text-white px-4">download </a>
+          <a href="/store?sort=price" class="block hover:text-white px-4">price</a>
         </li>
-        <li></li>
       </ul>
     </div>
     <!--end of sidebar-->
@@ -137,8 +136,7 @@
         pb-3
       ">
     <div class="w-5/6 px-4 flex">
-      <div class="bg-cyan-lightblack w-2/3 mt-3 shadow-mdtab-tab">
-        <div class="flex justify-end py-2">Sort by: Date added (newest)</div>
+      <div class="bg-cyan-lightblack w-2/3 mt-3 shadow-md">
         <div id="trending" class="tab-content">
           <!-- sort by dated add -->
           <% 

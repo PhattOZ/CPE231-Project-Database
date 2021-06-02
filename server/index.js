@@ -10,6 +10,7 @@ const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
+const AccountRole = require("./model").AccountRole
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -36,55 +37,68 @@ app.get("/", (request, response) => {
   })
 })
 
-app.get("/signup", (request, respone) => {
-  respone.render("signup")
-})
-
 app.get("/about", (request, respone) => {
   var usernameSession = request.session.username
   respone.render("about", { username: usernameSession })
 })
 
+async function findRoleAccount(username) {
+  try {
+    var account = await AccountRole.findOne({ username: { $eq: username } })
+    var role = account.role
+    return role
+  } catch (err) {
+    //handle promise error (this username not in AccountRole schema)
+    return undefined
+  }
+}
+
 app.all("/login", (request, response) => {
   var username = request.body.username
   var password = request.body.password
-  var role = request.body.role
-  if (username && password && role) {
-    if (role == "user") {
-      User.find({
-        $and: [
-          { username: { $eq: username } },
-          { password: { $eq: password } },
-        ],
-      }).exec((err, doc) => {
-        if (doc.length > 0) {
-          //username & password are in database
-          request.session.username = doc[0].username
-          request.session.role = "user"
-          response.redirect("/")
-        } else {
-          response.render("login", { logined: true, success: false })
-        }
-      })
-    } else if (role == "publisher") {
-      Publisher.find({
-        $and: [
-          { username: { $eq: username } },
-          { password: { $eq: password } },
-        ],
-      }).exec((err, doc) => {
-        if (doc.length > 0) {
-          //username & password are in database
-          request.session.username = doc[0].username
-          request.session.role = "publisher"
-          response.redirect("/")
-        } else {
-          response.render("login", { logined: true, success: false })
-        }
-      })
+  if (username && password) {
+    const checkLogin = async () => {
+      var role = await findRoleAccount(username)
+      if (role == "user") {
+        User.find({
+          $and: [
+            { username: { $eq: username } },
+            { password: { $eq: password } },
+          ],
+        }).exec((err, doc) => {
+          if (doc.length > 0) {
+            //username & password are in database
+            request.session.username = doc[0].username
+            request.session.role = "user"
+            response.redirect("/")
+          } else {
+            response.render("login", { logined: true, success: false }) //this username & password not in database
+          }
+        })
+      } else if (role == "publisher") {
+        Publisher.find({
+          $and: [
+            { username: { $eq: username } },
+            { password: { $eq: password } },
+          ],
+        }).exec((err, doc) => {
+          if (doc.length > 0) {
+            //username & password are in database
+            request.session.username = doc[0].username
+            request.session.role = "publisher"
+            response.redirect("/")
+          } else {
+            response.render("login", { logined: true, success: false }) //this username & password not in database
+          }
+        })
+      } else if (!role) {
+        //role is undefined -> this username not in AccountRole collection
+        response.render("login", { logined: true, success: false }) //this username & password not in database
+      }
     }
+    checkLogin()
   } else {
-    //username & password not in database
+    //first time to /login -> render login page
     response.render("login", { logined: false, success: false })
   }
 })
@@ -349,34 +363,53 @@ app.all("/addfriend", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   var form = new formidable.IncomingForm() //read all user input in form
-  form.parse(request, (err, fields) => {
-    if (fields.friends && !err) {
-      let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
-      var data = { friends: array_friends,}
-      User.findOneAndUpdate(
-        { username: { $eq: usernameSession } },
-        { $push: { friends: data } }).exec((err) => {
-        if (!err) {
-          response.send("friends success", {
-            username: usernameSession,
-            role: roleSession,
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    form.parse(request, (err, fields) => {
+      if (fields.friends && !err) {
+        console.log('In Here Woo')
+        console.log(fields.friends)
+        response.send(`Add friend 55`)
+        /*let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
+        User.findOneAndUpdate(
+          { username: { $eq: usernameSession } },
+          { $push: { friends: array_friends} }).exec((err) => {
+          if (!err) {
+            console.log(`Add friends success`)
+            response.send("friends success", {
+              username: usernameSession,
+              role: roleSession,
+            })
+          }
+          else {
+            console.log(`Add friend error`)
+            response.send(`Add friend error`)
+          }
+        })*/
+      } 
+      else {
+        User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>{
+          var friendname = []
+          /*console.log(`findone here 376`)
+          console.log(uname)*/
+          User.find({$and: [
+            {username : {$nin : uname.friends}},
+            {username : {$ne : uname.username}}
+          ]}).exec((err,docs) =>{
+              /*console.log(`find here 378`)
+              console.log(docs)
+              console.log(`forasdasdasdasdasd`)*/
+              for(d of docs){
+                friendname.push(d.username)
+              }
+              console.log(friendname)
+              response.render("addfriend_user", {data : docs})
           })
-        }
-        else {
-          response.send(`Add error`)
-        }
-      })
-    } 
-    else {
-      User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>
-        User.find({username : {$nin : uname.friends}}).exec((docs) =>
-        response.render("addfriend_user", {
-          data: docs
         })
-        )
-      )
-    }
-  })
+      }
+    })
+  }
 })
 
 // app.get("/history-publisher", (request, respone) => {
@@ -411,9 +444,17 @@ app.all("/register", (request, response) => {
     }
     User.create(data, (err) => {
       if (!err) {
-        response.render("Register_success")
+        var accountData = {
+          username: form.username,
+          role: "user",
+        }
+        AccountRole.create(accountData, (err) => {
+          if (!err) {
+            response.render("Register_success")
+          }
+        })
       } else {
-        response.render("register", { success: false })
+        response.render("register", { success: false }) //This username already exists
       }
     })
   } else {
@@ -467,7 +508,6 @@ app.all("/userinfo-edit", (request, response) => {
       email: form.email,
       tel: form.tel,
     }
-    
     User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
       useFindAndModify: false,
     }).exec((err) => response.redirect("userinfo"))
@@ -479,7 +519,6 @@ app.all("/publisherinfo-edit", (request, response) => {
     var sessionUsername = request.session.username
    
     Publisher.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
-      
       response.render("publisherinfo-edit", { data: doc[0] })
     })
   } else if (request.method == "POST") {
@@ -492,11 +531,32 @@ app.all("/publisherinfo-edit", (request, response) => {
       email: form.email,
       tel: form.tel,
     }
-  
     Publisher.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
       useFindAndModify: false,
     }).exec((err) => response.redirect("publisherinfo"))
   }
+})
+
+app.get("/store", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var sort_order = request.query.order //sort order (ascending || descending)
+  var sort_query = request.query.sort //sort by (name || downloaded || price)
+  sort_query = sort_order == "ascending" ? sort_query : "-" + sort_query
+  Game.find({})
+    .sort(sort_query)
+    .exec((err, doc) => {
+      if (!err) {
+        response.render("store", {
+          data: doc,
+          sort: sort_query,
+          username: usernameSession,
+          role: roleSession,
+        })
+      } else {
+        response.send(err)
+      }
+    })
 })
 
 app.all("/buygame", (request, response) => {
@@ -511,25 +571,25 @@ app.all("/buygame", (request, response) => {
         response.render("buygame", { data: doc[0] })
       })
     } else if (request.method == "POST") {
-      response.send(`BUY`)
+      var dlc_select = request.body.dlcname //get all user's checked dlc in checkbox (Array)
+      Game.aggregate([
+        { $match: { name: { $eq: gamename_query } } },
+        { gameprice: { $sum: price } },
+        { dlcprice: { $sum: "dlc.price" } },
+      ]).exec((err, doc) => {
+        console.log(doc)
+      })
     }
   }
 })
 
-app.all("/search",(request,response)=>{
-  
-  if (request.method == "GET"){
-    var gamename = request.body.searchGame 
-    Game.find({ 
-      name : {$regex: gamename,$options:"i"}})
-    .exec((err,doc) => response.render("search",{data :doc}))
-  }
-  // else if(request.method == "POST"){
-  //   response.send(`Success`)
-  // }
+app.all("/search", (request, response) => {
+  var gamename = request.body.searchGame
+  console.log(gamename)
+  Game.find({
+    Name: { $regex: gamename, $options: "i" },
+  }).exec((err, doc) => response.render("search"), { data: doc })
 })
-
-
 
 app.listen(3000, () => {
   console.log("Server started at : http://localhost:3000")

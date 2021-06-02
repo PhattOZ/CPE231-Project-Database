@@ -75,6 +75,18 @@ const Publisher = mongoose.model("Publisher", publisherSchema)
 // }
 // Publisher.create(data)
 
+const accountRoleSchema = new mongoose.Schema({
+  username: { type: String, unique: true },
+  role: String,
+})
+const AccountRole = mongoose.model("AccountRole", accountRoleSchema)
+
+// var roleData = {
+//   username: "publisher3",
+//   role: "publisher",
+// }
+// AccountRole.create(roleData)
+
 const gameSchema = new mongoose.Schema({
   name: { type: String, require: true, unique: true },
   description: String,
@@ -145,6 +157,7 @@ const Group = mongoose.model("Group", groupSchema)
 module.exports = {
   User,
   Publisher,
+  AccountRole,
   Game,
   Review,
   Transaction,
