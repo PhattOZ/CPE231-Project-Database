@@ -10,7 +10,6 @@ const Transaction = require("./model").Transaction
 const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
-const { request, response } = require("express")
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -470,12 +469,11 @@ app.all("/buygame", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
-    response.redirect("login")
+    response.redirect("login") //if role isn't 'user' role -> can't buy game -> redirect to login page
   } else {
     var gamename_query = request.query.gamename
     if (request.method == "GET") {
       Game.find({ name: { $eq: gamename_query } }).exec((err, doc) => {
-        console.log(doc[0])
         response.render("buygame", { data: doc[0] })
       })
     } else if (request.method == "POST") {
