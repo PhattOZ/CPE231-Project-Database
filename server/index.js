@@ -467,7 +467,7 @@ app.all("/userinfo-edit", (request, response) => {
       email: form.email,
       tel: form.tel,
     }
-    console.log(data)
+    
     User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
       useFindAndModify: false,
     }).exec((err) => response.redirect("userinfo"))
@@ -477,9 +477,9 @@ app.all("/userinfo-edit", (request, response) => {
 app.all("/publisherinfo-edit", (request, response) => {
   if (request.method == "GET") {
     var sessionUsername = request.session.username
-    console.log(sessionUsername)
+   
     Publisher.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
-      console.log(doc)
+      
       response.render("publisherinfo-edit", { data: doc[0] })
     })
   } else if (request.method == "POST") {
@@ -492,7 +492,7 @@ app.all("/publisherinfo-edit", (request, response) => {
       email: form.email,
       tel: form.tel,
     }
-    console.log(data)
+  
     Publisher.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
       useFindAndModify: false,
     }).exec((err) => response.redirect("publisherinfo"))
@@ -517,11 +517,16 @@ app.all("/buygame", (request, response) => {
 })
 
 app.all("/search",(request,response)=>{
-  var gamename = request.body.searchGame 
-  console.log(gamename)
-  Game.find({
-    Name: {$regex: gamename,$options:"i"}
-  }).exec((err,doc) => response.render("search"),{data : doc})
+  
+  if (request.method == "GET"){
+    var gamename = request.body.searchGame 
+    Game.find({ 
+      name : {$regex: gamename,$options:"i"}})
+    .exec((err,doc) => response.render("search",{data :doc}))
+  }
+  // else if(request.method == "POST"){
+  //   response.send(`Success`)
+  // }
 })
 
 
