@@ -8,16 +8,12 @@
 </head>
 <body>
     <h1>Buy Game</h1>
-    <form action="/buygame?gamename=<%= data.name %> " method="POST">
+    <form action="/buygame?gamename=<%= data.name %>" method="POST">
         <div>GAME</div>
         <div><input type="checkbox" name="gamename" checked disabled><label><%= data.name %> : <%= data.price %> THB</label></div>
         <br>
         <div>DLC Bundle</div>
-        <% 
-            var dlc_total = 0
-            for (d of data.dlc) { 
-                dlc_total += d.price
-        %>
+        <% for (d of data.dlc) { %>
             <div><input type="checkbox" name="dlcname" value="<%= d.dlcname %>"><%= d.dlcname %> : <%= d.price %> THB </div>
         <% } %> 
         <br>

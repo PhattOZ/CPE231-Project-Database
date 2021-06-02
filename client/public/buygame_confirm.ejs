@@ -7,6 +7,19 @@
     <title>Confirm transaction</title>
 </head>
 <body>
-    <h1>Confirm your order</h1>
+    <form action="/buygame?gamename=<%= gamedata.name %>&status=confirm" method="POST">
+        <h1>Confirm your order</h1>
+        <div>username : <%= username %></div><br>
+        <div>Game</div>
+        <div>- <%= gamedata.name %> : <%= gamedata.price %> THB </div><br>
+        <div>DLC</div>
+        <% for(d of dlcdata) { %>
+            <div>- <%= d.name %> : <%= d.price %>  </div>
+        <% } %> 
+        <br>
+        <div>Total : <%= totalprice %> THB</div>
+        <button type="submit">CONFIRM</button>
+    </form>
+    
 </body>
 </html>

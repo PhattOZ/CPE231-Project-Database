@@ -520,7 +520,7 @@ app.all("/userinfo-edit", (request, response) => {
 app.all("/publisherinfo-edit", (request, response) => {
   if (request.method == "GET") {
     var sessionUsername = request.session.username
-   
+
     Publisher.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
       response.render("publisherinfo-edit", { data: doc[0] })
     })
@@ -578,7 +578,17 @@ app.get("/store", (request, response) => {
   }
 })
 
+async function gamePrice(gamename) {
+  try {
+    var gamePrice = await Game.findOne({ name: { $eq: gamename } })
+    return gamePrice.price
+  } catch {
+    return undefined
+  }
+}
+
 app.all("/buygame", (request, response) => {
+  var status = request.query.status
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
@@ -589,14 +599,55 @@ app.all("/buygame", (request, response) => {
       Game.find({ name: { $eq: gamename_query } }).exec((err, doc) => {
         response.render("buygame", { data: doc[0] })
       })
-    } else if (request.method == "POST") {
-      var dlc_select = request.body.dlcname //get all user's checked dlc in checkbox (Array)
+    } else if (request.method == "POST" && !status) {
+      var dlc_select = request.body.dlcname //get all user's checked dlc in checkbox (type : Object, separator w/ ,)
+      dlc_select = String(dlc_select) //cast to String : (dlc1,dlc2,...)
+      var dlc_select_list = dlc_select.split(",")
       Game.aggregate([
-        { $match: { name: { $eq: gamename_query } } },
-        { gameprice: { $sum: price } },
-        { dlcprice: { $sum: "dlc.price" } },
+        { $match: { name: { $eq: gamename_query } } }, //filter document
+        {
+          $project: {
+            dlc: {
+              $filter: {
+                input: "$dlc",
+                as: "dlc",
+                cond: { $in: ["$$dlc.dlcname", dlc_select_list] },
+              },
+            },
+          },
+        },
       ]).exec((err, doc) => {
-        console.log(doc)
+        if (!err) {
+          const confirm = async () => {
+            var gamename = gamename_query
+            var gameprice = await gamePrice(gamename)
+
+            var gameData = {
+              name: gamename,
+              price: gameprice,
+            }
+            var totalPrice = 0
+            var dlc_and_price = []
+            for (var i = 0; i < doc[0].dlc.length; i++) {
+              var data = {
+                name: doc[0].dlc[i].dlcname,
+                price: doc[0].dlc[i].price,
+              }
+              dlc_and_price.push(data)
+              totalPrice += doc[0].dlc[i].price
+            }
+            totalPrice += gameprice
+            response.render("buygame_confirm", {
+              username: usernameSession,
+              gamedata: gameData,
+              dlcdata: dlc_and_price,
+              totalprice: totalPrice,
+            })
+          }
+          confirm()
+        } else {
+          response.send("error") //static error page
+        }
       })
     }
   }
