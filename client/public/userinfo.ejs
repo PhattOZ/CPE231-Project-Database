@@ -34,7 +34,7 @@
   <%- include("./nav") %>
   <!--end of nav-->
 
-  <div class="px-32 py-6">
+  <!-- <div class="px-32 py-6">
     <span><b>ข้อมูลของผู้ใช้ (ทดสอบการดึงข้อมูลจาก Database มาแสดง)</b></span><br /><br />
     <span>Firstname : </span><%= fName %><br /><br />
     <span>Lastname : </span><%= lName %><br /><br />
@@ -44,6 +44,57 @@
     <span>Owned Game : </span><%= useritem %><br /><br />
     <span>Owned DLC : </span><%= useritem %><br /><br />
     <button class="button" ,onclick="http://localhost:3000/userinfo-edit">Edit</button>
+  </div> -->
+
+  <!--1st section-->
+  <div class=" px-32 pt-6 ">
+    <div class="p-3 pb-6 flex border-white border-2">
+      <div class="bg-gradient-to-tr from-fuchsia-600 to-purple-800 p-1 rounded-full">
+        <div class="bg-white p-1 rounded-full bg-opacity-90">
+          <img class="h-48 w-48 rounded-full object-cover" src="img/game_demo/pacma.jpg" alt="">
+        </div>
+      </div>
+      <div class="flex flex-col justify-center px-6 space-y-2">
+        <span class="font-normal text-5xl"><%= username %></span>
+        <div class="opacity-90">
+          <span><%= fName %></span>
+          <span><%= lName %></span>
+        </div>
+      </div>
+      <div class="flex justify-end flex-auto px-12">
+        Edit Profile
+      </div>
+    </div>
+
+    <!--2nd section-->
+    <div class="flex justify-evenly pb-6">
+      <div class="flex flex-col">
+        <div>
+          Membership Level
+        </div>
+        <div class="num-counter"></div>
+      </div>
+      <div class="flex flex-col">
+        <div>
+          Achivement completed
+        </div>
+        <div class="num-counter"></div>
+      </div>
+      <div class="flex flex-col">
+        <div>
+          STORM points
+        </div>
+        <div class="num-counter"></div>
+      </div>
+    </div>
+
+    <!--3rd section-->
+    <div>
+      <div>
+        my games
+      </div>
+
+    </div>
   </div>
 
   <%- include ("./footer") %>
