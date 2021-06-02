@@ -488,7 +488,6 @@ app.all("/userinfo-edit", (request, response) => {
       email: form.email,
       tel: form.tel,
     }
-    console.log(data)
     User.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
       useFindAndModify: false,
     }).exec((err) => response.redirect("userinfo"))
@@ -500,7 +499,6 @@ app.all("/publisherinfo-edit", (request, response) => {
     var sessionUsername = request.session.username
     console.log(sessionUsername)
     Publisher.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
-      console.log(doc)
       response.render("publisherinfo-edit", { data: doc[0] })
     })
   } else if (request.method == "POST") {
@@ -513,7 +511,6 @@ app.all("/publisherinfo-edit", (request, response) => {
       email: form.email,
       tel: form.tel,
     }
-    console.log(data)
     Publisher.findOneAndUpdate({ username: { $eq: sessionUsername } }, data, {
       useFindAndModify: false,
     }).exec((err) => response.redirect("publisherinfo"))
@@ -523,7 +520,9 @@ app.all("/publisherinfo-edit", (request, response) => {
 app.get("/store", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
-  var sort_query = request.query.sort
+  var sort_order = request.query.order //sort order (ascending || descending)
+  var sort_query = request.query.sort //sort by (name || downloaded || price)
+  sort_query = sort_order == "ascending" ? sort_query : "-" + sort_query
   Game.find({})
     .sort(sort_query)
     .exec((err, doc) => {
@@ -552,7 +551,14 @@ app.all("/buygame", (request, response) => {
         response.render("buygame", { data: doc[0] })
       })
     } else if (request.method == "POST") {
-      response.send(`BUY`)
+      var dlc_select = request.body.dlcname //get all user's checked dlc in checkbox (Array)
+      Game.aggregate([
+        { $match: { name: { $eq: gamename_query } } },
+        { gameprice: { $sum: price } },
+        { dlcprice: { $sum: "dlc.price" } },
+      ]).exec((err, doc) => {
+        console.log(doc)
+      })
     }
   }
 })
