@@ -362,15 +362,19 @@ app.all("/add-dlc", (request, response) => {
 app.all("/addfriend", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
-  var form = request.body
+  var form = new formidable.IncomingForm() //read all user input in form
   if (roleSession != "user") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-      if (form.friendL) {
-        let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
+    form.parse(request, (err, fields) => {
+      if (fields.friends && !err) {
+        console.log('In Here Woo')
+        console.log(fields.friends)
+        response.send(`Add friend 55`)
+        /*let array_friends = fields.friends.split(",") //split "Category1,Category2,..."" to array : ["Category1", "Category2"]
         User.findOneAndUpdate(
           { username: { $eq: usernameSession } },
-          { $addToSet: { friends: {$each: array_friends} } }).exec((err) => {
+          { $push: { friends: array_friends} }).exec((err) => {
           if (!err) {
             console.log(`Add friends success`)
             response.send("friends success", {
@@ -382,13 +386,13 @@ app.all("/addfriend", (request, response) => {
             console.log(`Add friend error`)
             response.send(`Add friend error`)
           }
-        })
+        })*/
       } 
       else {
         User.findOne({username : {$eq : usernameSession }}).exec((err,uname)=>{
           var friendname = []
-          console.log(`findone here 376`)
-          console.log(uname)
+          /*console.log(`findone here 376`)
+          console.log(uname)*/
           User.find({$and: [
             {username : {$nin : uname.friends}},
             {username : {$ne : uname.username}}
@@ -404,6 +408,7 @@ app.all("/addfriend", (request, response) => {
           })
         })
       }
+    })
   }
 })
 
