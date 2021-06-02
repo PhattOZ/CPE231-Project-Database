@@ -520,7 +520,7 @@ app.all("/userinfo-edit", (request, response) => {
 app.all("/publisherinfo-edit", (request, response) => {
   if (request.method == "GET") {
     var sessionUsername = request.session.username
-    console.log(sessionUsername)
+   
     Publisher.find({ username: { $eq: sessionUsername } }).exec((err, doc) => {
       response.render("publisherinfo-edit", { data: doc[0] })
     })

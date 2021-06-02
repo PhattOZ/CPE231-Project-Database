@@ -7,10 +7,21 @@
     <title>Search</title>
 </head>
 <body>
-    <h1>Search</h1>
-    <form action="/search" method="post">
+    <h1>Search game</h1>
+    <form action="/search" method="POST">
         <input type="text" name="searchGame">
         <button>Go</button>
     </form>
+    <br><br>
+    <!-- <table>
+        <tr>
+            <th>Game</th>
+        </tr>
+        <% for(d of data){%>
+            <tr>
+                <td><%= d.name %> </td>
+            </tr>
+        <% } %>
+    </table> -->
 </body>
 </html>
