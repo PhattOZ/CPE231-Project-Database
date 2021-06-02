@@ -30,17 +30,17 @@
                     <div class="bg-gradient-to-r from-fuchsia-700 to-purple-800 pl-4 rounded-l">
                         name</div>
                     <% } else { %>
-                    <a href="/store?sort=name" class="block hover:text-white px-4 ">name </a>
+                    <a href="/store?sort=name&order=ascending" class="block hover:text-white px-4 ">name </a>
                     <% } %>
                     <% if(sort === "downloaded") { %>
                     <div class="bg-gradient-to-r from-fuchsia-600 to-purple-800 pl-4 rounded-l-full">download</div>
                     <% } else { %>
-                    <a href="/store?sort=downloaded" class="block hover:text-white px-4">download </a>
+                    <a href="/store?sort=downloaded&order=ascending" class="block hover:text-white px-4">download </a>
                     <% } %>
                     <% if(sort === "price") { %>
                     <div class="bg-gradient-to-r from-fuchsia-600 to-purple-800 pl-4 rounded-l-full">price</div>
                     <% } else { %>
-                    <a href="/store?sort=price" class="block hover:text-white px-4">price</a>
+                    <a href="/store?sort=price&order=ascending" class="block hover:text-white px-4">price</a>
                     <% } %>
                 </li>
             </ul>
@@ -55,8 +55,8 @@
                     <div class="flex flex-col justify-center relative pr-12" id="dropdown-sort">
                         <img src="img/icons/sort.svg" class="w-12 h-8 bg-white rounded-full group-hover:bg-indigo-300">
                         <ul class="top-10 right-10 hidden absolute bg-white text-black">
-                            <li class="p-2"><a href="">Ascending</a></li>
-                            <li class="p-2"><a href="">Descending</a></li>
+                            <li class="p-2"><a href="/store?sort=<%= sort %>&order=ascending">Ascending</a></li>
+                            <li class="p-2"><a href="/store?sort=<%= sort %>&order=descending">Descending</a></li>
                         </ul>
                     </div>
                 </div>
@@ -64,9 +64,9 @@
                 <div class="flex p-1 my-1 bg-gradient-to-tr from-gray-300 to-gray-600">
                     <img src="img/games/<%= d.image %> " alt="err" class="h-36 w-36 object-cover">
                     <div class="px-3">
-                        <a href="" class=""><%= d.name %> </a>
-                        <div><%= d.downloaded %> downloads</div>
-                        <div><%= d.price %> bitcoins</div>
+                        <a href="/gameinfo?name=<%= d.name %> " class=""><%= d.name %> </a>
+                        <div><%= d.downloaded %> Downloads</div>
+                        <div><%= d.price %> THB</div>
                     </div>
                 </div>
                 <% } %>
