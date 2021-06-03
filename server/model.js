@@ -15,15 +15,16 @@ const userSchema = new mongoose.Schema({
   password: { type: String, require: true },
   fName: { type: String, require: true },
   lName: { type: String, require: true },
-  gender: { type: String, require: true },
+  gender: String,
   dob: String,
   email: String,
   tel: String,
-  money: Number,
-  useritem: {
-    game: Array,
-    dlc: Array,
-  },
+  ownedItem: [
+    {
+      gamename: String,
+      dlcname: [String],
+    },
+  ],
   transaction: Array,
   friends: Array,
   group: Array,
