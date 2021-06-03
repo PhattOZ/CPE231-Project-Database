@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1>Buy Game</h1>
+    <% if(locals.buyFirst) { %>
+        <div style="color: red">Buy this game first!</div>
+    <% } %> 
     <form action="/buygame?gamename=<%= data.name %>" method="POST">
         <div>GAME</div>
         <div><input type="checkbox" name="gamename" checked disabled><label><%= data.name %> : <%= data.price %> THB</label></div>

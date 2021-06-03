@@ -406,7 +406,11 @@ app.all("/addfriend", (request, response) => {
               for (d of docs) {
                 friendname.push(d.username)
               }
-              response.render("addfriend_user", { data: docs })
+              response.render("addfriend_user", {
+                data: docs,
+                username: usernameSession,
+                role: roleSession,
+              })
             })
           }
         )
@@ -462,7 +466,132 @@ app.all("/deletefriend", (request, response) => {
               for (d of docs) {
                 friendname.push(d.username)
               }
-              response.render("deletefriend_user", { data: docs })
+              response.render("deletefriend_user", {
+                data: docs,
+                username: usernameSession,
+                role: roleSession,
+              })
+            })
+          }
+        )
+      }
+    })
+  }
+})
+
+app.all("/CreateGroup", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var form = new formidable.IncomingForm() //read all user input in form
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    form.parse(request, (err, fields) => {
+      if (fields.name && fields.member && !err) {
+        let array_member = fields.member.split(",")
+        array_member.push(usernameSession)
+        let groupname = fields.name
+        var data = {
+          name: groupname,
+          member: array_member,
+        }
+        //Update in User
+        Group.create(data, (err) => {
+          if (!err) {
+            //Update in member
+            User.updateMany(
+              { username: { $in: array_member } },
+              { $addToSet: { group: groupname } }
+            ).exec((err) => {
+              if (!err) {
+                response.render("creategroup_success", {
+                  username: usernameSession,
+                  role: roleSession,
+                })
+              } else {
+                response.send(`Create Group error`)
+              }
+            })
+          } else {
+            response.send(`Create Group error`)
+          }
+        })
+      } else {
+        User.findOne({ username: { $eq: usernameSession } }).exec(
+          (err, uname) => {
+            var friendname = []
+            User.find({
+              $and: [
+                { username: { $in: uname.friends } },
+                { username: { $ne: uname.username } },
+              ],
+            }).exec((err, docs) => {
+              for (d of docs) {
+                friendname.push(d.username)
+              }
+              response.render("CreateGroup", {
+                data: docs,
+                username: usernameSession,
+                role: roleSession,
+              })
+            })
+          }
+        )
+      }
+    })
+  }
+})
+
+app.all("/DeleteGroup", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var form = new formidable.IncomingForm() //read all user input in form
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    form.parse(request, (err, fields) => {
+      if (fields.groupname && !err) {
+        let array_group = fields.groupname.split(",")
+        var membername = []
+        Group.find({ name: { $in: array_group } }).exec((err, docs) => {
+          if (!err) {
+            //find all member of the groups
+            for (d of docs) {
+              for (m of d.member) {
+                membername.push(m)
+              }
+            }
+            console.log(membername)
+            User.updateMany(
+              { username: { $in: membername } },
+              { $pull: { group: { $in: array_group } } }
+            ).exec((err) => {
+              if (!err) {
+                Group.deleteMany({ name: { $in: array_group } }).exec((err) => {
+                  if (!err) {
+                    response.render("deletegroup_success", {
+                      username: usernameSession,
+                      role: roleSession,
+                    })
+                  } else {
+                    response.send(`Delete Group error3`)
+                  }
+                })
+              } else {
+                response.send(`Delete Group error2`)
+              }
+            })
+          } else {
+            response.send(`Delete Group error1`)
+          }
+        })
+      } else {
+        User.findOne({ username: { $eq: usernameSession } }).exec(
+          (err, docs) => {
+            response.render("DeleteGroup", {
+              data: docs,
+              username: usernameSession,
+              role: roleSession,
             })
           }
         )
@@ -554,18 +683,47 @@ app.get("/gameinfo", (request, response) => {
   checkOwned()
 })
 
+async function checkUserOwnedDLC(username, gamename, dlcname) {
+  try {
+    var doc = await User.find({
+      username: { $eq: username },
+      "ownedItem.gamename": { $eq: gamename },
+      "ownedItem.dlcname": { $in: dlcname },
+    })
+    if (doc.length > 0) {
+      //username already buy this dlc
+      return true
+    } else {
+      return false
+    }
+  } catch (err) {}
+}
+
 app.get("/dlcinfo", (request, response) => {
-  var gamenamequery = request.query.gamename //game name
-  var dlcnamequery = request.query.dlcname //dlc name
-  Game.find({ name: { $eq: gamenamequery } }).exec((err, doc) => {
-    if (!err) {
-      for (data of doc[0].dlc) {
-        if (data.dlcname == dlcnamequery) {
-          response.render("dlcinfo", { gamename: gamenamequery, data: data })
+  const checkOwned = async () => {
+    var usernameSession = request.session.username
+    var gamenamequery = request.query.gamename //game name
+    var dlcnamequery = request.query.dlcname //dlc name
+    var result = await checkUserOwnedDLC(
+      usernameSession,
+      gamenamequery,
+      dlcnamequery
+    )
+    Game.find({ name: { $eq: gamenamequery } }).exec((err, doc) => {
+      if (!err) {
+        for (data of doc[0].dlc) {
+          if (data.dlcname == dlcnamequery) {
+            response.render("dlcinfo", {
+              gamename: gamenamequery,
+              data: data,
+              owned: result,
+            })
+          }
         }
       }
-    }
-  })
+    })
+  } //end of checkOwned()
+  checkOwned()
 })
 
 app.all("/userinfo-edit", (request, response) => {
@@ -730,9 +888,16 @@ app.all("/buygame", (request, response) => {
 
 async function buyGameAndDLC(username, gamedata, dlcdata) {
   try {
-    var data = {
-      gamename: gamedata,
-      dlcname: dlcdata,
+    if (!dlcdata) {
+      //dlcdata is not undefined
+      var data = {
+        gamename: gamedata,
+        dlcname: dlcdata,
+      }
+    } else {
+      var data = {
+        gamename: gamedata,
+      }
     }
     //Add user ownedItem
     await User.findOneAndUpdate(
@@ -754,7 +919,6 @@ async function buyGameAndDLC(username, gamedata, dlcdata) {
     )
     return "success"
   } catch (err) {
-    console.log(err)
     return "error"
   }
 }
@@ -775,14 +939,74 @@ app.post("/buygame_success", (request, response) => {
   update_collection()
 })
 
+async function dlcPrice(gamename, dlcname) {
+  try {
+    console.log(`IN dlcPrice fn. : ${gamename} ${dlcname}`)
+    var doc = Game.find({
+      name: { $eq: gamename },
+      "dlc.dlcname": { $eq: dlcname },
+    })
+    console.log(`IN dlcPrice fn. : ${doc[0]}`)
+  } catch (err) {
+    response.send(err)
+  }
+}
+
+app.all("/buydlc", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  const checkBuyDLC = async () => {
+    if (roleSession != "user") {
+      response.redirect("login")
+    } else {
+      //role is user
+      var gamename = request.query.gamename
+      var dlcname = request.query.dlcname
+      var gameOwned = await checkUserOwnedGame(usernameSession, gamename)
+      if (!gameOwned) {
+        //user not owned this game but user click to buy dlc of that game
+        Game.find({ name: { $eq: gamename } }).exec((err, doc) => {
+          response.render("buygame", { data: doc[0], buyFirst: true })
+        })
+      } else {
+        //user already buy this game's dlc
+        var dlcprice = await dlcPrice(gamename, dlcname)
+        if (request.method == "GET") {
+          response.render("buydlc_confirm", {
+            username: usernameSession,
+            gamename: gamename,
+            dlcname: dlcname,
+          })
+        } else if (request.method == "POST") {
+        }
+      }
+    }
+  }
+  checkBuyDLC()
+})
+
 app.all("/search", (request, response) => {
   if (request.method == "GET") {
+    response.render("search")
+  } else if (request.method == "POST") {
     var gamename = request.body.searchGame
     console.log(gamename)
     Game.find({
       name: { $regex: gamename, $options: "i" },
-    }).exec((err, doc) => response.render("search", { data: doc }))
+    }).exec((err, doc) => {
+      console.log(doc)
+      response.render("search", { data: doc })
+    })
+  }
+})
+
+app.all("/admin", (request, response) => {
+  if (request.method == "GET") {
+    response.render("admin")
   } else if (request.method == "POST") {
+    var name = request.body.delete
+    console.log(name)
+    response.render("admin")
   }
 })
 

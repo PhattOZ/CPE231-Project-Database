@@ -22,12 +22,15 @@
     <div><%= data.releaseDate %> </div>
     <div><%= data.price %> </div> -->
 
-    <div class="bg-gradient-to-r from-white to-transparent">
-        <img src="/img/dlc/<%= data.image %>" class="w-screen object-cover">
-    </div>
-
-    <!--import footer-->
-    <%- include("./footer") %>
+    <% if(owned) { %>
+    <a href="/img/dlc/<%= data.image %>" download>
+        DOWNLOAD DLC
+    </a>
+    <% } else { %>
+    <a href="/buydlc?gamename=<%= gamename %>&dlcname=<%= data.dlcname %> ">
+        BUY THIS DLC
+    </a>
+    <% } %>
 </body>
 
 </html>

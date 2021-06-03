@@ -59,6 +59,16 @@ width: 100%;
             class="mx-3 px-2 border-2 rounded-lg transition-colors duration-100 hover:bg-white hover:text-purple-800 hover:border-purple-200 ">
             Remove friend</a>
         </div>
+        <div>
+          <a href="/CreateGroup"
+            class="mx-3 px-2 border-2 rounded-lg transition-colors duration-100 hover:bg-white hover:text-purple-800 hover:border-purple-200 ">
+            Create Group</a>
+        </div>
+        <div>
+          <a href="/DeleteGroup"
+            class="mx-3 px-2 border-2 rounded-lg transition-colors duration-100 hover:bg-white hover:text-purple-800 hover:border-purple-200 ">
+            Delete Group</a>
+        </div>
       </div>
     </div>
 
@@ -87,8 +97,10 @@ width: 100%;
     <!--3rd section-->
     <div class="flex pb-6">
       <div class="w-4/5">
-        my games
-
+        <div>my games</div>
+        <% for(game of ownedItem) { %>
+          <a href="/gameinfo?name=<%= game.gamename %> ">- <%= game.gamename %> </a><br>
+        <% }%> 
       </div>
       <div>
         my friends

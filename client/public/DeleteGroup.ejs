@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./compiled.css" />
+    <title>Delete Group Chat</title>
+</head>
+<style>
+    div.bottom {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+</style>
+
+<body class="bg-cyan-black text-white font-kanit font-light h-screen">
+    <%- include("./nav.ejs") %>
+    <!--end of nav-->
+    <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Create Group
+    </div>
+    <form action="/DeleteGroup" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
+        <div class="py-2">
+            <div class="py-2">Group List : <%= data.group %></div>
+            <div class="py-2">Input your Group name :</div>
+             <% 
+             var Glist = ""
+             for(d of data.group) { 
+                Glist += d + ","}
+            console.log(Glist)
+              %> 
+            <!--Input + -->
+            <div class=" w-3/5 p-1 m-1 flex flex-wrap gap-1" id="tag-container">
+                <div class=" rounded-full bg-white text-indigo-700 font-normal text-xl p-1 px-3.5 cursor-pointer transition-colors duration-100 hover:bg-indigo-700 hover:text-white"
+                    onclick="enableInput()" id="plus-sign">+</div>
+                <div class="relative">
+                    <input type="text" class=" flex-1 bg-white text-black p-1.5 px-2 outline-none rounded-full hidden"
+                        onkeyup="filterSearch()">
+                    <!-- search goes here-->
+                    <ul class="myUl absolute w-48 bg-white text-black hidden">
+
+                    </ul>
+                </div>
+            </div>
+            <div class="hidden" id="submit-parser">
+            </div>
+
+            <!--Button-->
+            <div class="py-6">
+            <button type="submit" class="
+            border-2 border-cyan-lightest
+            text-cyan-lightest
+            rounded-md
+            shadow
+            inline-block
+            transition-colors
+            duration-100
+            bg-transparent
+            hover:text-white
+            hover:bg-cyan-lightest
+            cursor-pointer
+            px-2
+            " onclick="handleSubmit()">SUMMIT</button>
+        </div>
+    </form>
+    <div class="bottom min-w-full">
+        <%- include ("./footer") %>
+    </div>
+    <script>
+    const availableTags = "<%= Glist%>".split(",");
+    </script>
+    <script src="scripts/tagsWithFilterSearch_DeleteGroup.js"></script>
+</body>
+
+</html>
