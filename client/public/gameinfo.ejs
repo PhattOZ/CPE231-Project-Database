@@ -37,11 +37,20 @@
                 (THB)</span></div>
         <div class="text-l py-6 px-20">Downloaded : <span class="text-xl"><%= data.downloaded %>
                 Download</span></div>
-        <div class="flex justify-end px-32">
-            <a href="/buygame?gamename=<%= data.name %> " class="p-1 bg-green-600">
-                BUY THIS GAME & DLC
-            </a>
-        </div>
+        <% if(owned) { %>
+            <div class="flex justify-end px-32">
+                <a href="/img/games/<%= data.image %>" class="p-1 bg-blue-600" download>
+                    DOWNLOAD
+                </a>
+            </div>
+        <% } else { %>
+            <div class="flex justify-end px-32">
+                <a href="/buygame?gamename=<%= data.name %> " class="p-1 bg-green-600">
+                    BUY THIS GAME & DLC
+                </a>
+            </div>
+        <% } %> 
+        
     </div>
 
     <!-- game information -->

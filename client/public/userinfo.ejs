@@ -87,8 +87,10 @@ width: 100%;
     <!--3rd section-->
     <div class="flex pb-6">
       <div class="w-4/5">
-        my games
-
+        <div>my games</div>
+        <% for(game of ownedItem) { %>
+          <a href="/gameinfo?name=<%= game.gamename %> ">- <%= game.gamename %> </a><br>
+        <% }%> 
       </div>
       <div>
         my friends

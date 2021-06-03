@@ -8,11 +8,20 @@
 </head>
 <body>
     <a href="/gameinfo?name=<%= gamename %> "><%= gamename %> </a> 
-        <div><img src="/img/dlc/<%= data.image %> "></div>
-        <div><%= data.dlcname %> </div>
-        <div><%= data.publisherName %> </div>
-        <div><%= data.developerName %> </div>
-        <div><%= data.releaseDate %> </div>
-        <div><%= data.price %> </div>
+    <div><img src="/img/dlc/<%= data.image %> "></div>
+    <div><%= data.dlcname %> </div>
+    <div><%= data.publisherName %> </div>
+    <div><%= data.developerName %> </div>
+    <div><%= data.releaseDate %> </div>
+    <div><%= data.price %> </div>
+    <% if(owned) { %>
+        <a href="/img/dlc/<%= data.image %>" download>
+             DOWNLOAD DLC
+        </a>
+    <% } else { %>
+        <a href="/buydlc?gamename=<%= gamename %>&dlcname=<%= data.dlcname %> ">
+            BUY THIS DLC
+        </a>
+    <% } %>
 </body>
 </html>
