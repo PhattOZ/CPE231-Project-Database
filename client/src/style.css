@@ -92,3 +92,20 @@
 #dropdown-sort:hover ul {
   display: block;
 }
+
+/* fancy dlc container animation */
+
+#dlc-container a {
+  transition: 0.5s;
+}
+#dlc-container span {
+  transition: 0.4s;
+}
+
+#dlc-container:hover a {
+  opacity: 0.9;
+}
+
+#dlc-container:hover span {
+  @apply bottom-1/2 translate-y-1/2;
+}

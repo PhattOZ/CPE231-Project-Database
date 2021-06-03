@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./compiled.css" />
-    <title>Document</title>
+    <title>STORM - <%= data.name %> </title>
 </head>
 
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light">
     <% if(role == "publisher"){ %>
-        <%- include("./nav_publisher") %>
-    <% } else { %> 
-        <%- include("./nav") %>
+    <%- include("./nav_publisher") %>
+    <% } else { %>
+    <%- include("./nav") %>
     <% } %>
     <!--end of nav-->
     <br>
@@ -31,7 +31,21 @@
         <img src="/img/games/<%= data.image %> ">
     </div>
     <!--end of image-->
-    <div class="px-20">
+
+    <div class="bg-gray-800 bg-opacity-75">
+        <div class="text-l pt-6 px-20">Price : <span class="text-xl"><%= data.price %> Bath
+                (THB)</span></div>
+        <div class="text-l py-6 px-20">Downloaded : <span class="text-xl"><%= data.downloaded %>
+                Download</span></div>
+        <div class="flex justify-end px-32">
+            <a href="/buygame?gamename=<%= data.name %> " class="p-1 bg-green-600">
+                BUY THIS GAME & DLC
+            </a>
+        </div>
+    </div>
+
+    <!-- game information -->
+    <div class="px-6 mx-24 bg-cyan-lightblack">
         <div class="text-l pt-6 px-20">About This Game :
             <p class="text-l text-justify pl-20 pr-40 bg-gray-800 bg-opacity-75 rounded-2xl"><%= data.description %></p>
         </div>
@@ -43,21 +57,44 @@
             <div class="text-l px-20">HDD : <%= data.systemReq.hdd %></div>
         </div>
         <div class="text-l pt-6 px-20">Category : <%= data.category %></div>
-        <div class="text-l pt-3 px-20">Publisher Name : <a href="/publisherinfo?name=<%= data.publisherName %> " class="hover:text-blue-300"><%= data.publisherName %></a></div>
+        <div class="text-l pt-3 px-20">Publisher Name : <a href="/publisherinfo?name=<%= data.publisherName %> "
+                class="hover:text-blue-300"><%= data.publisherName %></a></div>
         <div class="text-l pt-3 px-20">Developer Name : <%= data.developerName %></div>
         <div class="text-l px-20 py-3">Release Date : <%= data.releaseDate %></div>
     </div>
-        <div class="text-l pt-6 px-20 bg-gray-800 bg-opacity-75">Price : <span class="text-xl"><%= data.price %> Bath (THB)</span></div>
-        <div class="text-l py-6 px-20 bg-gray-800 bg-opacity-75">Downloaded : <span class="text-xl"><%= data.downloaded %> Download</span></div>
-    <!--end of Game information-->
-    <!--List DLC of this game-->
-    <div>DLC list</div>
-    <% for(d of data.dlc) { %>
-        <a href="/dlcinfo?gamename=<%= data.name %>&dlcname=<%= d.dlcname %> "><%= d.dlcname %> </a><br>
-    <% } %> 
-    <br>
-    <div><a href="/buygame?gamename=<%= data.name %> ">BUY THIS GAME & DLC</a></div>
-    <%- include ("./footer") %> 
+
+    <!--downloadable content section-->
+    <% if(data.dlc.length != 0) { %>
+    <div class="text-xl font-normal tracking-widest uppercase p-3 px-12">
+        available DLC
+    </div>
+    <% } %>
+
+    <div class="grid grid-cols-3 justify-items-center gap-x-3 pb-12">
+        <% for(d of data.dlc) { %>
+
+        <div class="flex bg-cyan-darkest rounded-lg relative overflow-hidden" id="dlc-container">
+
+            <img src="img/dlc/<%= d.image %> " alt="" class="w-24 h-24 object-cover p-1">
+            <div class="w-48">
+                <div class="text-xl">
+                    <%= d.dlcname %>
+                </div>
+                <div><%= d.price %> BTC</div>
+            </div>
+            <a class="absolute w-72 h-24 rounded-lg bg-white opacity-0"
+                href="/dlcinfo?gamename=<%= data.name %>&dlcname=<%= d.dlcname %>">
+            </a>
+            <span class="absolute left-1/2 transform -translate-x-1/2 -bottom-full text-black text-xl">
+                See details
+            </span>
+        </div>
+
+
+        <% } %>
+    </div>
+
+    <%- include ("./footer") %>
 </body>
 
 </html>
