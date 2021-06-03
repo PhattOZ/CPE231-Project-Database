@@ -32,13 +32,20 @@
     </div>
     <!--end of image-->
 
-    <div class="text-l pt-6 px-20 bg-gray-800 bg-opacity-75">Price : <span class="text-xl"><%= data.price %> Bath
-            (THB)</span></div>
-    <div class="text-l py-6 px-20 bg-gray-800 bg-opacity-75">Downloaded : <span class="text-xl"><%= data.downloaded %>
-            Download</span></div>
+    <div class="bg-gray-800 bg-opacity-75">
+        <div class="text-l pt-6 px-20">Price : <span class="text-xl"><%= data.price %> Bath
+                (THB)</span></div>
+        <div class="text-l py-6 px-20">Downloaded : <span class="text-xl"><%= data.downloaded %>
+                Download</span></div>
+        <div class="flex justify-end px-32">
+            <a href="/buygame?gamename=<%= data.name %> " class="p-1 bg-green-600">
+                BUY THIS GAME & DLC
+            </a>
+        </div>
+    </div>
 
-
-    <div class="px-20">
+    <!-- game information -->
+    <div class="px-6 mx-24 bg-cyan-lightblack">
         <div class="text-l pt-6 px-20">About This Game :
             <p class="text-l text-justify pl-20 pr-40 bg-gray-800 bg-opacity-75 rounded-2xl"><%= data.description %></p>
         </div>
@@ -56,12 +63,14 @@
         <div class="text-l px-20 py-3">Release Date : <%= data.releaseDate %></div>
     </div>
 
-    <!--end of Game information-->
-    <!--List DLC of this game-->
-    <div>DLC list</div>
+    <!--downloadable content section-->
+    <% if(data.dlc.length != 0) { %>
+    <div class="text-xl font-normal tracking-widest uppercase p-3 px-12">
+        available DLC
+    </div>
+    <% } %>
 
-
-    <div class="grid grid-cols-3 justify-items-center gap-x-3">
+    <div class="grid grid-cols-3 justify-items-center gap-x-3 pb-12">
         <% for(d of data.dlc) { %>
 
         <div class="flex bg-cyan-darkest rounded-lg relative overflow-hidden" id="dlc-container">
@@ -85,8 +94,6 @@
         <% } %>
     </div>
 
-    <br>
-    <div><a href="/buygame?gamename=<%= data.name %> ">BUY THIS GAME & DLC</a></div>
     <%- include ("./footer") %>
 </body>
 
