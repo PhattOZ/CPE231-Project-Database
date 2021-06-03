@@ -379,20 +379,17 @@ app.all("/addfriend", (request, response) => {
               { username: { $in: array_friends }/*{ $in: array_friends }*/ },
               { $addToSet: { friends: usernameSession} }).exec((err) => {
                 if (!err) {
-                  console.log(`Add friends success`)
                   response.render("addfriend_success", {
                     username: usernameSession,
                     role: roleSession,
                   })
                 }
                 else{
-                  console.log(`Add friend error`)
                   response.send(`Add friend error`)
                 }
               })
           }
           else {
-            console.log(`Add friend error`)
             response.send(`Add friend error`)
           }
         })
@@ -409,7 +406,6 @@ app.all("/addfriend", (request, response) => {
               for (d of docs) {
                 friendname.push(d.username)
               }
-              console.log(friendname)
               response.render("addfriend_user", { data: docs })
             })
           }
@@ -439,20 +435,17 @@ app.all("/deletefriend", (request, response) => {
               { username: { $in: array_friends }/*{ $in: array_friends }*/ },
               { $pull: { friends: usernameSession} }).exec((err) => {
                 if (!err) {
-                  console.log(`delete friends success`)
                   response.render("deletefriend_success", {
                     username: usernameSession,
                     role: roleSession,
                   })
                 }
                 else{
-                  console.log(`delete friend error`)
                   response.send(`delete friend error`)
                 }
               })
           }
           else {
-            console.log(`delete friend error`)
             response.send(`delete friend error`)
           }
         })
@@ -469,7 +462,6 @@ app.all("/deletefriend", (request, response) => {
               for (d of docs) {
                 friendname.push(d.username)
               }
-              console.log(friendname)
               response.render("deletefriend_user", { data: docs })
             })
           }
