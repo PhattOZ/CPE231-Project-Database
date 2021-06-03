@@ -372,12 +372,12 @@ app.all("/addfriend", (request, response) => {
         //Update in User
         User.findOneAndUpdate(
           { username: { $eq: usernameSession } },
-          { $push: { friends: array_friends} }).exec((err) => {
+          { $addToSet: { friends: array_friends} }).exec((err) => {
           if (!err) {
             //Update in Friend
-            User.updateOne(
+            User.updateMany(
               { username: { $in: array_friends }/*{ $in: array_friends }*/ },
-              { $push: { friends: usernameSession} }).exec((err) => {
+              { $addToSet: { friends: usernameSession} }).exec((err) => {
                 if (!err) {
                   console.log(`Add friends success`)
                   response.render("addfriend_success", {
@@ -411,6 +411,66 @@ app.all("/addfriend", (request, response) => {
               }
               console.log(friendname)
               response.render("addfriend_user", { data: docs })
+            })
+          }
+        )
+      }
+    })
+  }
+})
+
+app.all("/deletefriend", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var form = new formidable.IncomingForm() //read all user input in form
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    form.parse(request, (err, fields) => {
+      if (fields.friends && !err) {
+        let array_friends = fields.friends.split(",") //split "friend1,friend2,..."" to array : ["friend1", "friend2"]
+        //Update in User
+        User.updateOne(
+          { username: { $eq: usernameSession } },
+          { $pull: { friends: { $in: array_friends}} }).exec((err) => {
+          if (!err) {
+            //Update in Friend
+            User.updateMany(
+              { username: { $in: array_friends }/*{ $in: array_friends }*/ },
+              { $pull: { friends: usernameSession} }).exec((err) => {
+                if (!err) {
+                  console.log(`delete friends success`)
+                  response.render("deletefriend_success", {
+                    username: usernameSession,
+                    role: roleSession,
+                  })
+                }
+                else{
+                  console.log(`delete friend error`)
+                  response.send(`delete friend error`)
+                }
+              })
+          }
+          else {
+            console.log(`delete friend error`)
+            response.send(`delete friend error`)
+          }
+        })
+      } else {
+        User.findOne({ username: { $eq: usernameSession } }).exec(
+          (err, uname) => {
+            var friendname = []
+            User.find({
+              $and: [
+                { username: { $in: uname.friends } },
+                { username: { $ne: uname.username } },
+              ],
+            }).exec((err, docs) => {
+              for (d of docs) {
+                friendname.push(d.username)
+              }
+              console.log(friendname)
+              response.render("deletefriend_user", { data: docs })
             })
           }
         )

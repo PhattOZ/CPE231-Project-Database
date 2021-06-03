@@ -19,16 +19,17 @@
 <body class="bg-cyan-black text-white font-kanit font-light h-screen">
     <%- include("./nav.ejs") %>
     <!--end of nav-->
-    <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Add friend
+    <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Remove friend
     </div>
-    <form action="/addfriend" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
+    <form action="/deletefriend" method="POST" enctype="multipart/form-data" class="px-24 py-2 bg-gray-850 bg-opacity-70">
         <div class="py-2">
             <% 
             var friendlist = ""
             for(d of data) { 
                 friendlist += d.username + ","}
              %> 
-            <div>Input your friend username :</div>
+            <div>Friend List : <%= friendlist %></div>
+            <div class="py-2">Input your friend username :</div>
             <!--Input + -->
             <div class=" w-3/5 p-1 m-1 flex flex-wrap gap-1" id="tag-container">
                 <div class=" rounded-full bg-white text-indigo-700 font-normal text-xl p-1 px-3.5 cursor-pointer transition-colors duration-100 hover:bg-indigo-700 hover:text-white"
@@ -63,8 +64,8 @@
             " onclick="handleSubmit()">SUMMIT</button>
         </div>
     </form>
-    <div class="bottom min-w-full">
-        <%- include ("./footer") %>
+    <div class="bottom">
+    <%- include ("./footer") %>
     </div>
     <script>const availableTags = "<%= friendlist%>".split(",");
 
