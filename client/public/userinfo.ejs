@@ -9,6 +9,13 @@
   <title>Info</title>
 
 </head>
+<style>
+  div.bottom {
+position: absolute;
+bottom: 0px;
+width: 100%;
+}
+</style>
 
 <body class="
       font-kanit font-light
@@ -16,7 +23,7 @@
       from-indigo-900
       via-cyan-blackest
       to-cyan-blackest 
-      text-white">
+      text-white min-h-screen">
   <%- include("./nav") %>
   <!--end of nav-->
 
@@ -46,6 +53,11 @@
           <a href="/addfriend"
             class="mx-3 px-2 border-2 rounded-lg transition-colors duration-100 hover:bg-white hover:text-purple-800 hover:border-purple-200 ">
             Add friend</a>
+        </div>
+        <div>
+          <a href="/deletefriend"
+            class="mx-3 px-2 border-2 rounded-lg transition-colors duration-100 hover:bg-white hover:text-purple-800 hover:border-purple-200 ">
+            Remove friend</a>
         </div>
       </div>
     </div>
@@ -84,7 +96,9 @@
     </div>
   </div>
 
-  <%- include ("./footer") %>
+  <div class="bottom">
+    <%- include ("./footer") %>
+    </div>
 
 </body>
 
