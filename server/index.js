@@ -372,24 +372,24 @@ app.all("/addfriend", (request, response) => {
         //Update in User
         User.findOneAndUpdate(
           { username: { $eq: usernameSession } },
-          { $addToSet: { friends: array_friends} }).exec((err) => {
+          { $addToSet: { friends: array_friends } }
+        ).exec((err) => {
           if (!err) {
             //Update in Friend
             User.updateMany(
-              { username: { $in: array_friends }/*{ $in: array_friends }*/ },
-              { $addToSet: { friends: usernameSession} }).exec((err) => {
-                if (!err) {
-                  response.render("addfriend_success", {
-                    username: usernameSession,
-                    role: roleSession,
-                  })
-                }
-                else{
-                  response.send(`Add friend error`)
-                }
-              })
-          }
-          else {
+              { username: { $in: array_friends } /*{ $in: array_friends }*/ },
+              { $addToSet: { friends: usernameSession } }
+            ).exec((err) => {
+              if (!err) {
+                response.render("addfriend_success", {
+                  username: usernameSession,
+                  role: roleSession,
+                })
+              } else {
+                response.send(`Add friend error`)
+              }
+            })
+          } else {
             response.send(`Add friend error`)
           }
         })
@@ -428,24 +428,24 @@ app.all("/deletefriend", (request, response) => {
         //Update in User
         User.updateOne(
           { username: { $eq: usernameSession } },
-          { $pull: { friends: { $in: array_friends}} }).exec((err) => {
+          { $pull: { friends: { $in: array_friends } } }
+        ).exec((err) => {
           if (!err) {
             //Update in Friend
             User.updateMany(
-              { username: { $in: array_friends }/*{ $in: array_friends }*/ },
-              { $pull: { friends: usernameSession} }).exec((err) => {
-                if (!err) {
-                  response.render("deletefriend_success", {
-                    username: usernameSession,
-                    role: roleSession,
-                  })
-                }
-                else{
-                  response.send(`delete friend error`)
-                }
-              })
-          }
-          else {
+              { username: { $in: array_friends } /*{ $in: array_friends }*/ },
+              { $pull: { friends: usernameSession } }
+            ).exec((err) => {
+              if (!err) {
+                response.render("deletefriend_success", {
+                  username: usernameSession,
+                  role: roleSession,
+                })
+              } else {
+                response.send(`delete friend error`)
+              }
+            })
+          } else {
             response.send(`delete friend error`)
           }
         })
@@ -521,17 +521,37 @@ app.all("/register", (request, response) => {
   }
 })
 
-app.get("/gameinfo", (request, response) => {
-  var query = request.query.name
-  var usernameSession = request.session.username
-  var roleSession = request.session.role
-  Game.find({ name: { $eq: query } }).exec((err, doc) => {
-    response.render("gameinfo", {
-      data: doc[0],
-      username: usernameSession,
-      role: roleSession,
+async function checkUserOwnedGame(username, gamename) {
+  try {
+    var doc = await User.find({
+      username: { $eq: username },
+      "ownedItem.gamename": { $eq: gamename },
     })
-  })
+    if (doc.length > 0) {
+      //username already buy this game
+      return true
+    } else {
+      return false
+    }
+  } catch (err) {}
+}
+
+app.get("/gameinfo", (request, response) => {
+  const checkOwned = async () => {
+    var query = request.query.name
+    var usernameSession = request.session.username
+    var roleSession = request.session.role
+    var result = await checkUserOwnedGame(usernameSession, query)
+    Game.find({ name: { $eq: query } }).exec((err, doc) => {
+      response.render("gameinfo", {
+        data: doc[0],
+        username: usernameSession,
+        role: roleSession,
+        owned: result,
+      })
+    })
+  } //end of checkOwned()
+  checkOwned()
 })
 
 app.get("/dlcinfo", (request, response) => {
