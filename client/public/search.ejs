@@ -12,17 +12,9 @@
         <input type="text" name="searchGame">
         <button>Go</button>
     </form>
-    <table>
-        <tr>
-            <th>
-                game
-            </th>
-        </tr>
-        <% for(d of data){ %>
-            <tr>
-                <td><%= d.name %></td>  
-              </tr>
-        <% } %> 
-    </table>
+        <div>gamename</div>
+        <%for( d of data){ %>
+            <div><%= d.name %> </div>
+        <% } %>   
 </body>
 </html>
