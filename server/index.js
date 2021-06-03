@@ -406,7 +406,8 @@ app.all("/addfriend", (request, response) => {
               for (d of docs) {
                 friendname.push(d.username)
               }
-              response.render("addfriend_user", { data: docs })
+              response.render("addfriend_user", { data: docs ,username: usernameSession,
+                role: roleSession,})
             })
           }
         )
@@ -462,10 +463,123 @@ app.all("/deletefriend", (request, response) => {
               for (d of docs) {
                 friendname.push(d.username)
               }
-              response.render("deletefriend_user", { data: docs })
+              response.render("deletefriend_user", { data: docs ,username: usernameSession,
+                role: roleSession,})
             })
           }
         )
+      }
+    })
+  }
+})
+
+app.all("/CreateGroup", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var form = new formidable.IncomingForm() //read all user input in form
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    form.parse(request, (err, fields) => {
+      if (fields.name && fields.member && !err) {
+        let array_member = fields.member.split(",") 
+        array_member.push(usernameSession)
+        let groupname = fields.name
+        var data = {
+          name: groupname,
+          member: array_member,
+        }
+        //Update in User
+        Group.create(data, (err) => {
+          if (!err) {
+            //Update in member
+            User.updateMany(
+              { username: { $in: array_member } },
+              { $addToSet: { group: groupname } }).exec((err) => {
+              if (!err) {
+                response.render("creategroup_success", {
+                  username: usernameSession,
+                  role: roleSession,
+                })
+              } else {
+                response.send(`Create Group error`)
+              }
+            })
+          } else {
+            response.send(`Create Group error`)
+          }
+        })
+      } else {
+        User.findOne({ username: { $eq: usernameSession } }).exec(
+          (err, uname) => {
+            var friendname = []
+            User.find({
+              $and: [
+                { username: { $in: uname.friends } },
+                { username: { $ne: uname.username } },
+              ],
+            }).exec((err, docs) => {
+              for (d of docs) {
+                friendname.push(d.username)
+              }
+              response.render("CreateGroup", { data: docs ,username: usernameSession,
+                role: roleSession,})
+            })
+          }
+        )
+      }
+    })
+  }
+})
+
+app.all("/DeleteGroup", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  var form = new formidable.IncomingForm() //read all user input in form
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    form.parse(request, (err, fields) => {
+      if (fields.groupname && !err) {
+        let array_group = fields.groupname.split(",") 
+        var membername = []
+        Group.find({ name: { $in: array_group } },).exec((err, docs) => {
+          if (!err) {
+            //find all member of the groups
+            for (d of docs) {
+              for(m of d.member){
+                membername.push(m)
+              }
+            }
+            console.log(membername)
+            User.updateMany(
+              { username: { $in: membername } },
+              { $pull: { group: { $in: array_group } } }).exec((err) => {
+              if (!err) {
+                Group.deleteMany({ name: { $in: array_group } },).exec((err) => {
+                  if (!err) {
+                    response.render("deletegroup_success", {
+                    username: usernameSession,
+                    role: roleSession,
+                    })
+                  }
+                  else {
+                    response.send(`Delete Group error3`)
+                  }
+              })
+              } else {
+                response.send(`Delete Group error2`)
+              }
+            })
+          } else {
+            response.send(`Delete Group error1`)
+          }
+        })
+      } else {
+        User.findOne({ username: { $eq: usernameSession } }).exec((err, docs) => {
+              response.render("DeleteGroup", { data: docs ,username: usernameSession,
+                role: roleSession,})
+        })
       }
     })
   }
