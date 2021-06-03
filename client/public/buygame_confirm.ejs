@@ -7,7 +7,7 @@
     <title>Confirm transaction</title>
 </head>
 <body>
-    <form action="/buygame?gamename=<%= gamedata.name %>&status=confirm" method="POST">
+    <form action="/buygame_success?username=<%= username %>&gamename=<%= gamedata.name %>&dlcname=<%= dlcstring %> " method="POST">
         <h1>Confirm your order</h1>
         <div>username : <%= username %></div><br>
         <div>Game</div>

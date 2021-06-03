@@ -652,7 +652,6 @@ async function gamePrice(gamename) {
 }
 
 app.all("/buygame", (request, response) => {
-  var status = request.query.status
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
@@ -663,7 +662,7 @@ app.all("/buygame", (request, response) => {
       Game.find({ name: { $eq: gamename_query } }).exec((err, doc) => {
         response.render("buygame", { data: doc[0] })
       })
-    } else if (request.method == "POST" && !status) {
+    } else if (request.method == "POST") {
       var dlc_select = request.body.dlcname //get all user's checked dlc in checkbox (type : Object, separator w/ ,)
       dlc_select = String(dlc_select) //cast to String : (dlc1,dlc2,...)
       var dlc_select_list = dlc_select.split(",")
@@ -685,7 +684,6 @@ app.all("/buygame", (request, response) => {
           const confirm = async () => {
             var gamename = gamename_query
             var gameprice = await gamePrice(gamename)
-
             var gameData = {
               name: gamename,
               price: gameprice,
@@ -706,9 +704,10 @@ app.all("/buygame", (request, response) => {
               gamedata: gameData,
               dlcdata: dlc_and_price,
               totalprice: totalPrice,
+              dlcstring: dlc_select,
             })
-          }
-          confirm()
+          } //end of confirm function
+          confirm() //confirm page (summary total price)
         } else {
           response.send("error") //static error page
         }
@@ -717,16 +716,61 @@ app.all("/buygame", (request, response) => {
   }
 })
 
+async function buyGameAndDLC(username, gamedata, dlcdata) {
+  try {
+    var data = {
+      gamename: gamedata,
+      dlcname: dlcdata,
+    }
+    //Add user ownedItem
+    await User.findOneAndUpdate(
+      { username: { $eq: username } },
+      { $push: { ownedItem: data } }
+    )
+    //Increase game downloaded number (+1)
+    await Game.findOneAndUpdate(
+      { name: { $eq: gamedata } },
+      { $inc: { downloaded: 1 } }
+    )
+    //Increase downloaded dlc number (+1) at specfic dlcname where dlcname in dlcdata
+    await Game.findOneAndUpdate(
+      {
+        name: { $eq: gamedata },
+        "dlc.dlcname": { $in: dlcdata },
+      },
+      { $inc: { "dlc.$.downloaded": 1 } }
+    )
+    return "success"
+  } catch (err) {
+    console.log(err)
+    return "error"
+  }
+}
+
+app.post("/buygame_success", (request, response) => {
+  const update_collection = async () => {
+    var username = request.query.username
+    var gamename = request.query.gamename
+    var dlcname = request.query.dlcname
+    dlcname = dlcname.split(",")
+    var status = await buyGameAndDLC(username, gamename, dlcname)
+    if (status == "success") {
+      response.render("buygame_success")
+    } else if (status == "error") {
+      response.send("error buygame")
+    }
+  }
+  update_collection()
+})
+
 app.all("/search", (request, response) => {
-    
-  if (request.method == "GET"){
+  if (request.method == "GET") {
     var gamename = request.body.searchGame
     console.log(gamename)
     Game.find({
-      name: { $regex : gamename, $options: "i" }
-    }).exec((err, doc) => response.render("search",{data: doc}))
-  }else if (request.method == "POST"){
-    
+      name: { $regex: gamename, $options: "i" },
+    }).exec((err, doc) => response.render("search", { data: doc }))
+  } else if (request.method == "POST") {
   }
 })
 
