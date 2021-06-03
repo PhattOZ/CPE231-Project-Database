@@ -21,6 +21,9 @@ module.exports = {
         },
         fuchsia: colors.fuchsia,
       },
+      scale: {
+        101: "1.01",
+      },
     },
   },
   variants: {

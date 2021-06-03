@@ -148,7 +148,7 @@
             }
           %>
           <div class="w-full border-double border-yellow-500 border-2 py-2 flex">
-            <div class=" w-1/3 overflow-hidden"><img src="/img/games/<%= data[i].image %> " alt=""></div>
+            <div class=" w-56 h-36 overflow-hidden"><img src="/img/games/<%= data[i].image %> " alt=""></div>
             <a href="/gameinfo?name=<%= data[i].name %> ">
               <%= data[i].name %>
             </a>
@@ -168,7 +168,7 @@
                         }
           %>
           <div class="w-full border-double border-red-500 border-2 py-2 flex">
-            <div class=" w-1/3 overflow-hidden"><img src="/img/games/<%= data[i].image %> " alt=""></div>
+            <div class=" w-56 h-36 overflow-hidden"><img src="/img/games/<%= data[i].image %> " alt=""></div>
             <a href="/gameinfo?name=<%= data[i].name %> ">
               <%= data[i].name %>
             </a>
@@ -179,7 +179,7 @@
           <!-- sort by ? -->
           <% for(d of data){ %>
           <div class="w-full border-double border-blue-500 border-2 py-2 flex">
-            <div class=" w-1/3 overflow-hidden"><img src="/img/games/<%= d.image %> " alt=""></div>
+            <div class=" w-56 h-36 overflow-hidden"><img src="/img/games/<%= d.image %> " alt=""></div>
             <a href="/gameinfo">
               <%= d.name %>
             </a>

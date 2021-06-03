@@ -53,26 +53,40 @@
                         DISCOVER
                     </div>
                     <div class="flex flex-col justify-center relative pr-12" id="dropdown-sort">
-                        <img src="img/icons/sort.svg" class="w-12 h-8 bg-white rounded-full group-hover:bg-indigo-300">
+                        <img src="img/icons/sort.svg" class="w-12 h-8 bg-white rounded-full">
                         <ul class="top-10 right-10 hidden absolute bg-white text-black">
-                            <li class="p-2"><a href="/store?sort=<%= sort %>&order=ascending">Ascending</a></li>
-                            <li class="p-2"><a href="/store?sort=<%= sort %>&order=descending">Descending</a></li>
+                            <li class="p-2 border-b-2 hover:bg-cyan-normal hover:text-white"><a
+                                    href="/store?sort=<%= sort %>&order=ascending">Ascending</a>
+                            </li>
+                            <li class="p-2 border-b-2 hover:bg-cyan-normal hover:text-white"><a
+                                    href="/store?sort=<%= sort %>&order=descending">Descending</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <% for(d of data){ %>
-                <div class="flex p-1 my-1 bg-gradient-to-tr from-gray-300 to-gray-600">
-                    <img src="img/games/<%= d.image %> " alt="err" class="h-36 w-36 object-cover">
-                    <div class="px-3">
-                        <a href="/gameinfo?name=<%= d.name %> " class=""><%= d.name %> </a>
-                        <div><%= d.downloaded %> Downloads</div>
-                        <div><%= d.price %> THB</div>
-                    </div>
+                <div
+                    class="flex p-1 my-1 bg-gradient-to-tr from-gray-300 to-gray-600 transition-transform duration-100 transform hover:-translate-y-1 hover:scale-101">
+                    <a href="/gameinfo?name=<%= d.name %>">
+                        <img src="img/games/<%= d.image %> " alt="err" class="h-36 w-56 object-cover">
+                        <div class="px-3 flex-grow">
+                            <div class="text-2xl"><%= d.name %> </div>
+                            <div><%= d.downloaded %> Downloads</div>
+                            <div><%= d.category.toString().replace(/,/g, " ") %> </div>
+                            <div class="flex justify-end pt-4 pr-6">
+                                <a class="bg-gray-600 rounded px-2 py-1">
+                                    <%= d.price %>
+                                    BTC</a>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <% } %>
             </div>
         </div>
     </div>
+
+    <%- include("./footer") %>
 </body>
 
 </html>
