@@ -7,14 +7,14 @@
     <title>Buy DLC</title>
 </head>
 <body>
-    <h1>Buy DLC</h1>
+    <h1>Buy Downloadable Content (DLC)</h1>
     <form action="/buydlc?gamename=<%= gamename %>&dlcname=<%= dlcname %>" method="POST">
         <h1>Confirm your order</h1>
         <div>username : <%= username %></div><br>
         <div>Game : <%= gamename %></div><br>
         <div>DLC</div>
-        <div><input type="checkbox" name="dlcname" checked disabled><label><%= dlcname %> :  THB</label></div>
-        <div>Total : </div>
+        <div><input type="checkbox" name="dlcname" checked disabled><label><%= dlcname %> : <%= dlcprice %>  THB</label></div><br>
+        <div>Total : <%= dlcprice %> THB</div>
         <button type="submit">CONFIRM</button>
     </form>
 </body>

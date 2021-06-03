@@ -888,15 +888,18 @@ app.all("/buygame", (request, response) => {
 
 async function buyGameAndDLC(username, gamedata, dlcdata) {
   try {
+    console.log(dlcdata)
     if (!dlcdata) {
-      //dlcdata is not undefined
+      //dlcdata is undefined
+      console.log("1")
+      var data = {
+        gamename: gamedata,
+      }
+    } else {
+      console.log("2")
       var data = {
         gamename: gamedata,
         dlcname: dlcdata,
-      }
-    } else {
-      var data = {
-        gamename: gamedata,
       }
     }
     //Add user ownedItem
@@ -941,14 +944,24 @@ app.post("/buygame_success", (request, response) => {
 
 async function dlcPrice(gamename, dlcname) {
   try {
-    console.log(`IN dlcPrice fn. : ${gamename} ${dlcname}`)
-    var doc = Game.find({
-      name: { $eq: gamename },
-      "dlc.dlcname": { $eq: dlcname },
-    })
-    console.log(`IN dlcPrice fn. : ${doc[0]}`)
+    var doc = await Game.aggregate([
+      { $match: { name: { $eq: gamename } } },
+      {
+        $project: {
+          dlc: {
+            $filter: {
+              input: "$dlc",
+              as: "dlc",
+              cond: { $eq: ["$$dlc.dlcname", dlcname] },
+            },
+          },
+        },
+      },
+    ])
+    var dlcprice = doc[0].dlc[0].price
+    return dlcprice
   } catch (err) {
-    response.send(err)
+    console.log(err)
   }
 }
 
@@ -956,30 +969,51 @@ app.all("/buydlc", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   const checkBuyDLC = async () => {
-    if (roleSession != "user") {
-      response.redirect("login")
-    } else {
-      //role is user
-      var gamename = request.query.gamename
-      var dlcname = request.query.dlcname
-      var gameOwned = await checkUserOwnedGame(usernameSession, gamename)
-      if (!gameOwned) {
-        //user not owned this game but user click to buy dlc of that game
-        Game.find({ name: { $eq: gamename } }).exec((err, doc) => {
-          response.render("buygame", { data: doc[0], buyFirst: true })
-        })
+    try {
+      if (roleSession != "user") {
+        response.redirect("login")
       } else {
-        //user already buy this game's dlc
-        var dlcprice = await dlcPrice(gamename, dlcname)
-        if (request.method == "GET") {
-          response.render("buydlc_confirm", {
-            username: usernameSession,
-            gamename: gamename,
-            dlcname: dlcname,
+        //role is user
+        var gamename = request.query.gamename
+        var dlcname = request.query.dlcname
+        var gameOwned = await checkUserOwnedGame(usernameSession, gamename)
+        if (!gameOwned) {
+          //user not owned this game but user click to buy dlc of that game
+          Game.find({ name: { $eq: gamename } }).exec((err, doc) => {
+            response.render("buygame", { data: doc[0], buyFirst: true })
           })
-        } else if (request.method == "POST") {
+        } else {
+          //user already buy this game's dlc
+          var dlcprice = await dlcPrice(gamename, dlcname)
+          if (request.method == "GET") {
+            response.render("buydlc_confirm", {
+              username: usernameSession,
+              gamename: gamename,
+              dlcname: dlcname,
+              dlcprice: dlcprice,
+            })
+          } else if (request.method == "POST") {
+            await User.findOneAndUpdate(
+              { username: { $eq: usernameSession } },
+              { $push: { "ownedItem.$[inner].dlcname": dlcname } },
+              {
+                arrayFilters: [{ "inner.gamename": { $eq: gamename } }],
+                new: true,
+              }
+            )
+            await Game.findOneAndUpdate(
+              {
+                name: { $eq: gamename },
+                "dlc.dlcname": { $eq: dlcname },
+              },
+              { $inc: { "dlc.$.downloaded": 1 } }
+            )
+            response.send("Buy DLC success!")
+          }
         }
       }
+    } catch (err) {
+      console.log(err)
     }
   }
   checkBuyDLC()
