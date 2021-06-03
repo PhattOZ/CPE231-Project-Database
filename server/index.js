@@ -11,6 +11,7 @@ const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
 const AccountRole = require("./model").AccountRole
+const { request, response } = require("express")
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -890,14 +891,32 @@ app.post("/buygame_success", (request, response) => {
 })
 
 app.all("/search", (request, response) => {
-  if (request.method == "GET") {
-    var gamename = request.body.searchGame
-    console.log(gamename)
-    Game.find({
-      name: { $regex: gamename, $options: "i" },
-    }).exec((err, doc) => response.render("search", { data: doc }))
-  } else if (request.method == "POST") {
-  }
+
+    
+   if (request.method == "GET"){
+    response.render("search")
+   } else if (request.method == "POST"){
+      var gamename = request.body.searchGame
+      console.log(gamename)
+      Game.find({
+        name: { $regex : gamename, $options: "i" }
+      }).exec((err, doc) => {
+        console.log(doc)
+        response.render("search",{data: doc})  
+      })
+    }
+})
+
+app.all("/admin",(request,response) =>{
+  if (request.method == "GET"){
+    response.render("admin")
+   }else if(request.method == "POST"){
+     var name = request.body.delete
+     console.log(name)
+     response.render("admin")
+   }
+
+  
 })
 
 app.listen(3000, () => {
