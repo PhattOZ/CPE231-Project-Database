@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./compiled.css" />
+    <title >Support</title>
+</head>
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
+    <%- include("./nav") %>
+      <!--end of nav-->
+    <div class="rounded-md mx-56 my-4 px-10 py-14 bg-gray-900 bg-opacity-70">
+        <div class="text-5xl font-semibold pt-10">Support
+        </div>
+        <form action="/support" method="POST" class="text-white pb-6">
+          <div>
+            <div>Username :</div>
+            <input class=" rounded text-black px-2 py-2" type="text" name="username" value=<%= data.username %> readonly>
+            <div>Email :</div>
+            <input class=" rounded text-black px-2 py-2" type="text" name="email" value=<%= data.email %> readonly>
+            <div>Tel. :</div>
+            <input class=" rounded text-black px-2 py-2" type="text" name="tel" value=<%= data.tel %> readonly>
+            <div class="py-2">
+            <label>How can we help? : </label><br><textarea cols='70' rows='5' name="comment" placeholder="Problem/Question"
+                class="text-black" required></textarea>
+            </div>
+      </form>
+        <div class="py-2 px-3">
+          <a href="/" class="
+            border-2 border-cyan-lightest
+            text-cyan-lightest
+            rounded-md
+            shadow
+            inline-block
+            transition-colors
+            duration-100
+            bg-transparent
+            hover:text-white
+            hover:bg-cyan-lightest
+            cursor-pointer
+            px-2
+            ">Go back to Home page
+          </a>
+          <button type="submit" class="
+            border-2 border-cyan-lightest
+            text-cyan-lightest
+            rounded-md
+            shadow
+            inline-block
+            transition-colors
+            duration-100
+            bg-transparent
+            hover:text-white
+            hover:bg-cyan-lightest
+            cursor-pointer
+            px-2
+            " onclick="handleSubmit()">SUMMIT
+          </button>
+        </div>
+    </div>
+    <!--end of Content-->
+    <%- include ("./footer") %>
+    <!--end of footer-->
+</body>
+</html>

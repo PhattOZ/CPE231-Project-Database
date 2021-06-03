@@ -11,6 +11,7 @@ const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
 const AccountRole = require("./model").AccountRole
+const support = require("./model").support
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -621,6 +622,39 @@ app.all("/UserGroup", (request, response) => {
         })
       }
     )
+  }
+})
+
+app.all("/support", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    if (request.method == "GET") {
+      User.findOne({ username: { $eq: usernameSession } }).exec((err, doc) => {
+        response.render("support", { data: doc,
+          username: usernameSession,
+          role: roleSession, })
+      })
+    } else if (request.method == "POST") {
+      var form = request.body
+      var data = {
+        username: form.username,
+        email: form.email,
+        tel: form.tel,
+        comment: form.comment,
+      }
+      support.create(data, (err) => {
+        if (!err) {
+          response.render("support_success", {
+            username: usernameSession,
+            role: roleSession, })
+        } else {
+          response.send(`Fail`)
+        }
+      })
+    }
   }
 })
 

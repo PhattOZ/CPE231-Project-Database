@@ -31,6 +31,15 @@ const userSchema = new mongoose.Schema({
 })
 const User = mongoose.model("User", userSchema)
 
+const supportSchema = new mongoose.Schema({
+  username: { type: String, require: true},
+  email: String,
+  tel: String,
+  comment: String,
+  timestamp: { type: Date, default: Date.now},
+})
+const support = mongoose.model("support", supportSchema)
+
 // var data = {
 //   username: "user1",
 //   password: "1234",
@@ -164,4 +173,5 @@ module.exports = {
   Transaction,
   Promotion,
   Group,
+  support,
 }
