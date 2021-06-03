@@ -27,6 +27,7 @@
             var friendlist = ""
             for(d of data) { 
                 friendlist += d.username + ","}
+                friendlist = friendlist.slice(0, -1)
              %> 
             <div>Friend List : <%= friendlist %></div>
             <div class="py-2">Input your friend username :</div>

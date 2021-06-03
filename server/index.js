@@ -561,7 +561,6 @@ app.all("/DeleteGroup", (request, response) => {
                 membername.push(m)
               }
             }
-            console.log(membername)
             User.updateMany(
               { username: { $in: membername } },
               { $pull: { group: { $in: array_group } } }
@@ -599,6 +598,32 @@ app.all("/DeleteGroup", (request, response) => {
     })
   }
 })
+
+
+app.all("/UserGroup", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    User.findOne({ username: { $eq: usernameSession } }).exec(
+      (err, doc) => {
+        var grouplist = []
+        for (g of doc.group) {
+          grouplist.push(g)
+        }
+        Group.find({name: { $in: grouplist }}).exec((err, docs) => {
+          response.render("Group_info", {
+            data: docs,
+            username: usernameSession,
+            role: roleSession,
+          })
+        })
+      }
+    )
+  }
+})
+
 
 // app.get("/history-publisher", (request, respone) => {
 //   var usernameSession = request.session.username
