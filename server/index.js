@@ -599,31 +599,27 @@ app.all("/DeleteGroup", (request, response) => {
   }
 })
 
-
 app.all("/UserGroup", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    User.findOne({ username: { $eq: usernameSession } }).exec(
-      (err, doc) => {
-        var grouplist = []
-        for (g of doc.group) {
-          grouplist.push(g)
-        }
-        Group.find({name: { $in: grouplist }}).exec((err, docs) => {
-          response.render("Group_info", {
-            data: docs,
-            username: usernameSession,
-            role: roleSession,
-          })
-        })
+    User.findOne({ username: { $eq: usernameSession } }).exec((err, doc) => {
+      var grouplist = []
+      for (g of doc.group) {
+        grouplist.push(g)
       }
-    )
+      Group.find({ name: { $in: grouplist } }).exec((err, docs) => {
+        response.render("Group_info", {
+          data: docs,
+          username: usernameSession,
+          role: roleSession,
+        })
+      })
+    })
   }
 })
-
 
 // app.get("/history-publisher", (request, respone) => {
 //   var usernameSession = request.session.username
@@ -913,15 +909,12 @@ app.all("/buygame", (request, response) => {
 
 async function buyGameAndDLC(username, gamedata, dlcdata) {
   try {
-    console.log(dlcdata)
     if (!dlcdata) {
       //dlcdata is undefined
-      console.log("1")
       var data = {
         gamename: gamedata,
       }
     } else {
-      console.log("2")
       var data = {
         gamename: gamedata,
         dlcname: dlcdata,
@@ -938,13 +931,17 @@ async function buyGameAndDLC(username, gamedata, dlcdata) {
       { $inc: { downloaded: 1 } }
     )
     //Increase downloaded dlc number (+1) at specfic dlcname where dlcname in dlcdata
-    await Game.findOneAndUpdate(
-      {
-        name: { $eq: gamedata },
-        "dlc.dlcname": { $in: dlcdata },
-      },
-      { $inc: { "dlc.$.downloaded": 1 } }
-    )
+    if (dlcdata) {
+      for (dlcname of dlcdata) {
+        await Game.findOneAndUpdate(
+          {
+            name: { $eq: gamedata },
+            "dlc.dlcname": { $eq: dlcname },
+          },
+          { $inc: { "dlc.$.downloaded": 1 } }
+        )
+      }
+    }
     return "success"
   } catch (err) {
     return "error"
