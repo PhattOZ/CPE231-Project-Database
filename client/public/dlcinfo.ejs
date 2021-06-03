@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DLC Infomation</title>
+    <link rel="stylesheet" href="compiled.css">
+    <title><%= gamename + " - " + data.dlcname %> </title>
 </head>
+
 <body>
-    <a href="/gameinfo?name=<%= gamename %> "><%= gamename %> </a> 
-        <div><img src="/img/dlc/<%= data.image %> "></div>
-        <div><%= data.dlcname %> </div>
-        <div><%= data.publisherName %> </div>
-        <div><%= data.developerName %> </div>
-        <div><%= data.releaseDate %> </div>
-        <div><%= data.price %> </div>
+    <!--import navigation bar-->
+    <%- include("./nav") %>
+
+
+    <!-- <a href="/gameinfo?name=<%= gamename %> "><%= gamename %> </a>
+    <div><img src="/img/dlc/<%= data.image %> "></div>
+    <div><%= data.dlcname %> </div>
+    <div><%= data.publisherName %> </div>
+    <div><%= data.developerName %> </div>
+    <div><%= data.releaseDate %> </div>
+    <div><%= data.price %> </div> -->
+
+    <div class="bg-gradient-to-r from-white to-transparent">
+        <img src="/img/dlc/<%= data.image %>" class="w-screen object-cover">
+    </div>
+
+    <!--import footer-->
+    <%- include("./footer") %>
 </body>
+
 </html>
