@@ -11,10 +11,10 @@
 </head>
 <style>
   div.bottom {
-position: absolute;
-bottom: 0px;
-width: 100%;
-}
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+  }
 </style>
 
 <body class="
@@ -24,6 +24,8 @@ width: 100%;
       via-cyan-blackest
       to-cyan-blackest 
       text-white min-h-screen">
+
+
   <%- include("./nav") %>
   <!--end of nav-->
 
@@ -104,8 +106,8 @@ width: 100%;
       <div class="w-4/5">
         <div>my games</div>
         <% for(game of ownedItem) { %>
-          <a href="/gameinfo?name=<%= game.gamename %> ">- <%= game.gamename %> </a><br>
-        <% }%> 
+        <a href="/gameinfo?name=<%= game.gamename %> ">- <%= game.gamename %> </a><br>
+        <% }%>
       </div>
       <div>
         my friends
@@ -115,7 +117,7 @@ width: 100%;
 
   <div class="bottom">
     <%- include ("./footer") %>
-    </div>
+  </div>
 
 </body>
 
