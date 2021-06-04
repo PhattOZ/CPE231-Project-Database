@@ -25,7 +25,7 @@ bg-gradient-to-tr from-indigo-900 via-cyan-blackest to-cyan-blackest text-white 
         <div>- <%= d.name %> : <%= d.price %> </div>
         <% } %>
         <div class="border-t-2">Total : <%= totalprice %> THB</div>
-        <form action="/buygame_success?username=<%= username %>&gamename=<%= gamedata.name %>&dlcname=<%= dlcstring %> "
+        <form action="/buygame_success?username=<%= username %>&gamename=<%= gamedata.name %>&dlcname=<%= dlcstring %>&total=<%= totalprice %> "
             method="POST">
             <button type="submit">CONFIRM</button>
         </form>

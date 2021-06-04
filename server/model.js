@@ -40,18 +40,6 @@ const supportSchema = new mongoose.Schema({
 })
 const support = mongoose.model("support", supportSchema)
 
-// var data = {
-//   username: "user1",
-//   password: "1234",
-//   fName: "Sorawong",
-//   lName: "Leardmongkonrut",
-//   gender: "Male",
-//   dob: new Date(2000, 7, 25),
-//   email: "Sorawong1@hotmail.com",
-//   tel: "0954975790",
-// }
-// User.create(data)
-
 const publisherSchema = new mongoose.Schema({
   username: { type: String, require: true, unique: true },
   password: { type: String, require: true },
@@ -138,26 +126,14 @@ const reviewSchema = mongoose.Schema({
 const Review = mongoose.model("Review", reviewSchema)
 
 const transactionSchema = mongoose.Schema({
-  transactionNo: { type: String, require: true },
-  username: { type: String, require: true },
-  fName: { type: String, require: true },
-  lName: { type: String, require: true },
-  timestamp: Date,
-  address: String,
-  fullPrice: Number,
-  discount: Number,
+  username: String,
+  buydate: String,
+  buytime: String,
+  game: String,
+  dlc: [String],
   total: Number,
 })
 const Transaction = mongoose.model("Transaction", transactionSchema)
-
-const promotionSchema = mongoose.Schema({
-  code: { type: String, require: true },
-  name: String,
-  startTime: Date,
-  endTime: Date,
-  discount: { type: Number, require: true },
-})
-const Promotion = mongoose.model("Promotion", promotionSchema)
 
 const groupSchema = new mongoose.Schema({
   name: { type: String, require: true },
@@ -172,7 +148,6 @@ module.exports = {
   Game,
   Review,
   Transaction,
-  Promotion,
   Group,
   support,
 }

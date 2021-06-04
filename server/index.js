@@ -7,7 +7,6 @@ const User = require("./model").User
 const Game = require("./model").Game
 const Review = require("./model").Review
 const Transaction = require("./model").Transaction
-const Promotion = require("./model").Promotion
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
 const AccountRole = require("./model").AccountRole
@@ -665,11 +664,12 @@ app.all("/support_view", (request, response) => {
   if (roleSession != "user") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    support.find({}).exec((err,docs) => {
+    support.find({}).exec((err, docs) => {
       response.render("support_view", {
-        data : docs,
+        data: docs,
         username: usernameSession,
-        role: roleSession, })
+        role: roleSession,
+      })
     })
   }
 })
@@ -1010,15 +1010,37 @@ app.post("/buygame_success", (request, response) => {
     var gamename = request.query.gamename
     var dlcname = request.query.dlcname
     dlcname = dlcname.split(",")
-    var status = await buyGameAndDLC(username, gamename, dlcname)
-    if (status == "success") {
+    var total = request.query.total
+    var status1 = await buyGameAndDLC(username, gamename, dlcname)
+    var status2 = await update_transcation(username, gamename, dlcname, total)
+    if (status1 == "success" && status2 == "success") {
       response.render("buygame_success")
-    } else if (status == "error") {
+    } else if (status1 == "error" || status2 == "error") {
       response.send("error buygame")
     }
   }
   update_collection()
 })
+
+async function update_transcation(username, gamename, dlcdata, total) {
+  try {
+    var date = new Date()
+    var day = date.toLocaleDateString()
+    var time = date.toLocaleTimeString()
+    var data = {
+      username: username,
+      buydate: day,
+      buytime: time,
+      game: gamename,
+      dlc: dlcdata,
+      total: total,
+    }
+    await Transaction.create(data)
+    return "success"
+  } catch (err) {
+    return "fail"
+  }
+}
 
 async function dlcPrice(gamename, dlcname) {
   try {
@@ -1086,6 +1108,12 @@ app.all("/buydlc", (request, response) => {
               },
               { $inc: { "dlc.$.downloaded": 1 } }
             )
+            await update_transcation(
+              usernameSession,
+              gamename,
+              dlcname,
+              dlcprice
+            )
             response.send("Buy DLC success!")
           }
         }
@@ -1095,6 +1123,33 @@ app.all("/buydlc", (request, response) => {
     }
   }
   checkBuyDLC()
+})
+
+app.get("/history", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "user") {
+    //this role not user role -> can't view
+    response.redirect("/login")
+  } else {
+    const userBuyHistory = async () => {
+      try {
+        var total = await Transaction.aggregate([
+          { $match: { username: { $eq: usernameSession } } },
+          {
+            $group: {
+              _id: "$username",
+              sumtotal: { $sum: "$total" },
+            },
+          },
+        ])
+        console.log(`total : ${total.sumtotal} ${total._id}`)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    userBuyHistory()
+  }
 })
 
 app.all("/search", (request, response) => {
