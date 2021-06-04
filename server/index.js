@@ -659,14 +659,15 @@ app.all("/support", (request, response) => {
   }
 })
 
-app.all("/supportview", (request, response) => {
+app.all("/support_view", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    support.find({}).exec((docs,err) => {
+    support.find({}).exec((err,docs) => {
       response.render("support_view", {
+        data : docs,
         username: usernameSession,
         role: roleSession, })
     })

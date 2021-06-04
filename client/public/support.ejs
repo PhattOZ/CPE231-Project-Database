@@ -7,7 +7,17 @@
         <link rel="stylesheet" href="./compiled.css" />
     <title >Support</title>
 </head>
-<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
+<style>
+
+  .footer {
+     position: fixed;
+     left: 0;
+     bottom: 0;
+     width: 100%;
+  }
+
+</style>
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
     <%- include("./nav") %>
       <!--end of nav-->
     <div class="rounded-md mx-56 my-4 px-10 py-14 bg-gray-900 bg-opacity-70">
@@ -60,7 +70,8 @@
         </div>
     </div>
     <!--end of Content-->
-    <%- include ("./footer") %>
+    <div class="footer pt-10">
+    <%- include ("./footer") %></div>
     <!--end of footer-->
 </body>
 </html>
