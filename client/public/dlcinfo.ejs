@@ -12,9 +12,9 @@
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light">
     <!--import navigation bar-->
     <% if(role == "publisher"){ %>
-        <%- include("./nav_publisher") %>
+    <%- include("./nav_publisher") %>
     <% } else { %>
-        <%- include("./nav") %>
+    <%- include("./nav") %>
     <% } %>
 
     <!-- <a href="/gameinfo?name=<%= gamename %> "><%= gamename %> </a>
@@ -25,12 +25,12 @@
     <div><%= data.releaseDate %> </div>
     <div><%= data.price %> </div> -->
 
-    <div class="flex justify-end relative">
+    <div class="flex justify-end relative" id="dlc-banner-wrapper">
         <img class="h-full" src="/img/dlc/<%= data.image %> ">
         <div class="absolute h-full w-full bg-gradient-to-r from-black to-transparent">
             <div class="p-12">
                 <div class="text-4xl tracking-wide my-6"><%= gamename %>&trade; - <%= data.dlcname %></div>
-                <div class="mb-6"><%= data.dlcdescription %> </div>
+                <div class="mb-6 w-1/3"><%= data.dlcdescription %> </div>
 
                 <% if(owned) { %>
                 <a class="border-2 rounded-lg px-2 hover:bg-white hover:text-black" href="/img/dlc/<%= data.image %>"
@@ -48,11 +48,25 @@
         </div>
     </div>
 
-    <div>
-        Overview
+    <div class="collapsible transition duration-200">
+        overview
+    </div>
+    <div class="collap-content">
+        <div>Release date</div>
+        <div><%= data.releaseDate %></div>
+        <div>Publisher</div>
+        <div><%= data.publisherName %> </div>
+        <div>Developer</div>
+        <div><%= data.developerName %> </div>
+    </div>
+
+    <div class="collapsible transition duration-200">
+        See more
     </div>
 
     <%- include ("./footer") %>
+
+    <script src="scripts/collapsible.js"></script>
 </body>
 
 </html>
