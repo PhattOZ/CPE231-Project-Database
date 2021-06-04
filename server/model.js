@@ -32,11 +32,11 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema)
 
 const supportSchema = new mongoose.Schema({
-  username: { type: String, require: true},
+  username: { type: String, require: true },
   email: String,
   tel: String,
   comment: String,
-  timestamp: { type: Date, default: Date.now},
+  timestamp: { type: Date, default: Date.now },
 })
 const support = mongoose.model("support", supportSchema)
 
@@ -79,9 +79,9 @@ const Publisher = mongoose.model("Publisher", publisherSchema)
 // var data = {
 //   username: "publisher3",
 //   password: "1234",
-//   publisherName: "AZ Inc.",
-//   email: "AAA@hotmail.com",
-//   tel: "0123456789",
+//   publisherName: "BKJ Inc.",
+//   email: "bookeyjung@gmail.com",
+//   tel: "0839502487",
 // }
 // Publisher.create(data)
 
@@ -117,6 +117,7 @@ const gameSchema = new mongoose.Schema({
   dlc: [
     {
       dlcname: String,
+      dlcdescription: String,
       publisherName: String,
       developerName: String,
       releaseDate: String,

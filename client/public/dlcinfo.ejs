@@ -11,8 +11,11 @@
 
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light">
     <!--import navigation bar-->
-    <%- include("./nav") %>
-
+    <% if(role == "publisher"){ %>
+        <%- include("./nav_publisher") %>
+    <% } else { %>
+        <%- include("./nav") %>
+    <% } %>
 
     <!-- <a href="/gameinfo?name=<%= gamename %> "><%= gamename %> </a>
     <div><img src="/img/dlc/<%= data.image %> "></div>
@@ -27,7 +30,7 @@
         <div class="absolute h-full w-full bg-gradient-to-r from-black to-transparent">
             <div class="p-12">
                 <div class="text-4xl tracking-wide my-6"><%= gamename %>&trade; - <%= data.dlcname %></div>
-                <div class="mb-6">description goes here</div>
+                <div class="mb-6"><%= data.dlcdescription %> </div>
 
                 <% if(owned) { %>
                 <a class="border-2 rounded-lg px-2 hover:bg-white hover:text-black" href="/img/dlc/<%= data.image %>"
