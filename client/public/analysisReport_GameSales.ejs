@@ -35,27 +35,40 @@
               <th>PUBLISHER</th>
               <th>DEVELOPER</th>
               <th>NAME</th>
+              <th>Total Game Sales( Thai Baht)</th>
+              <th>Total DLC Sales( Thai Baht)</th>
               <th>Total Sales( Thai Baht)</th>
             </tr>
           </thead>
           <tbody>
-            <% var Total = 0 %>
-            <% for(d of data){ %>
-                <tr>
-                    <td><%= d.publisherName %></td>
-                    <td><%= d.developerName %></td>
-                    <td><%= d.name %></td>
-                    <%  var price = d.price
-                        var download = d.downloaded
-                        var sales = price*download
-                        Total = Total + sales
-                    %>
-                    <td><%= sales %></td>
-                </tr>
-            <% } %> 
+            <%  
+               var Total = 0 
+               var TotalTotal = 0
+               var gametotal = 0
+               var dlctotal = 0
+             for(d of data){ 
+                dlctotal = 0
+                gametotal = d.price*d.downloaded
+                if (typeof d.dlc !== 'undefined'){
+                  for(c of d.dlc){
+                    dlctotal = dlctotal+(c.price*c.downloaded)
+                  }  
+                }
+                Total = gametotal+dlctotal
+                TotalTotal = TotalTotal+Total
+                %>
+              <tr>
+                <td><%= d.publisherName %></td>
+                <td><%= d.developerName %></td>
+                <td><%= d.name %></td>
+                <td><%= gametotal %></td>
+                <td><%= dlctotal %></td>
+                <td><%= Total %></td>
+              </tr>
+              <%}%>
             <tr>
-              <td colspan="3" class="bg-gray-800 bg-opacity-75"> Total Sales </td>
-              <td><%= Total %></td>
+              <td colspan="5" class="bg-gray-800 bg-opacity-75"> Total Sales </td>
+              <td><%= TotalTotal %></td>
             </tr>
            </tbody>
     </table>
