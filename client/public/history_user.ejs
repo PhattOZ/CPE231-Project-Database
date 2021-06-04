@@ -7,27 +7,24 @@
     <title>History</title>
 </head>
 <body>
-    <table>
+  <h4>username : <%= username %> </h4>
+    <table style="width:100%; border:1px solid black;">
         <tr>
-          <th>Firstname</th>
-          <th>Lastname</th> 
-          <th>Age</th>
+          <th>Date</th>
+          <th>Game name</th> 
+          <th>DLC name</th>
+          <th>Price (THB)</th>
         </tr>
-        <tr>
-          <td>Jill</td>
-          <td>Smith</td>
-          <td>50</td>
-        </tr>
-        <tr>
-          <td>Eve</td>
-          <td>Jackson</td>
-          <td>94</td>
-        </tr>
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>80</td>
-        </tr>
+        <% for(d of data) { %>
+          <tr>
+            <td><%= d.buydate %> <%= d.buytime %></td>
+            <td><%= d.game %></td>
+            <td><%= d.dlc %></td>
+            <td><%= d.total %></td>
+          </tr>
+        <% } %> 
       </table>
+      <h4>Total : <%= sumtotal %> THB</h4>
+      <a href="/userinfo">Back to user profile</a>
 </body>
 </html>

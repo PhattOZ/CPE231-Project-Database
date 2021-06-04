@@ -1221,7 +1221,11 @@ app.get("/history", (request, response) => {
         ])
         total = total[0].sumtotal //total price that user spend for this website
         var doc = await Transaction.find({ username: usernameSession }) //data is array of data in Transaction schema that eq w/ usernameSession
-        response.render("history_user", { data: doc, sumtotal: total })
+        response.render("history_user", {
+          data: doc,
+          sumtotal: total,
+          username: usernameSession,
+        })
       } catch (err) {
         console.log(err)
       }
