@@ -9,7 +9,7 @@
     <title><%= gamename + " - " + data.dlcname %> </title>
 </head>
 
-<body>
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light">
     <!--import navigation bar-->
     <%- include("./nav") %>
 
@@ -22,15 +22,34 @@
     <div><%= data.releaseDate %> </div>
     <div><%= data.price %> </div> -->
 
-    <% if(owned) { %>
-    <a href="/img/dlc/<%= data.image %>" download>
-        DOWNLOAD DLC
-    </a>
-    <% } else { %>
-    <a href="/buydlc?gamename=<%= gamename %>&dlcname=<%= data.dlcname %> ">
-        BUY THIS DLC
-    </a>
-    <% } %>
+    <div class="flex justify-end relative">
+        <img class="h-full" src="/img/dlc/<%= data.image %> ">
+        <div class="absolute h-full w-full bg-gradient-to-r from-black to-transparent">
+            <div class="p-12">
+                <div class="text-4xl tracking-wide my-6"><%= gamename %>&trade; - <%= data.dlcname %></div>
+                <div class="mb-6">description goes here</div>
+
+                <% if(owned) { %>
+                <a class="border-2 rounded-lg px-2 hover:bg-white hover:text-black" href="/img/dlc/<%= data.image %>"
+                    download>
+                    DOWNLOAD DLC
+                </a>
+                <% } else { %>
+                <a class="border-2 rounded-lg px-2 hover:bg-white hover:text-black"
+                    href="/buydlc?gamename=<%= gamename %>&dlcname=<%= data.dlcname %> ">
+                    BUY THIS DLC
+                </a>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+
+    <div>
+        Overview
+    </div>
+
+    <%- include ("./footer") %>
 </body>
 
 </html>
