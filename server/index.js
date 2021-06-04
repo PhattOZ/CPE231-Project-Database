@@ -704,7 +704,7 @@ app.all("/GameSales", (request, response) => {
     Game.find({}).sort( { publisherName: 1,developerName: 1,name: 1 } ).exec((err,docs) => {
       if (!err) {
       response.render("analysisReport_GameSales", {
-        data : docs,
+        data: docs,
         username: usernameSession,
         role: roleSession, })
       } else {
@@ -1215,7 +1215,7 @@ app.get("/history", (request, response) => {
     const userBuyHistory = async () => {
       try {
         var total = await Transaction.aggregate([
-          { $match: { username: { $eq: usernameSession } } },
+          { $match: { username: usernameSession } },
           {
             $group: {
               _id: "$username",
@@ -1223,7 +1223,9 @@ app.get("/history", (request, response) => {
             },
           },
         ])
-        console.log(`total : ${total.sumtotal} ${total._id}`)
+        total = total[0].sumtotal //total price that user spend for this website
+        var doc = await Transaction.find({ username: usernameSession }) //data is array of data in Transaction schema that eq w/ usernameSession
+        response.render("history_user", { data: doc, sumtotal: total })
       } catch (err) {
         console.log(err)
       }

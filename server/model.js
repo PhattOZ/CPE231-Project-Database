@@ -25,7 +25,6 @@ const userSchema = new mongoose.Schema({
       dlcname: [String],
     },
   ],
-  transaction: Array,
   friends: Array,
   group: Array,
 })
