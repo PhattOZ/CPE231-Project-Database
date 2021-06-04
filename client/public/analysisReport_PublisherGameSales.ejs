@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./compiled.css" />
-    <title>Support View</title>
+    <title>Publisher Game Sales Report</title>
 </head>
 <style>
 
@@ -24,10 +24,10 @@
 }
 </style>
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
-    <%- include("./nav") %>
+    <%- include("./nav_publisher.ejs") %>
       <!--end of nav-->
 
-    <div class="text-4xl text-center p-6 font-semibold"><%= username%></div>
+    <div class="text-4xl text-center p-6 font-semibold"><%= data[0].publisherName%></div>
     <div class="text-4xl text-center pb-6 font-semibold">Game Sales Report</div>
 
     <table style="width:70%" class="px-36 table-auto">
@@ -35,26 +35,39 @@
           <tr class="bg-gray-800 bg-opacity-75">
             <th>DEVELOPER</th>
             <th>GAME NAME</th>
+            <th>Total Game Sales( Thai Baht)</th>
+            <th>Total DLC Sales( Thai Baht)</th>
             <th>Total Sales( Thai Baht)</th>
           </tr>
         </thead>
         <tbody>
-          <% var Total = 0 %>
-          <% for(d of data){ %>
-              <tr>
-                  <td><%= d.developerName %></td>
-                  <td><%= d.name %></td>
-                  <%  var price = d.price
-                      var download = d.downloaded
-                      var sales = price*download
-                      Total = Total + sales
-                  %>
-                  <td><%= sales %></td>
-              </tr>
-          <% } %> 
+          <%  
+             var Total = 0 
+             var TotalTotal = 0
+             var gametotal = 0
+             var dlctotal = 0
+           for(d of data){ 
+              dlctotal = 0
+              gametotal = d.price*d.downloaded
+              if (typeof d.dlc !== 'undefined'){
+                for(c of d.dlc){
+                  dlctotal = dlctotal+(c.price*c.downloaded)
+                }  
+              }
+              Total = gametotal+dlctotal
+              TotalTotal = TotalTotal+Total
+              %>
+            <tr>
+              <td><%= d.developerName %></td>
+              <td><%= d.name %></td>
+              <td><%= gametotal %></td>
+              <td><%= dlctotal %></td>
+              <td><%= Total %></td>
+            </tr>
+            <%}%>
           <tr>
-            <td colspan="2" class="bg-gray-800 bg-opacity-75"> Total Sales </td>
-            <td><%= Total %></td>
+            <td colspan="4" class="bg-gray-800 bg-opacity-75"> Total Sales </td>
+            <td><%= TotalTotal %></td>
           </tr>
          </tbody>
   </table>

@@ -680,12 +680,17 @@ app.all("/DeveloperSales", (request, response) => {
   if (roleSession != "publisher") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    Game.find({}).exec((err, docs) => {
-      response.render("analysisReport_DeveloperSales", {
-        data: docs,
-        username: usernameSession,
-        role: roleSession,
-      })
+    Publisher.findOne({ username: { $eq: usernameSession }} ).exec((err,doc) => {
+      if (!err) {
+        Game.find({ publisherName: { $eq: doc.publisherName} }).sort( { developerName: 1,name: 1 } ).exec((err,docs) => {
+          response.render("analysisReport_DeveloperSales", {
+            data : docs,
+            username: usernameSession,
+            role: roleSession, })
+        })
+      } else {
+        response.send("Fail")
+      }
     })
   }
 })
@@ -696,12 +701,15 @@ app.all("/GameSales", (request, response) => {
   if (roleSession != "user") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    Game.find({}).exec((err, docs) => {
+    Game.find({}).sort( { publisherName: 1,developerName: 1,name: 1 } ).exec((err,docs) => {
+      if (!err) {
       response.render("analysisReport_GameSales", {
         data: docs,
         username: usernameSession,
-        role: roleSession,
-      })
+        role: roleSession, })
+      } else {
+        response.send("Fail")
+      }
     })
   }
 })
@@ -712,23 +720,18 @@ app.all("/PublisherGameSales", (request, response) => {
   if (roleSession != "publisher") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    Publisher.findOne({ username: { $eq: usernameSession } }).exec(
-      (err, doc) => {
-        if (!err) {
-          Game.find({ publisherName: { $eq: doc.publisherName } }).exec(
-            (err, docs) => {
-              response.render("analysisReport_PublisherGameSales", {
-                data: docs,
-                username: usernameSession,
-                role: roleSession,
-              })
-            }
-          )
-        } else {
-          response.send("Fail")
-        }
+    Publisher.findOne({ username: { $eq: usernameSession }} ).exec((err,doc) => {
+      if (!err) {
+        Game.find({ publisherName: { $eq: doc.publisherName} }).sort( { developerName: 1,name: 1 } ).exec((err,docs) => {
+          response.render("analysisReport_PublisherGameSales", {
+            data : docs,
+            username: usernameSession,
+            role: roleSession, })
+        })
+      } else {
+        response.send("Fail")
       }
-    )
+    })
   }
 })
 
@@ -738,15 +741,16 @@ app.all("/PublisherSales", (request, response) => {
   if (roleSession != "user") {
     response.redirect("/login") //role isn't publisher -> redirect to login page
   } else {
-    Game.find({})
-      .sort({ publisherName: -1 })
-      .exec((err, docs) => {
-        response.render("analysisReport_PublisherSales", {
-          data: docs,
-          username: usernameSession,
-          role: roleSession,
-        })
-      })
+    Game.find({}).sort( { publisherName: 1 } ).exec((err,docs) => {
+      if (!err) {
+      response.render("analysisReport_PublisherSales", {
+        data : docs,
+        username: usernameSession,
+        role: roleSession, })
+      } else {
+        response.send("Fail")
+      }
+    })
   }
 })
 
