@@ -674,6 +674,72 @@ app.all("/support_view", (request, response) => {
   }
 })
 
+app.all("/DeveloperSales", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "publisher") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    Game.find({}).exec((err,docs) => {
+      response.render("analysisReport_DeveloperSales", {
+        data : docs,
+        username: usernameSession,
+        role: roleSession, })
+    })
+  }
+})
+
+app.all("/GameSales", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    Game.find({}).exec((err,docs) => {
+      response.render("analysisReport_GameSales", {
+        data : docs,
+        username: usernameSession,
+        role: roleSession, })
+    })
+  }
+})
+
+app.all("/PublisherGameSales", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "publisher") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    Publisher.findOne({ username: { $eq: usernameSession }} ).exec((err,doc) => {
+      if (!err) {
+        Game.find({ publisherName: { $eq: doc.publisherName} }).exec((err,docs) => {
+          response.render("analysisReport_PublisherGameSales", {
+            data : docs,
+            username: usernameSession,
+            role: roleSession, })
+        })
+      } else {
+        response.send("Fail")
+      }
+    })
+  }
+})
+
+app.all("/PublisherSales", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    Game.find({}).sort( { publisherName: -1 } ).exec((err,docs) => {
+      response.render("analysisReport_PublisherSales", {
+        data : docs,
+        username: usernameSession,
+        role: roleSession, })
+    })
+  }
+})
+
 // app.get("/history-publisher", (request, respone) => {
 //   var usernameSession = request.session.username
 //   var roleSession = request.session.role
