@@ -294,6 +294,7 @@ app.all("/add-dlc", (request, response) => {
           let data = {
             //data for dlc in game schema
             dlcname: fields.dlcname,
+            dlcdescription: fields.dlcdescription,
             publisherName: fields.publishername,
             developerName: fields.developername,
             releaseDate: day,
@@ -774,6 +775,7 @@ async function checkUserOwnedDLC(username, gamename, dlcname) {
 app.get("/dlcinfo", (request, response) => {
   const checkOwned = async () => {
     var usernameSession = request.session.username
+    var roleSession = request.session.role
     var gamenamequery = request.query.gamename //game name
     var dlcnamequery = request.query.dlcname //dlc name
     var result = await checkUserOwnedDLC(
@@ -789,6 +791,8 @@ app.get("/dlcinfo", (request, response) => {
               gamename: gamenamequery,
               data: data,
               owned: result,
+              username: usernameSession,
+              role: roleSession,
             })
           }
         }
