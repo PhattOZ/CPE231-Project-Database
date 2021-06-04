@@ -24,7 +24,7 @@
             <% } %>
             <form action="/buygame?gamename=<%= data.name %>" method="POST" class="space-y-3">
                 <div class="flex items-center gap-x-3">
-                    <img class="w-32 h-20 object-cover" src="img/dlc/<%= d.image %>" alt="">
+                    <img class="w-32 h-20 object-cover" src="img/games/<%= data.image %>" alt="">
                     <div><%= data.name %> : <%= data.price %> THB</div>
                     <input type="checkbox" name="gamename" checked disabled>
                 </div>
