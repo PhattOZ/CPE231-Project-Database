@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./compiled.css" />
+    <title>Support View</title>
+</head>
+<style>
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+}
+
+    table, th, td {
+        border: 2px solid rgba(176, 230, 225, 0.575);
+        text-align: center;
+        margin-left: 15%;
+        margin-right: 15%;
+}
+</style>
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
+    <%- include("./nav") %>
+      <!--end of nav-->
+
+    <div class="text-4xl text-center p-6 font-semibold"><%= username%></div>
+    <div class="text-4xl text-center pb-6 font-semibold">Game Sales Report</div>
+
+    <table style="width:70%" class="px-36 table-auto">
+      <thead>
+          <tr class="bg-gray-800 bg-opacity-75">
+            <th>DEVELOPER</th>
+            <th>GAME NAME</th>
+            <th>Total Sales( Thai Baht)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% var Total = 0 %>
+          <% for(d of data){ %>
+              <tr>
+                  <td><%= d.developerName %></td>
+                  <td><%= d.name %></td>
+                  <%  var price = d.price
+                      var download = d.downloaded
+                      var sales = price*download
+                      Total = Total + sales
+                  %>
+                  <td><%= sales %></td>
+              </tr>
+          <% } %> 
+          <tr>
+            <td colspan="2" class="bg-gray-800 bg-opacity-75"> Total Sales </td>
+            <td><%= Total %></td>
+          </tr>
+         </tbody>
+  </table>
+    <div class="py-10 px-16">
+        <a href="/" class="
+          border-2 border-cyan-lightest
+          text-cyan-lightest
+          rounded-md
+          shadow
+          inline-block
+          transition-colors
+          duration-100
+          bg-transparent
+          hover:text-white
+          hover:bg-cyan-lightest
+          cursor-pointer
+          px-2
+          ">Go back to Home page
+        </a>
+      </div>
+    </div>
+    <!--end of Content-->
+    <div class="footer pt-10">
+        <%- include ("./footer") %> 
+    </div>
+
+    <!--end of footer-->
+</body>
+</html>
