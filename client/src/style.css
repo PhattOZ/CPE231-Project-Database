@@ -109,3 +109,38 @@
 #dlc-container:hover span {
   @apply bottom-1/2 translate-y-1/2;
 }
+
+/* collapsible dlc content from w3school*/
+
+.collapsible {
+  @apply text-xl uppercase tracking-wider bg-cyan-darkest px-12 py-4 cursor-pointer;
+}
+
+.active {
+  @apply bg-cyan-lightblack;
+}
+
+.collap-content {
+  @apply px-12 bg-cyan-black max-h-0 overflow-hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.collapsible:after {
+  content: "+"; /* Unicode character for "plus" sign (+) */
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  text-decoration: none;
+  color: white;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "-"; /* Unicode character for "minus" sign (-) */
+}
+
+/* fix dlc image min height */
+
+#dlc-banner-wrapper img {
+  min-height: 56vh;
+}
