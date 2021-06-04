@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="compiled.css">
     <title>Confirm transaction</title>
 </head>
-<body>
-    <form action="/buygame_success?username=<%= username %>&gamename=<%= gamedata.name %>&dlcname=<%= dlcstring %> " method="POST">
-        <h1>Confirm your order</h1>
-        <div>username : <%= username %></div><br>
-        <div>Game</div>
-        <div>- <%= gamedata.name %> : <%= gamedata.price %> THB </div><br>
-        <div>DLC</div>
+
+<body class="font-kanit font-light
+bg-gradient-to-tr from-indigo-900 via-cyan-blackest to-cyan-blackest text-white h-screen">
+
+    <!--import nav bar-->
+    <%- include("./nav") %>
+
+    <div class="">
+        <div>Review Order</div>
+        <div>username : <%= username %></div>
+        <div class="border-t-2">Game</div>
+        <div>- <%= gamedata.name %> : <%= gamedata.price %> THB </div>
+        <div class="border-t-2">DLC</div>
         <% for(d of dlcdata) { %>
-            <div>- <%= d.name %> : <%= d.price %>  </div>
-        <% } %> 
-        <br>
-        <div>Total : <%= totalprice %> THB</div>
-        <button type="submit">CONFIRM</button>
-    </form>
+        <div>- <%= d.name %> : <%= d.price %> </div>
+        <% } %>
+        <div class="border-t-2">Total : <%= totalprice %> THB</div>
+        <form action="/buygame_success?username=<%= username %>&gamename=<%= gamedata.name %>&dlcname=<%= dlcstring %> "
+            method="POST">
+            <button type="submit">CONFIRM</button>
+        </form>
+    </div>
+
+
 </body>
+
 </html>

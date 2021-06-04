@@ -1,26 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="compiled.css">
     <title>Buy Game</title>
 </head>
-<body>
-    <h1>Buy Game</h1>
-    <% if(locals.buyFirst) { %>
-        <div style="color: red">Buy this game first!</div>
-    <% } %> 
-    <form action="/buygame?gamename=<%= data.name %>" method="POST">
-        <div>GAME</div>
-        <div><input type="checkbox" name="gamename" checked disabled><label><%= data.name %> : <%= data.price %> THB</label></div>
-        <br>
-        <div>DLC Bundle</div>
-        <% for (d of data.dlc) { %>
-            <div><input type="checkbox" name="dlcname" value="<%= d.dlcname %>"><%= d.dlcname %> : <%= d.price %> THB </div>
-        <% } %> 
-        <br>
-        <button type="submit">BUY</button>
-    </form>
+
+<body class="font-kanit font-light
+    bg-gradient-to-tr from-indigo-900 via-cyan-blackest to-cyan-blackest text-white">
+
+    <!--import nav bar-->
+    <%- include("./nav") %>
+
+
+    <div class="flex justify-center">
+        <div class="bg-cyan-light bg-opacity-30 px-24 space-y-6">
+            <div class="text-3xl tracking-wide">buying <%= data.name %> </div>
+            <% if(locals.buyFirst) { %>
+            <div style="color: red">Buy this game first!</div>
+            <% } %>
+            <form action="/buygame?gamename=<%= data.name %>" method="POST" class="space-y-3">
+                <div class="flex items-center gap-x-3">
+                    <img class="w-32 h-20 object-cover" src="img/dlc/<%= d.image %>" alt="">
+                    <div><%= data.name %> : <%= data.price %> THB</div>
+                    <input type="checkbox" name="gamename" checked disabled>
+                </div>
+                <div>DLC Bundle</div>
+                <% for (d of data.dlc) { %>
+                <div><input type="checkbox" name="dlcname" value="<%= d.dlcname %>"><%= d.dlcname %> : <%= d.price %>
+                    THB
+                </div>
+                <% } %>
+                <button type="submit">BUY</button>
+            </form>
+        </div>
+    </div>
+
+    <!--import footer-->
+    <%- include ("./footer") %>
 </body>
+
 </html>
