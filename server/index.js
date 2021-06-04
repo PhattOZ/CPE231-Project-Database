@@ -658,6 +658,20 @@ app.all("/support", (request, response) => {
   }
 })
 
+app.all("/supportview", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "user") {
+    response.redirect("/login") //role isn't publisher -> redirect to login page
+  } else {
+    support.find({}).exec((docs,err) => {
+      response.render("support_view", {
+        username: usernameSession,
+        role: roleSession, })
+    })
+  }
+})
+
 // app.get("/history-publisher", (request, respone) => {
 //   var usernameSession = request.session.username
 //   var roleSession = request.session.role
