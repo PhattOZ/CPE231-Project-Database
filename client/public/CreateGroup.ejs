@@ -10,13 +10,13 @@
 </head>
 <style>
     div.bottom {
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   width: 100%;
-}
-</style>
+  }
+  </style>
 
-<body class="bg-cyan-black text-white font-kanit font-light h-screen">
+<body class="bg-cyan-black text-white font-kanit font-light min-h-screen">
     <%- include("./nav.ejs") %>
     <!--end of nav-->
     <div class="px-24 text-4xl py-3 bg-gradient-to-t from-cyan-darkest to-cyan-black text-center font-semibold">Create Group
@@ -68,13 +68,14 @@
             " onclick="handleSubmit()">SUMMIT</button>
         </div>
     </form>
-    <div class="bottom min-w-full">
-        <%- include ("./footer") %>
-    </div>
     <script>const availableTags = "<%= friendlist%>".split(",");
 
     </script>
     <script src="scripts/tagsWithFilterSearch_Group.js"></script>
 </body>
-
+<footer>
+<div class="bottom">
+    <%- include ("./footer") %>
+</div>
+</footer>
 </html>
