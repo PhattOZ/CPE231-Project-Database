@@ -40,7 +40,7 @@ app.get("/", (request, response) => {
 app.get("/about", (request, respone) => {
   var usernameSession = request.session.username
   var sessionRole = request.session.role
-  respone.render("about", { username: usernameSession,role: sessionRole, })
+  respone.render("about", { username: usernameSession, role: sessionRole })
 })
 
 async function findRoleAccount(username) {
@@ -260,7 +260,10 @@ app.all("/add-game", (request, response) => {
               }
             })
           } else {
-            respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+            respone.render("Error_General", {
+              username: usernameSession,
+              role: sessionRole,
+            })
           }
         })
       } else {
@@ -404,11 +407,17 @@ app.all("/addfriend", (request, response) => {
                   role: roleSession,
                 })
               } else {
-                respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+                respone.render("Error_General", {
+                  username: usernameSession,
+                  role: sessionRole,
+                })
               }
             })
           } else {
-            respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+            respone.render("Error_General", {
+              username: usernameSession,
+              role: sessionRole,
+            })
           }
         })
       } else {
@@ -464,11 +473,17 @@ app.all("/deletefriend", (request, response) => {
                   role: roleSession,
                 })
               } else {
-                respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+                respone.render("Error_General", {
+                  username: usernameSession,
+                  role: sessionRole,
+                })
               }
             })
           } else {
-            respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+            respone.render("Error_General", {
+              username: usernameSession,
+              role: sessionRole,
+            })
           }
         })
       } else {
@@ -527,11 +542,17 @@ app.all("/CreateGroup", (request, response) => {
                   role: roleSession,
                 })
               } else {
-                respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+                respone.render("Error_General", {
+                  username: usernameSession,
+                  role: sessionRole,
+                })
               }
             })
           } else {
-            respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+            respone.render("Error_General", {
+              username: usernameSession,
+              role: sessionRole,
+            })
           }
         })
       } else {
@@ -591,15 +612,24 @@ app.all("/DeleteGroup", (request, response) => {
                       role: roleSession,
                     })
                   } else {
-                    respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+                    respone.render("Error_General", {
+                      username: usernameSession,
+                      role: sessionRole,
+                    })
                   }
                 })
               } else {
-                respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+                respone.render("Error_General", {
+                  username: usernameSession,
+                  role: sessionRole,
+                })
               }
             })
           } else {
-            respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+            respone.render("Error_General", {
+              username: usernameSession,
+              role: sessionRole,
+            })
           }
         })
       } else {
@@ -668,7 +698,10 @@ app.all("/support", (request, response) => {
             role: roleSession,
           })
         } else {
-          respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+          respone.render("Error_General", {
+            username: usernameSession,
+            role: sessionRole,
+          })
         }
       })
     }
@@ -711,7 +744,10 @@ app.all("/DeveloperSales", (request, response) => {
               })
             })
         } else {
-          respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+          respone.render("Error_General", {
+            username: usernameSession,
+            role: sessionRole,
+          })
         }
       }
     )
@@ -735,7 +771,10 @@ app.all("/GameSales", (request, response) => {
             role: roleSession,
           })
         } else {
-          respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+          respone.render("Error_General", {
+            username: usernameSession,
+            role: sessionRole,
+          })
         }
       })
   }
@@ -761,7 +800,10 @@ app.all("/PublisherGameSales", (request, response) => {
               })
             })
         } else {
-          respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+          respone.render("Error_General", {
+            username: usernameSession,
+            role: sessionRole,
+          })
         }
       }
     )
@@ -785,7 +827,10 @@ app.all("/PublisherSales", (request, response) => {
             role: roleSession,
           })
         } else {
-          respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+          respone.render("Error_General", {
+            username: usernameSession,
+            role: sessionRole,
+          })
         }
       })
   }
@@ -985,7 +1030,10 @@ app.get("/store", (request, response) => {
             role: roleSession,
           })
         } else {
-          respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+          respone.render("Error_General", {
+            username: usernameSession,
+            role: sessionRole,
+          })
         }
       })
   } else if (sort_order == "descending") {
@@ -1000,7 +1048,10 @@ app.get("/store", (request, response) => {
             role: roleSession,
           })
         } else {
-          respone.render("Error_General", { username: usernameSession,role: sessionRole, })
+          respone.render("Error_General", {
+            username: usernameSession,
+            role: sessionRole,
+          })
         }
       })
   }
@@ -1024,7 +1075,11 @@ app.all("/buygame", (request, response) => {
     var gamename_query = request.query.gamename
     if (request.method == "GET") {
       Game.find({ name: { $eq: gamename_query } }).exec((err, doc) => {
-        response.render("buygame", { data: doc[0] })
+        response.render("buygame", {
+          data: doc[0],
+          username: usernameSession,
+          role: roleSession,
+        })
       })
     } else if (request.method == "POST") {
       var dlc_select = request.body.dlcname //get all user's checked dlc in checkbox (type : Object, separator w/ ,)
@@ -1069,11 +1124,15 @@ app.all("/buygame", (request, response) => {
               dlcdata: dlc_and_price,
               totalprice: totalPrice,
               dlcstring: dlc_select,
+              role: roleSession,
             })
           } //end of confirm function
           confirm() //confirm page (summary total price)
         } else {
-          respone.render("Error_General", { username: usernameSession,role: sessionRole, }) //static error page
+          respone.render("Error_General", {
+            username: usernameSession,
+            role: sessionRole,
+          }) //static error page
         }
       })
     }
@@ -1231,12 +1290,12 @@ app.all("/buydlc", (request, response) => {
               dlcname,
               dlcprice
             )
-            response.send("Buy DLC success!")
+            response.send("Buy DLC success!") //static buy only dlc success
           }
         }
       }
     } catch (err) {
-      console.log(err)
+      console.log(err) //static error buy only dlc
     }
   }
   checkBuyDLC()
@@ -1261,13 +1320,20 @@ app.get("/history", (request, response) => {
             },
           },
         ])
-        total = total[0].sumtotal //total price that user spend for this website
-        var doc = await Transaction.find({ username: usernameSession }) //data is array of data in Transaction schema that eq w/ usernameSession
-        response.render("history_user", {
-          data: doc,
-          sumtotal: total,
-          username: usernameSession,
-        })
+        if (total.length == 0) {
+          response.render("history_user", {
+            notFound: true,
+            username: usernameSession,
+          })
+        } else {
+          total = total[0].sumtotal //total price that user spend for this website
+          var doc = await Transaction.find({ username: usernameSession }) //data is array of data in Transaction schema that eq w/ usernameSession
+          response.render("history_user", {
+            data: doc,
+            sumtotal: total,
+            username: usernameSession,
+          })
+        }
       } catch (err) {
         console.log(err)
       }
@@ -1306,10 +1372,6 @@ app.all("/admin-manage", (request, response) => {
     const getAllAccount = async () => {
       var allUserAccount = await User.find({}) //array of user account data
       var allPublisherAccount = await Publisher.find({}) //array of publisher data
-      console.log("1305")
-      console.log(allUserAccount)
-      console.log("1307")
-      console.log(allPublisherAccount)
     } //end of getAllAccount
     getAllAccount()
   }
