@@ -139,7 +139,7 @@ app.get("/userinfo", (request, response) => {
     })
   } else {
     //path เป็น /userinfo แต่ไม่มีการ login
-    response.redirect("login")
+    response.render("login", { user: true })
   }
 })
 
@@ -186,7 +186,7 @@ app.get("/publisherinfo", (request, response) => {
       })
     })
   } else {
-    response.redirect("/login")
+    response.render("login", { publisher: true })
   }
 })
 
@@ -194,7 +194,7 @@ app.all("/add-game", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "publisher") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { publisher: true }) //role isn't publisher -> redirect to login page
   } else {
     var form = new formidable.IncomingForm() //read all user input in form
     form.parse(request, (err, fields, files) => {
@@ -283,7 +283,7 @@ app.all("/add-dlc", (request, response) => {
   var roleSession = request.session.role
   var query = request.query.name //game name (string query)
   if (roleSession != "publisher") {
-    response.redirect("/login")
+    response.render("login", { publisher: true })
   } else {
     if (query) {
       var form = new formidable.IncomingForm()
@@ -382,7 +382,7 @@ app.all("/addfriend", (request, response) => {
   var roleSession = request.session.role
   var form = new formidable.IncomingForm() //read all user input in form
   if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { user: true }) //role isn't user -> redirect to login page
   } else {
     form.parse(request, (err, fields) => {
       if (fields.friends && !err) {
@@ -442,7 +442,7 @@ app.all("/deletefriend", (request, response) => {
   var roleSession = request.session.role
   var form = new formidable.IncomingForm() //read all user input in form
   if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { user: true }) //role isn't user -> redirect to login page
   } else {
     form.parse(request, (err, fields) => {
       if (fields.friends && !err) {
@@ -502,7 +502,7 @@ app.all("/CreateGroup", (request, response) => {
   var roleSession = request.session.role
   var form = new formidable.IncomingForm() //read all user input in form
   if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { user: true }) //role isn't publisher -> redirect to login page
   } else {
     form.parse(request, (err, fields) => {
       if (fields.name && fields.member && !err) {
@@ -565,7 +565,7 @@ app.all("/DeleteGroup", (request, response) => {
   var roleSession = request.session.role
   var form = new formidable.IncomingForm() //read all user input in form
   if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { user: true }) //role isn't publisher -> redirect to login page
   } else {
     form.parse(request, (err, fields) => {
       if (fields.groupname && !err) {
@@ -621,7 +621,7 @@ app.all("/UserGroup", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { user: true }) //role isn't publisher -> redirect to login page
   } else {
     User.findOne({ username: { $eq: usernameSession } }).exec((err, doc) => {
       var grouplist = []
@@ -643,7 +643,7 @@ app.all("/support", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { user: true }) //role isn't publisher -> redirect to login page
   } else {
     if (request.method == "GET") {
       User.findOne({ username: { $eq: usernameSession } }).exec((err, doc) => {
@@ -679,7 +679,7 @@ app.all("/support_view", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "admin") {
-    response.redirect("/login") //role isn't admin -> redirect to login page
+    response.render("login", { admin: true }) //role isn't admin -> redirect to login page
   } else {
     support.find({}).exec((err, docs) => {
       response.render("support_view", {
@@ -696,7 +696,7 @@ app.all("/DeveloperSales", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "publisher") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { publisher: true }) //role isn't publisher -> redirect to login page
   } else {
     Publisher.findOne({ username: { $eq: usernameSession } }).exec(
       (err, doc) => {
@@ -723,7 +723,7 @@ app.all("/GameSales", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "admin") {
-    response.redirect("/login") //role isn't admin -> redirect to login page
+    response.render("login", { admin: true }) //role isn't admin -> redirect to login page
   } else {
     Game.find({})
       .sort({ publisherName: 1, developerName: 1, name: 1 })
@@ -746,7 +746,7 @@ app.all("/PublisherGameSales", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "publisher") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+    response.render("login", { publisher: true }) //role isn't publisher -> redirect to login page
   } else {
     Publisher.findOne({ username: { $eq: usernameSession } }).exec(
       (err, doc) => {
@@ -773,7 +773,7 @@ app.all("/PublisherSales", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "admin") {
-    response.redirect("/login") //role isn't admin -> redirect to login page
+    response.render("login", { admin: true }) //role isn't admin -> redirect to login page
   } else {
     Game.find({})
       .sort({ publisherName: 1 })
@@ -1019,7 +1019,7 @@ app.all("/buygame", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "user") {
-    response.redirect("login") //if role isn't 'user' role -> can't buy game -> redirect to login page
+    response.render("login", { user: true }) //if role isn't 'user' role -> can't buy game -> redirect to login page
   } else {
     var gamename_query = request.query.gamename
     if (request.method == "GET") {
@@ -1188,7 +1188,7 @@ app.all("/buydlc", (request, response) => {
   const checkBuyDLC = async () => {
     try {
       if (roleSession != "user") {
-        response.redirect("login")
+        response.render("login", { user: true })
       } else {
         //role is user
         var gamename = request.query.gamename
@@ -1248,7 +1248,7 @@ app.get("/history", (request, response) => {
   var roleSession = request.session.role
   if (roleSession != "user") {
     //this role not user role -> can't view
-    response.redirect("/login")
+    response.render("login", { user: true })
   } else {
     const userBuyHistory = async () => {
       try {
@@ -1298,18 +1298,21 @@ app.all("/search", (request, response) => {
   }
 })
 
-app.all("/admin", (request, response) => {
-  if (request.method == "GET") {
-    response.render("admin")
-  } else if (request.method == "POST") {
-    var name = request.body.delete
-    console.log(name)
-    response.render("admin")
-  }
-})
-
 app.all("/admin-manage", (request, response) => {
-  response.send("ADMIN")
+  var roleSession = request.session.role
+  if (roleSession != "admin") {
+    response.render("login", { admin: true })
+  } else {
+    const getAllAccount = async () => {
+      var allUserAccount = await User.find({}) //array of user account data
+      var allPublisherAccount = await Publisher.find({}) //array of publisher data
+      console.log("1305")
+      console.log(allUserAccount)
+      console.log("1307")
+      console.log(allPublisherAccount)
+    } //end of getAllAccount
+    getAllAccount()
+  }
 })
 
 app.listen(3000, () => {
