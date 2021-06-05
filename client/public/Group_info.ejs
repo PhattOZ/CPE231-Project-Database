@@ -7,27 +7,39 @@
         <link rel="stylesheet" href="./compiled.css" />
     <title >User Group info</title>
 </head>
-<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
+<style>
+  div.bottom {
+position: relative;
+bottom: 0px;
+width: 100%;
+}
+</style>
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
     <%- include("./nav") %>
       <!--end of nav-->
     <div class="rounded-md mx-56 my-4 px-10 py-14 bg-gray-900 bg-opacity-70">
       <% if(data.length==0){ %>
-          <div class="pt-10">User has not be a member of any group.</div>
+          <div class="pt-5 pb-10 font-semibold">User has not be a member of any group.</div>
       <% }else{ %>
-          <div class="pt-10">User Group List :</div>
+          <div class="pt-5 pb-10 font-semibold">User Group List :</div>
+          <div class="divide-y-2 divide-gray-300">
           <% for(d of data){ %>
-            <div class="py-2">Group Name : <%= d.name %></div>
-            <div class="py-2">Member :
-                <% 
-                var Glist = ""
-                for(m of d.member) { 
-                    Glist += m + ","
-                }
-                Glist = Glist.slice(0, -1)
-                  %> 
-                  <span><%= Glist %></span>
+            <div>
+              <div class="py-2">Group Name : <%= d.name %></div>
+              <div class="py-2">Member :
+                  <% 
+                  var Glist = ""
+                  for(m of d.member) { 
+                      Glist += m + ","
+                  }
+                  Glist = Glist.slice(0, -1)
+                    %> 
+                    <span><%= Glist %></span>
+              </div>
             </div>
-      <% }} %> 
+            <% } %> 
+          </div>
+      <% } %> 
         <a href="/" class="
                 border-2 border-indigo-700
                 text-indigo-700
@@ -45,7 +57,10 @@
         </a>
     </div>
     <!--end of Content-->
-    <%- include ("./footer") %> 
-    <!--end of footer-->
 </body>
+<footer>
+  <div class="bottom">
+  <%- include ("./footer") %> 
+  </div>
+</footer>
 </html>

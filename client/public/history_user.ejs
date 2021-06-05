@@ -4,16 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./compiled.css" />
     <title>History</title>
 </head>
-<body>
-  <h4>username : <%= username %> </h4>
-    <table style="width:100%; border:1px solid black;">
-        <tr>
+<style>
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+}
+
+    table, th, td {
+        border: 2px solid rgba(176, 230, 225, 0.575);
+        text-align: center;
+        margin-left: 5%;
+        margin-right: 5%;
+}
+</style>
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
+  <%- include("./nav") %>
+  <div class="text-4xl text-center p-6 font-semibold"><%= username %> transaction history</div>
+  <table style="width:90%" class="px-36 table-auto">
+    <tr class="bg-gray-800 bg-opacity-75">
           <th>Date</th>
           <th>Game name</th> 
           <th>DLC name</th>
-          <th>Price (THB)</th>
+          <th>TotalPrice (THB)</th>
         </tr>
         <% for(d of data) { %>
           <tr>
@@ -23,8 +40,32 @@
             <td><%= d.total %></td>
           </tr>
         <% } %> 
+        <tr>
+          <td colspan="3" class="bg-gray-800 bg-opacity-75"> Total</td>
+          <td><%= sumtotal %></td>
+        </tr>
       </table>
-      <h4>Total : <%= sumtotal %> THB</h4>
-      <a href="/userinfo">Back to user profile</a>
+      <div class="py-10 px-16">
+        <a href="/userinfo" class="
+          border-2 border-blue-lightest
+          text-cyan-lightest
+          rounded-md
+          shadow
+          inline-block
+          transition-colors
+          duration-100
+          bg-transparent
+          hover:text-white
+          hover:bg-blue-lightest
+          cursor-pointer
+          px-2
+          ">Back to user profile
+        </a>
+      </div>
 </body>
+<footer>
+  <div class="footer">
+  <%- include ("./footer") %> 
+  </div>
+</footer>
 </html>
