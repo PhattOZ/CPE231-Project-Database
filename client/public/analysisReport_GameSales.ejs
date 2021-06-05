@@ -24,7 +24,7 @@
 }
 </style>
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
-    <%- include("./nav") %>
+    <%- include("./nav_admin") %>
       <!--end of nav-->
 
     <div class="text-4xl text-center p-6 font-semibold">Game Sales Report</div>
@@ -34,7 +34,7 @@
             <tr class="bg-gray-800 bg-opacity-75">
               <th>PUBLISHER</th>
               <th>DEVELOPER</th>
-              <th>NAME</th>
+              <th>GAME NAME</th>
               <th>Total Game Sales( Thai Baht)</th>
               <th>Total DLC Sales( Thai Baht)</th>
               <th>Total Sales( Thai Baht)</th>
@@ -58,9 +58,9 @@
                 TotalTotal = TotalTotal+Total
                 %>
               <tr>
-                <td><%= d.publisherName %></td>
+                <td><a href="/publisherinfo?name=<%= d.publisherName %>" class="hover:text-yellow-300"><%= d.publisherName %></a></td>
                 <td><%= d.developerName %></td>
-                <td><%= d.name %></td>
+                <td><a href="/gameinfo?name=<%= d.name %>" class="hover:text-purple-300"><%= d.name %></a></td>
                 <td><%= gametotal %></td>
                 <td><%= dlctotal %></td>
                 <td><%= Total %></td>

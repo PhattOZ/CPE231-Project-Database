@@ -19,8 +19,8 @@
     table, th, td {
         border: 2px solid rgba(176, 230, 225, 0.575);
         text-align: center;
-        margin-left: 15%;
-        margin-right: 15%;
+        margin-left: 5%;
+        margin-right: 5%;
 }
 </style>
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
@@ -30,7 +30,7 @@
     <div class="text-4xl text-center p-6 font-semibold"><%= data[0].publisherName%></div>
     <div class="text-4xl text-center pb-6 font-semibold">Game Sales Report</div>
 
-    <table style="width:70%" class="px-36 table-auto">
+    <table style="width:90%" class="px-36 table-auto">
       <thead>
           <tr class="bg-gray-800 bg-opacity-75">
             <th>DEVELOPER</th>
@@ -59,7 +59,7 @@
               %>
             <tr>
               <td><%= d.developerName %></td>
-              <td><%= d.name %></td>
+              <td><a href="/gameinfo?name=<%= d.name %>" class="hover:text-purple-300"><%= d.name %></a></td>
               <td><%= gametotal %></td>
               <td><%= dlctotal %></td>
               <td><%= Total %></td>

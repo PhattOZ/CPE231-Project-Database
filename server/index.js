@@ -11,6 +11,7 @@ const Group = require("./model").Group
 const Publisher = require("./model").Publisher
 const AccountRole = require("./model").AccountRole
 const support = require("./model").support
+const Admin = require("./model").Admin
 const app = express()
 
 app.use(express.static("../client/public")) //Set static floder (.css)
@@ -86,6 +87,22 @@ app.all("/login", (request, response) => {
             //username & password are in database
             request.session.username = doc[0].username
             request.session.role = "publisher"
+            response.redirect("/")
+          } else {
+            response.render("login", { logined: true, success: false }) //this username & password not in database
+          }
+        })
+      } else if (role == "admin") {
+        Admin.find({
+          $and: [
+            { username: { $eq: username } },
+            { password: { $eq: password } },
+          ],
+        }).exec((err, doc) => {
+          if (doc.length > 0) {
+            //username & password are in database
+            request.session.username = doc[0].username
+            request.session.role = "admin"
             response.redirect("/")
           } else {
             response.render("login", { logined: true, success: false }) //this username & password not in database
@@ -661,8 +678,8 @@ app.all("/support", (request, response) => {
 app.all("/support_view", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
-  if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+  if (roleSession != "admin") {
+    response.redirect("/login") //role isn't admin -> redirect to login page
   } else {
     support.find({}).exec((err, docs) => {
       response.render("support_view", {
@@ -705,8 +722,8 @@ app.all("/DeveloperSales", (request, response) => {
 app.all("/GameSales", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
-  if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+  if (roleSession != "admin") {
+    response.redirect("/login") //role isn't admin -> redirect to login page
   } else {
     Game.find({})
       .sort({ publisherName: 1, developerName: 1, name: 1 })
@@ -755,8 +772,8 @@ app.all("/PublisherGameSales", (request, response) => {
 app.all("/PublisherSales", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
-  if (roleSession != "user") {
-    response.redirect("/login") //role isn't publisher -> redirect to login page
+  if (roleSession != "admin") {
+    response.redirect("/login") //role isn't admin -> redirect to login page
   } else {
     Game.find({})
       .sort({ publisherName: 1 })
@@ -1260,15 +1277,23 @@ app.get("/history", (request, response) => {
 })
 
 app.all("/search", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
   if (request.method == "GET") {
-    response.render("search")
+    response.render("search", { username: usernameSession, role: roleSession })
   } else if (request.method == "POST") {
     var gamename = request.body.searchGame
-    console.log(gamename)
     Game.find({
       name: { $regex: gamename, $options: "i" },
     }).exec((err, doc) => {
-      response.render("search", { data: doc })
+      var count = doc.length
+      response.render("search", {
+        data: doc,
+        username: usernameSession,
+        role: roleSession,
+        keyword: gamename,
+        count: count,
+      })
     })
   }
 })
@@ -1281,6 +1306,10 @@ app.all("/admin", (request, response) => {
     console.log(name)
     response.render("admin")
   }
+})
+
+app.all("/admin-manage", (request, response) => {
+  response.send("ADMIN")
 })
 
 app.listen(3000, () => {

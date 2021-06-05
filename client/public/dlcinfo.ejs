@@ -11,11 +11,15 @@
 
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light">
     <!--import navigation bar-->
-    <% if(role == "publisher"){ %>
-    <%- include("./nav_publisher") %>
+    <% if(role=="publisher" ){ %>
+        <%- include("./nav_publisher") %>
+    <% } else if(role == "admin") { %>
+        <%- include("./nav_admin.ejs") %>
     <% } else { %>
-    <%- include("./nav") %>
+        <%- include("./nav") %>
     <% } %>
+    
+    <!--end of nav-->
 
     <!-- <a href="/gameinfo?name=<%= gamename %> "><%= gamename %> </a>
     <div><img src="/img/dlc/<%= data.image %> "></div>
@@ -37,7 +41,7 @@
                     download>
                     DOWNLOAD DLC
                 </a>
-                <% } else { %>
+                <% } else if(role == "user") { %>
                 <a class="border-2 rounded-lg px-2 hover:bg-white hover:text-black"
                     href="/buydlc?gamename=<%= gamename %>&dlcname=<%= data.dlcname %> ">
                     BUY THIS DLC

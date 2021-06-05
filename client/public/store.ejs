@@ -16,8 +16,17 @@
     <a href="/gameinfo?name=<%= d.name %> "><%= d.name %></a><br>
     <% } %> -->
 
-    <!--add navigation-->
-    <%- include("./nav") %>
+    <!--import nav-->
+    
+    <% if(role=="publisher" ){ %>
+        <%- include("./nav_publisher") %>
+    <% } else if(role == "admin") { %>
+        <%- include("./nav_admin.ejs") %>
+    <% } else { %>
+        <%- include("./nav") %>
+    <% } %>
+    
+    <!--end of nav-->
 
     <!--content wrapper-->
     <div class="flex">

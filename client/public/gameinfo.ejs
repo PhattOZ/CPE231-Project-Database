@@ -10,11 +10,15 @@
 </head>
 
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light">
-    <% if(role == "publisher"){ %>
-    <%- include("./nav_publisher") %>
+    <% if(role=="publisher" ){ %>
+        <%- include("./nav_publisher") %>
+    <% } else if(role == "admin") { %>
+        <%- include("./nav_admin.ejs") %>
     <% } else { %>
-    <%- include("./nav") %>
+        <%- include("./nav") %>
     <% } %>
+    
+    <!--end of nav-->
     <!--end of nav-->
 
     <div class="text-4xl text-center p-6 font-semibold">
@@ -46,7 +50,7 @@
                     DOWNLOAD
                 </a>
             </div>
-            <% } else { %>
+            <% } else if(role == "user") { %>
             <div class="flex justify-end">
                 <a href="/buygame?gamename=<%= data.name %> " class="p-1 bg-green-600">
                     BUY THIS GAME & DLC

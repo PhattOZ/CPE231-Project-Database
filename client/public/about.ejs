@@ -11,7 +11,15 @@
 <body class="font-kanit bg-gradient-to-t
   from-cyan-black
   to-cyan-darkest text-white">
-  <%- include("./nav") %>
+  
+  <% if(role=="publisher" ){ %>
+    <%- include("./nav_publisher") %>
+  <% } else if(role == "admin") { %>
+    <%- include("./nav_admin.ejs") %>
+  <% } else { %>
+    <%- include("./nav") %>
+  <% } %>
+
   <!--end of nav-->
   <div class="py-6 px-10">
     <div class="py-4">

@@ -72,6 +72,18 @@ const Publisher = mongoose.model("Publisher", publisherSchema)
 // }
 // Publisher.create(data)
 
+const adminSchema = new mongoose.Schema({
+  username: { type: String, require: true, unique: true },
+  password: { type: String, require: true },
+})
+const Admin = mongoose.model("Admin", adminSchema)
+
+// var data = {
+//   username: "admin1",
+//   password: "1234",
+// }
+// Admin.create(data)
+
 const accountRoleSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   role: String,
@@ -79,8 +91,8 @@ const accountRoleSchema = new mongoose.Schema({
 const AccountRole = mongoose.model("AccountRole", accountRoleSchema)
 
 // var roleData = {
-//   username: "publisher3",
-//   role: "publisher",
+//   username: "admin1",
+//   role: "admin",
 // }
 // AccountRole.create(roleData)
 
@@ -149,4 +161,5 @@ module.exports = {
   Transaction,
   Group,
   support,
+  Admin,
 }

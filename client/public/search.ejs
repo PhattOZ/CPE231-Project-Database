@@ -4,18 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="compiled.css" />
     <title>Search</title>
 </head>
-<body>
+<body class="font-kanit font-light">
+    <!--import nav-->
+    
+    <% if(role=="publisher" ){ %>
+        <%- include("./nav_publisher") %>
+    <% } else if(role == "admin") { %>
+        <%- include("./nav_admin") %>
+    <% } else { %>
+        <%- include("./nav") %>
+    <% } %>
+    
+    <!--end of nav-->
     <h1>Search game</h1>
     <form action="/search" method="POST">
-        <input type="text" name="searchGame">
-        <button>Go</button>
+        <% if(locals.keyword) { %>
+            <input type="text" name="searchGame" value="<%= keyword %>" class="text-black">
+        <% } else { %>
+            <input type="text" name="searchGame" class="text-black">
+        <% } %> 
+        <button type="submit">SEARCH</button>
     </form>
-    <div>gamename</div>
-    <%if(locals.name = data){%>
+    <%if(locals.data){ %>
+        <div><%= count %> results match your search.</div>
         <%for(d of data){%>
-            <div><%= d.name %></div>
+            <div><a href="/gameinfo?name=<%= d.name %> "><%= d.name %></a></div>
         <%}%>  
     <%}%>   
 </body>
