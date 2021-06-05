@@ -16,11 +16,11 @@ bg-gradient-to-tr from-indigo-900 via-cyan-blackest to-cyan-blackest text-white 
     <%- include("./nav") %>
 
     <div class="flex justify-center">
-        <div>
+        <div class="space-y-3">
             <div>Review Order</div>
             <div>username : <%= username %></div>
             <div class="border-t-2">Game</div>
-            <div>- <%= gamedata.name %> : <%= gamedata.price %> THB </div>
+            <div> <%= gamedata.name %> : <%= gamedata.price %> THB </div>
             <div class="border-t-2">DLC</div>
             <% for(d of dlcdata) { %>
             <div>- <%= d.name %> : <%= d.price %> </div>

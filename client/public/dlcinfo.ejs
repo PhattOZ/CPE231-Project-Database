@@ -12,13 +12,13 @@
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light">
     <!--import navigation bar-->
     <% if(role=="publisher" ){ %>
-        <%- include("./nav_publisher") %>
+    <%- include("./nav_publisher") %>
     <% } else if(role == "admin") { %>
-        <%- include("./nav_admin.ejs") %>
+    <%- include("./nav_admin.ejs") %>
     <% } else { %>
-        <%- include("./nav") %>
+    <%- include("./nav") %>
     <% } %>
-    
+
     <!--end of nav-->
 
     <!-- <a href="/gameinfo?name=<%= gamename %> "><%= gamename %> </a>
@@ -56,12 +56,12 @@
         overview
     </div>
     <div class="collap-content">
-        <div>Release date</div>
-        <div><%= data.releaseDate %></div>
-        <div>Publisher</div>
-        <div><%= data.publisherName %> </div>
-        <div>Developer</div>
-        <div><%= data.developerName %> </div>
+        <div class="text-xl ">Release date</div>
+        <div class="pb-3"><%= data.releaseDate %></div>
+        <div class="text-xl ">Publisher</div>
+        <div class="pb-3"><%= data.publisherName %> </div>
+        <div class="text-xl ">Developer</div>
+        <div class="pb-3"><%= data.developerName %> </div>
     </div>
 
     <div class="collapsible transition duration-200">
