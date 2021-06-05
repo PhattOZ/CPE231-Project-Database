@@ -23,15 +23,18 @@
 
     <div class="flex justify-center min-h-no-nav-footer">
         <div class="w-3/5">
-            <div class="space-y-4">
+            <div class="space-y-6 pb-6">
                 <div class="text-8xl">Search game</div>
                 <form action="/search" method="POST">
-                    <% if(locals.keyword) { %>
-                    <input type="text" name="searchGame" value="<%= keyword %>" class="text-black">
-                    <% } else { %>
-                    <input type="text" name="searchGame" class="text-black">
-                    <% } %>
-                    <button type="submit">SEARCH</button>
+                    <div class="flex">
+                        <% if(locals.keyword) { %>
+                        <input type="text" name="searchGame" value="<%= keyword %>"
+                            class="text-black flex-grow rounded py-1 px-2">
+                        <% } else { %>
+                        <input type="text" name="searchGame" class="text-black flex-grow rounded py-1 px-2">
+                        <% } %>
+                        <button type="submit" class="px-6">SEARCH</button>
+                    </div>
                 </form>
                 <%if(locals.data){ %>
                 <div><%= count %> results match your search.</div>
