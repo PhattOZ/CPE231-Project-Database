@@ -1268,7 +1268,6 @@ app.all("/search", (request, response) => {
     Game.find({
       name: { $regex: gamename, $options: "i" },
     }).exec((err, doc) => {
-      console.log(doc)
       response.render("search", { data: doc })
     })
   }

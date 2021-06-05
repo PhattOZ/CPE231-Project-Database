@@ -13,10 +13,10 @@
         <button>Go</button>
     </form>
     <div>gamename</div>
-    
-        <% for(d of data) { %> 
-            <div><%= d.name %></div> 
-        <% } %> 
-        
+    <%if(locals.name = data){%>
+        <%for(d of data){%>
+            <div><%= d.name %></div>
+        <%}%>  
+    <%}%>   
 </body>
 </html>
