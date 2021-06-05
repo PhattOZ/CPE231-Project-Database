@@ -128,14 +128,6 @@ const gameSchema = new mongoose.Schema({
 })
 const Game = mongoose.model("Game", gameSchema)
 
-const reviewSchema = mongoose.Schema({
-  username: { type: String, require: true },
-  gameName: { type: String, require: true },
-  rating: { type: Number, require: true },
-  description: String,
-})
-const Review = mongoose.model("Review", reviewSchema)
-
 const transactionSchema = mongoose.Schema({
   username: String,
   buydate: String,
@@ -157,7 +149,6 @@ module.exports = {
   Publisher,
   AccountRole,
   Game,
-  Review,
   Transaction,
   Group,
   support,

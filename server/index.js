@@ -5,7 +5,6 @@ const formidable = require("formidable")
 const fs = require("fs")
 const User = require("./model").User
 const Game = require("./model").Game
-const Review = require("./model").Review
 const Transaction = require("./model").Transaction
 const Group = require("./model").Group
 const Publisher = require("./model").Publisher
