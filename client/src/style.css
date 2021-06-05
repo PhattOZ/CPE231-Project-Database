@@ -6,11 +6,35 @@
 
 /* SLIDESHOW THINGIE */
 
-.slide {
+.slide1,
+.slide2 {
   /* -webkit-animation-name: fade;
   -webkit-animation-duration: 0.2s; */
   animation-name: fade;
   animation-duration: 0.4s;
+}
+
+.slide1 .slide1-content-wrapper {
+  @apply absolute px-6 py-3 top-10 bottom-10 -left-16 bg-white bg-opacity-80 text-black w-2/3 h-2/3 overflow-hidden;
+  transition: transform 0.5s;
+  transform-origin: right;
+  transform: scaleX(0);
+}
+
+.slide1:hover .slide1-content-wrapper {
+  transition: transform 0.5s;
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.slide1 .slide1-content-wrapper div {
+  opacity: 0;
+}
+
+.slide1:hover .slide1-content-wrapper div {
+  opacity: 1;
+  transition: 0.2s;
+  transition-delay: 0.5s;
 }
 
 .dot-1,
