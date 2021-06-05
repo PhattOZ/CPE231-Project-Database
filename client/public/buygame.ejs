@@ -16,7 +16,7 @@
     <%- include("./nav") %>
 
 
-    <div class="flex justify-center">
+    <div class="flex justify-center min-h-no-nav-footer">
         <div class="bg-cyan-light bg-opacity-30 px-24 space-y-6">
             <div class="text-3xl tracking-wide">buying <%= data.name %> </div>
             <% if(locals.buyFirst) { %>
@@ -24,17 +24,18 @@
             <% } %>
             <form action="/buygame?gamename=<%= data.name %>" method="POST" class="space-y-3">
                 <div class="flex items-center gap-x-3">
-                    <img class="w-32 h-20 object-cover" src="img/games/<%= data.image %>" alt="">
+                    <img class="w-32 h-20 object-cover" src="img/games/<%= data.image %>">
                     <div><%= data.name %> : <%= data.price %> THB</div>
                     <input type="checkbox" name="gamename" checked disabled>
                 </div>
                 <div>DLC Bundle</div>
                 <% for (d of data.dlc) { %>
-                <div><input type="checkbox" name="dlcname" value="<%= d.dlcname %>"><%= d.dlcname %> : <%= d.price %>
-                    THB
+                <div>
+                    <input type="checkbox" name="dlcname" value="<%= d.dlcname %>">
+                    <%= d.dlcname %> : <%= d.price %> THB
                 </div>
                 <% } %>
-                <button type="submit">BUY</button>
+                <button type="submit" class="border-2 px-2 rounded hover:bg-white hover:text-black">BUY</button>
             </form>
         </div>
     </div>
