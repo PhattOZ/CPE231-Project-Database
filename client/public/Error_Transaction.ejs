@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./compiled.css" />
-    <title >Transaction Complete</title>
+    <title >Transaction Incomplete</title>
 </head>
 <style>
     div.bottom {
@@ -14,17 +14,22 @@
   width: 100%;
 }
 </style>
-<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
+<body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
+  <% if(role=="publisher" ){ %>
+    <%- include("./nav_publisher") %>
+  <% } else if(role == "admin") { %>
+    <%- include("./nav_admin.ejs") %>
+  <% } else { %>
     <%- include("./nav") %>
+  <% } %>
       <!--end of nav-->
     <div class="rounded-md mx-56 my-4 px-10 py-14 bg-gray-900 bg-opacity-70">
-        <div class="text-5xl font-semibold pt-10">Transaction Complete.
+        <div class="text-5xl font-semibold text-center pt-10">Error :
         </div>
-        <div class="pt-10">
-            Your Ordered items has been added to your account successfully.
+        <div class="text-7xl font-semibold text-center pt-5 pb-10">Transaction Incomplete
         </div>
-        <div class="pt-1 pb-36">
-            Thank you for using STORM™
+        <div class="text-center text-xl pt-1 pb-20">
+          Sorry! there seem to be problems with your order.
         </div>
         <a href="/" class="
                 border-2 border-indigo-700
@@ -45,7 +50,7 @@
     <!--end of Content-->
 </body>
 <footer>
-<div class="bottom">
+  <div class="bottom">
   <%- include ("./footer") %> 
   </div>
 </footer>

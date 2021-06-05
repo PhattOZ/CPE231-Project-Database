@@ -8,16 +8,24 @@
     <link rel="stylesheet" href="compiled.css">
     <title>Confirm transaction</title>
 </head>
+<style>
 
+    .footer {
+       position: fixed;
+       left: 0;
+       bottom: 0;
+       width: 100%;
+    }
+</style>
 <body class="font-kanit font-light
-bg-gradient-to-tr from-indigo-900 via-cyan-blackest to-cyan-blackest text-white h-screen">
+bg-gradient-to-tr from-indigo-900 via-cyan-blackest to-cyan-blackest text-white min-h-screen">
 
     <!--import nav bar-->
     <%- include("./nav") %>
 
     <div class="flex justify-center">
-        <div class="space-y-3">
-            <div>Review Order</div>
+        <div class="space-y-6">
+            <div class="pt-10 text-center text-2xl font-semibold">Review Order</div>
             <div>username : <%= username %></div>
             <div class="border-t-2">Game</div>
             <div> <%= gamedata.name %> : <%= gamedata.price %> THB </div>
@@ -25,16 +33,20 @@ bg-gradient-to-tr from-indigo-900 via-cyan-blackest to-cyan-blackest text-white 
             <% for(d of dlcdata) { %>
             <div>- <%= d.name %> : <%= d.price %> </div>
             <% } %>
-            <div class="border-t-2">Total : <%= totalprice %> THB</div>
+            <div class="border-t-2 pt-2">Total :   <span class="text-xl"><%= totalprice %> THB</span> </div>
             <form
                 action="/buygame_success?username=<%= username %>&gamename=<%= gamedata.name %>&dlcname=<%= dlcstring %>&total=<%= totalprice %> "
                 method="POST">
-                <button type="submit">CONFIRM</button>
+                <button type="submit" class="hover:text-blue-300">CONFIRM</button>
             </form>
         </div>
     </div>
 
 
 </body>
-
+<footer>
+    <div class="footer pt-10">
+        <%- include ("./footer") %> 
+        </div>
+</footer>
 </html>
