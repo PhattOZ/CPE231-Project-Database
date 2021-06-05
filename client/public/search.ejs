@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,32 +8,61 @@
     <link rel="stylesheet" href="compiled.css" />
     <title>Search</title>
 </head>
-<body class="font-kanit font-light">
+
+<body class="font-kanit font-light bg-gradient-to-tr from-indigo-900 via-cyan-blackest to-cyan-blackest text-white">
     <!--import nav-->
-    
+
     <% if(role=="publisher" ){ %>
-        <%- include("./nav_publisher") %>
+    <%- include("./nav_publisher") %>
     <% } else if(role == "admin") { %>
-        <%- include("./nav_admin") %>
+    <%- include("./nav_admin") %>
     <% } else { %>
-        <%- include("./nav") %>
+    <%- include("./nav") %>
     <% } %>
-    
-    <!--end of nav-->
-    <h1>Search game</h1>
-    <form action="/search" method="POST">
-        <% if(locals.keyword) { %>
-            <input type="text" name="searchGame" value="<%= keyword %>" class="text-black">
-        <% } else { %>
-            <input type="text" name="searchGame" class="text-black">
-        <% } %> 
-        <button type="submit">SEARCH</button>
-    </form>
-    <%if(locals.data){ %>
-        <div><%= count %> results match your search.</div>
-        <%for(d of data){%>
-            <div><a href="/gameinfo?name=<%= d.name %> "><%= d.name %></a></div>
-        <%}%>  
-    <%}%>   
+
+
+    <div class="flex justify-center min-h-no-nav-footer">
+        <div class="w-3/5">
+            <div class="space-y-6 pb-6">
+                <div class="text-8xl">Search game</div>
+                <form action="/search" method="POST">
+                    <div class="flex">
+                        <% if(locals.keyword) { %>
+                        <input type="text" name="searchGame" value="<%= keyword %>"
+                            class="text-black flex-grow rounded py-1 px-2">
+                        <% } else { %>
+                        <input type="text" name="searchGame" class="text-black flex-grow rounded py-1 px-2">
+                        <% } %>
+                        <button type="submit" class="px-6">SEARCH</button>
+                    </div>
+                </form>
+                <%if(locals.data){ %>
+                <div><%= count %> results match your search.</div>
+            </div>
+            <%for(d of data){%>
+            <div
+                class="flex p-1 my-1 bg-gradient-to-tr from-gray-300 to-gray-600 transition-transform duration-100 transform hover:-translate-y-1 hover:scale-101">
+                <a href="/gameinfo?name=<%= d.name %> ">
+                    <img src="img/games/<%= d.image %> " alt="err" class="h-32 w-48 object-cover">
+                    <div class="px-3 flex-grow">
+                        <div class="text-2xl"><%= d.name %> </div>
+                        <div><%= d.downloaded %> Downloads</div>
+                        <div><%= d.category.toString().replace(/,/g, " ") %> </div>
+                        <div class="flex justify-end pt-4 pr-6">
+                            <a class="bg-gray-600 rounded px-2 py-1">
+                                <%= d.price %>
+                                BTC</a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <%}%>
+            <%}%>
+        </div>
+    </div>
+
+
+
 </body>
+
 </html>

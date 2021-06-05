@@ -25,9 +25,18 @@
     <div class="w-3/5 flex justify-center">
       <div class="my-28 px-10">
         <div class="font-light text-4xl py-3">Sign In</div>
-        <% if(logined && !success){ %>
-        <h3 style="color: red">Incorrect username or password!</h3>
+        <% if(locals.logined && logined && !success){ %>
+          <h3 style="color: red">Incorrect username or password!</h3>
         <% } %>
+        <% if(locals.admin) { %>
+          <h3 style="color: red">Please login with admin account</h3>
+        <% } %> 
+        <% if(locals.publisher)  { %>
+          <h3 style="color: red">Please login with publisher account</h3>
+        <% } %> 
+        <% if(locals.user)  { %>
+          <h3 style="color: red">Please login with user account</h3>
+        <% } %> 
         <form action="/login" method="POST" class="text-white">
           <div class="py-2">
             <div>username</div>
