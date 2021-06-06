@@ -64,11 +64,11 @@ const publisherSchema = new mongoose.Schema({
 const Publisher = mongoose.model("Publisher", publisherSchema)
 
 // var data = {
-//   username: "publisher3",
+//   username: "publisher6",
 //   password: "1234",
-//   publisherName: "BKJ Inc.",
-//   email: "bookeyjung@gmail.com",
-//   tel: "0839502487",
+//   publisherName: "MenaR Inc.",
+//   email: "INDYGAME@gmail.com",
+//   tel: "0981400879",
 // }
 // Publisher.create(data)
 
@@ -91,8 +91,8 @@ const accountRoleSchema = new mongoose.Schema({
 const AccountRole = mongoose.model("AccountRole", accountRoleSchema)
 
 // var roleData = {
-//   username: "admin1",
-//   role: "admin",
+//   username: "publisher6",
+//   role: "publisher",
 // }
 // AccountRole.create(roleData)
 

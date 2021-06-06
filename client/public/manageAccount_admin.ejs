@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./compiled.css" />
+    <title>Manage Account</title>
+</head>
+<body class="font-kanit font-light">
+    <%- include("./nav_admin") %>
+    <!--end of nav-->
+    
+    <!--message for delete user account success-->
+    <% if(locals.userSuccess) { %>
+        <!--remove user account success-->
+        <h3 style="color: green;">Remove <%= removeUsername %>  account success!</h3>
+    <% } %> 
+
+    <!--message for delete publisher account success-->
+    <% if(locals.publisherSuccess) { %>
+        <!--remove publihser account success-->
+        <h3 style="color: green;">Remove <%= removeUsername %>  account success!</h3>
+    <% }%> 
+    <!--end of message when delete success-->
+
+    <h1>List of User account</h1>
+    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    <% for(d of userdata){ %>
+        <div><%= d.username %> <a href="/history?username=<%= d.username %>">View history</a> | <a href="/admin-delete-user?username=<%= d.username %>">Delete account</a></div>
+    <% } %> 
+    <!--end of list of user account-->
+    <br><br><br>
+    <h1>List of Publisher account</h1>
+    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+    <% for(d of publisherdata){ %>
+        <div><%= d.username %> <a href="">View history</a> | <a href="/admin-delete-publisher?username=<%= d.username %>">Delete account</a></div>
+    <% } %> 
+    <!--end of list of publihser account-->
+</body>
+</html>

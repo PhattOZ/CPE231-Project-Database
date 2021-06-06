@@ -256,7 +256,7 @@ app.all("/add-game", (request, response) => {
                   }
                 })
               } else {
-                response.send(`This game name already exists!`) //ทำหน้า static ที่บอกว่ามีเกมนี้ในระบบแล้ว
+                response.send(`This game name already exists!`) //มีเกมนี้ในระบบแล้ว
               }
             })
           } else {
@@ -517,7 +517,7 @@ app.all("/CreateGroup", (request, response) => {
   var roleSession = request.session.role
   var form = new formidable.IncomingForm() //read all user input in form
   if (roleSession != "user") {
-    response.render("login", { user: true }) //role isn't publisher -> redirect to login page
+    response.render("login", { user: true }) //role isn't user -> redirect to login page
   } else {
     form.parse(request, (err, fields) => {
       if (fields.name && fields.member && !err) {
@@ -908,12 +908,19 @@ app.get("/gameinfo", (request, response) => {
     var roleSession = request.session.role
     var result = await checkUserOwnedGame(usernameSession, query)
     Game.find({ name: { $eq: query } }).exec((err, doc) => {
-      response.render("gameinfo", {
-        data: doc[0],
-        username: usernameSession,
-        role: roleSession,
-        owned: result,
-      })
+      if (doc.length > 0) {
+        response.render("gameinfo", {
+          data: doc[0],
+          username: usernameSession,
+          role: roleSession,
+          owned: result,
+        })
+      } else {
+        response.render("Error_GameDLC", {
+          username: usernameSession,
+          role: roleSession,
+        }) //this game not in database (admin ลบ publisher ที่เพิ่มเกมนั้น)
+      }
     })
   } //end of checkOwned()
   checkOwned()
@@ -1305,12 +1312,19 @@ app.all("/buydlc", (request, response) => {
 app.get("/history", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
-  if (roleSession != "user") {
-    //this role not user role -> can't view
+  var usernameQuery = request.query.username
+  if (roleSession != "user" && roleSession != "admin") {
+    //this role not user or admin role -> can't view
     response.render("login", { user: true })
-  } else {
+  } else if (
+    (usernameQuery && roleSession == "admin") ||
+    roleSession == "user"
+  ) {
     const userBuyHistory = async () => {
       try {
+        if (usernameQuery) {
+          usernameSession = usernameQuery
+        }
         var total = await Transaction.aggregate([
           { $match: { username: usernameSession } },
           {
@@ -1324,6 +1338,7 @@ app.get("/history", (request, response) => {
           response.render("history_user", {
             notFound: true,
             username: usernameSession,
+            role: roleSession,
           })
         } else {
           total = total[0].sumtotal //total price that user spend for this website
@@ -1332,6 +1347,7 @@ app.get("/history", (request, response) => {
             data: doc,
             sumtotal: total,
             username: usernameSession,
+            role: roleSession,
           })
         }
       } catch (err) {
@@ -1364,16 +1380,123 @@ app.all("/search", (request, response) => {
   }
 })
 
-app.all("/admin-manage", (request, response) => {
+app.get("/admin-manage", (request, response) => {
+  var usernameSession = request.session.username
   var roleSession = request.session.role
   if (roleSession != "admin") {
     response.render("login", { admin: true })
   } else {
     const getAllAccount = async () => {
-      var allUserAccount = await User.find({}) //array of user account data
-      var allPublisherAccount = await Publisher.find({}) //array of publisher data
+      try {
+        var allUserAccount = await User.find({}) //array of user account data
+        var allPublisherAccount = await Publisher.find({}) //array of publisher data
+        response.render("manageAccount_admin", {
+          username: usernameSession,
+          role: roleSession,
+          userdata: allUserAccount,
+          publisherdata: allPublisherAccount,
+        })
+      } catch (err) {
+        console.log(err)
+      }
     } //end of getAllAccount
     getAllAccount()
+  }
+})
+
+app.get("/admin-delete-user", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "admin") {
+    response.render("login", { admin: true }) //role isn't admin -> redirect to login page
+  } else {
+    var usernameQuery = request.query.username //user's username that admin want to delete
+    const deleteUser = async () => {
+      try {
+        //delete document in AccountRole collection where username equal usernameQuery
+        await AccountRole.findOneAndDelete(
+          { username: { $eq: usernameQuery } },
+          { useFindAndModify: false }
+        )
+        //delete document in User collection where username equal usernameQuery
+        await User.findOneAndDelete(
+          { username: { $eq: usernameQuery } },
+          { useFindAndModify: false }
+        )
+        //delete document in Transaction collection where username equal usernameQuery
+        await Transaction.deleteMany({ username: { $eq: usernameQuery } })
+        //delete document in Support collection where username equal usernameQuery
+        await support.deleteMany({ username: { $eq: usernameQuery } })
+        //pull (delete) value in member array of Group collection where username equal usernameQuery
+        await Group.updateMany({}, { $pull: { member: usernameQuery } })
+        //pull (delete) value in friends array of User collection where username equal usernameQuery
+        await User.updateMany({}, { $pull: { friends: usernameQuery } })
+        var allUserAccount = await User.find({}) //array of user account data
+        var allPublisherAccount = await Publisher.find({}) //array of publisher data
+        response.render("manageAccount_admin", {
+          userSuccess: true,
+          removeUsername: usernameQuery,
+          username: usernameSession,
+          role: roleSession,
+          userdata: allUserAccount,
+          publisherdata: allPublisherAccount,
+        })
+      } catch (err) {
+        response.render("Error_General")
+      }
+    } //end of deleteUser()
+    deleteUser()
+  }
+})
+
+async function getPublisherName(username) {
+  try {
+    var publisherName = await Publisher.findOne({ username: { $eq: username } })
+    publisherName = publisherName.publisherName
+    return publisherName
+  } catch (err) {
+    return undefined
+  }
+}
+
+app.get("/admin-delete-publisher", (request, response) => {
+  var usernameSession = request.session.username
+  var roleSession = request.session.role
+  if (roleSession != "admin") {
+    response.render("login", { admin: true }) //role isn't admin -> redirect to login page
+  } else {
+    var usernameOfPublisherQuery = request.query.username //publisher's username that admin want to delete
+    const deletePublisher = async () => {
+      try {
+        //get publisherName from usernameOfPublisherQuery
+        var publisherName = await getPublisherName(usernameOfPublisherQuery)
+        //delete document in AccountRole collection where username equal usernameOfPublisherQuery
+        await AccountRole.findOneAndDelete(
+          { username: { $eq: usernameOfPublisherQuery } },
+          { useFindAndModify: false }
+        )
+        //delete document in Publisher collection where username equal usernameOfPublisherQuery
+        await Publisher.findOneAndDelete(
+          { username: { $eq: usernameOfPublisherQuery } },
+          { useFindAndModify: false }
+        )
+        //delete document in Game collection where publisherName (in collection) equal publisherName (variable)
+        await Game.deleteMany({ publisherName: { $eq: publisherName } })
+        var allUserAccount = await User.find({}) //array of user account data
+        var allPublisherAccount = await Publisher.find({}) //array of publisher data
+        response.render("manageAccount_admin", {
+          publisernameSuccess: true,
+          removeUsername: usernameOfPublisherQuery,
+          username: usernameSession,
+          role: roleSession,
+          userdata: allUserAccount,
+          publisherdata: allPublisherAccount,
+        })
+      } catch (err) {
+        response.render("Error_General")
+      }
+    } //end of deletePublisher()
+    deletePublisher()
   }
 })
 

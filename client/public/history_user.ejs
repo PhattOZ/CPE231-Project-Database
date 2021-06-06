@@ -23,11 +23,18 @@
 }
 </style>
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light min-h-screen">
-  <%- include("./nav") %>
+
+  <% if(role == "admin") { %>
+    <%- include("./nav_admin") %>
+  <% } else { %>
+    <%- include("./nav") %>
+  <% } %>
+  <!--end of nav-->
+
   <div class="text-4xl text-center p-6 font-semibold"><%= username %> transaction history</div>
   <% if(locals.notFound) { %>
     <div class="text-center text-2xl text-yellow-300">History not found</div>
-  <% } else { %>
+  <% } else if(locals.username || role == "admin") { %>
     <table style="width:90%" class="px-36 table-auto">
         <tr class="bg-gray-800 bg-opacity-75">
               <th>Date</th>
@@ -54,23 +61,44 @@
             </tr>
           </table>
   <% } %> 
-      <div class="py-10 px-16">
-        <a href="/userinfo" class="
-          border-2 border-blue-lightest
-          text-cyan-lightest
-          rounded-md
-          shadow
-          inline-block
-          transition-colors
-          duration-100
-          bg-transparent
-          hover:text-white
-          hover:bg-blue-lightest
-          cursor-pointer
-          px-2
-          ">Back to user profile
-        </a>
-      </div>
+      <% if(role == "user") { %>
+        <div class="py-10 px-16">
+          <a href="/userinfo" class="
+            border-2 border-blue-lightest
+            text-cyan-lightest
+            rounded-md
+            shadow
+            inline-block
+            transition-colors
+            duration-100
+            bg-transparent
+            hover:text-white
+            hover:bg-blue-lightest
+            cursor-pointer
+            px-2
+            ">Back to user profile
+          </a>
+        </div>
+      <% } else if(role == "admin") { %>
+        <div class="py-10 px-16">
+          <a href="/admin-manage" class="
+            border-2 border-blue-lightest
+            text-cyan-lightest
+            rounded-md
+            shadow
+            inline-block
+            transition-colors
+            duration-100
+            bg-transparent
+            hover:text-white
+            hover:bg-blue-lightest
+            cursor-pointer
+            px-2
+            ">Back to manage account page
+          </a>
+        </div>
+      <% } %> 
+
 </body>
 <footer>
   <div class="footer">
