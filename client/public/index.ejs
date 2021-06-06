@@ -4,17 +4,17 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>wong is the leader</title>
+  <title>STORM™</title>
   <link rel="stylesheet" href="compiled.css" />
 </head>
 
 <body class="font-kanit font-light">
   <% if(role=="publisher" ){ %>
-    <%- include("./nav_publisher") %>
+  <%- include("./nav_publisher") %>
   <% } else if(role == "admin") { %>
-    <%- include("./nav_admin.ejs") %>
+  <%- include("./nav_admin.ejs") %>
   <% } else { %>
-    <%- include("./nav") %>
+  <%- include("./nav") %>
   <% } %>
 
   <!--end of nav-->
@@ -200,14 +200,14 @@
         <div id="topSeller" class="tab-content hidden">
           <!-- sort by downloaded -->
           <% data.sort((a, b)=> {
-                      return (a.downloaded - b.downloaded)
-                      })
-                      var j = 0
-                      for(var i = data.length - 1; i >= 0; i--){ 
-                         j += 1
-                         if(j >= 6){
-                           break
-                        }
+              return (a.downloaded - b.downloaded)
+            })
+            var j = 0
+            for(var i = data.length - 1; i >= 0; i--){ 
+              j += 1
+              if(j >= 6){
+                break
+              }
           %>
           <a href="/gameinfo?name=<%= data[i].name %> ">
             <div
@@ -244,10 +244,7 @@
         </div>
       </div>
       <!--end of game list in a tab-->
-      <div class="w-1/3 border-2">
 
-      </div>
-      <!--end of side details-->
     </div>
   </div>
   <!--end of 2nd section-->

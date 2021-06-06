@@ -1190,6 +1190,8 @@ async function buyGameAndDLC(username, gamedata, dlcdata) {
 app.post("/buygame_success", (request, response) => {
   const update_collection = async () => {
     var username = request.query.username
+    var usernameSession = request.session.username
+    var roleSession = request.session.role
     var gamename = request.query.gamename
     var dlcname = request.query.dlcname
     dlcname = dlcname.split(",")
@@ -1197,9 +1199,13 @@ app.post("/buygame_success", (request, response) => {
     var status1 = await buyGameAndDLC(username, gamename, dlcname)
     var status2 = await update_transcation(username, gamename, dlcname, total)
     if (status1 == "success" && status2 == "success") {
-      response.render("buygame_success")
+      response.render("buygame_success", {
+        username: usernameSession,
+        role: roleSession,})
     } else if (status1 == "error" || status2 == "error") {
-      response.send("error buygame")
+      response.render("Error_Transaction", {
+        username: usernameSession,
+        role: roleSession,})
     }
   }
   update_collection()
@@ -1297,12 +1303,18 @@ app.all("/buydlc", (request, response) => {
               dlcname,
               dlcprice
             )
-            response.send("Buy DLC success!") //static buy only dlc success
+            response.render("buygame_success", {
+              username: usernameSession,
+              role: roleSession,}) //static buy only dlc success
           }
         }
       }
     } catch (err) {
       console.log(err) //static error buy only dlc
+      respone.render("Error_General", {
+        username: usernameSession,
+        role: sessionRole,
+      }) //static error page
     }
   }
   checkBuyDLC()
