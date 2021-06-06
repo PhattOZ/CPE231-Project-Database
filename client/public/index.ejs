@@ -25,7 +25,7 @@
         <li class="space-y-1">
           <h6 class="uppercase tracking-wide text-xl pb-0 pt-3">Search by</h6>
           <a href="/search" class="block hover:text-white px-4">game name</a>
-          <h6 class="uppercase tracking-wide text-xl pb-0 pt-7">Sort by</h6>
+          <h6 class="uppercase tracking-wide text-xl pt-4">Sort by</h6>
           <a href="/store?sort=name&order=ascending" class="block hover:text-white px-4">name </a>
           <a href="/store?sort=downloaded&order=descending" class="block hover:text-white px-4">download </a>
           <a href="/store?sort=price&order=ascending" class="block hover:text-white px-4">price</a>
@@ -178,7 +178,7 @@
           var j = 0
           for(var i = data.length - 1; i >= 0; i--){ 
             j += 1
-            if(j > 5){
+            if(j > 10){
               break
             }
           %>
@@ -205,7 +205,7 @@
             var j = 0
             for(var i = data.length - 1; i >= 0; i--){ 
               j += 1
-              if(j >= 6){
+              if(j > 10){
                 break
               }
           %>
@@ -226,7 +226,8 @@
         </div>
         <div id="popular" class="tab-content hidden">
           <!-- sort by ? -->
-          <% for(d of data){ %>
+          <% let k = 1;
+          for(d of data){ %>
           <a href="/gameinfo?name=<%= d.name %> ">
             <div
               class="flex p-1 m-1 shadow-2xl bg-gradient-to-tr from-cyan-darkest to-gray-600 transition-transform duration-100 transform hover:-translate-y-1 hover:scale-101">
@@ -237,10 +238,13 @@
                 <div class="text-2xl"><%= d.name %></div>
                 <div><%= d.releaseDate %></div>
               </div>
-
             </div>
           </a>
-          <% } %>
+          <% k++;
+            if(k > 10) {
+              break
+            }
+           } %>
         </div>
       </div>
       <!--end of game list in a tab-->
