@@ -15,12 +15,16 @@
 }
 </style>
 <body class="bg-gradient-to-t from-cyan-black to-cyan-darkest text-white font-kanit font-light h-screen">
-    <% if(role == "publisher") { %>
-        <%- include("./nav_publisher.ejs") %>
-    <% } else { %> 
+
+    <% if(role=="publisher" ){ %>
+        <%- include("./nav_publisher") %>
+    <% } else if(role == "admin") { %>
+        <%- include("./nav_admin.ejs") %>
+    <% } else { %>
         <%- include("./nav") %>
     <% } %>
-      <!--end of nav-->
+    <!--end of nav-->
+    
     <div class="text-4xl text-center p-6 font-semibold">
         <%= data.publisherName %>
     </div>
@@ -52,6 +56,25 @@
                 px-2
               ">
                     <div>Edit Profile</div>
+                </a>
+            </div>
+        <% } %> 
+        <% if(locals.adminmanage) { %>
+            <div class="px-10">
+                <a href="/admin-manage" class="
+                border-2 border-cyan-lightest
+                text-cyan-lightest
+                rounded-md
+                shadow
+                inline-block
+                transition-colors
+                duration-100
+                hover:text-white
+                hover:bg-cyan-lightest
+                cursor-pointer
+                px-2
+              ">
+                    <div>Back to manage account page</div>
                 </a>
             </div>
         <% } %> 

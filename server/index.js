@@ -147,6 +147,7 @@ app.get("/publisherinfo", (request, response) => {
   var usernameSession = request.session.username
   var roleSession = request.session.role
   var query = request.query.name //publisher name (string query)
+  var publisherUsername = request.query.username
   if (query) {
     //go to publisher info from gameinfo
     Publisher.find({ publisherName: { $eq: query } }).exec((err, doc) => {
@@ -185,6 +186,18 @@ app.get("/publisherinfo", (request, response) => {
         owned: true,
       })
     })
+  } else if (publisherUsername) {
+    Publisher.find({ username: { $eq: publisherUsername } }).exec(
+      (err, doc) => {
+        response.render("publisherinfo", {
+          data: doc[0],
+          username: usernameSession,
+          role: roleSession,
+          owned: false,
+          adminmanage: true,
+        })
+      }
+    )
   } else {
     response.render("login", { publisher: true })
   }
@@ -1201,11 +1214,13 @@ app.post("/buygame_success", (request, response) => {
     if (status1 == "success" && status2 == "success") {
       response.render("buygame_success", {
         username: usernameSession,
-        role: roleSession,})
+        role: roleSession,
+      })
     } else if (status1 == "error" || status2 == "error") {
       response.render("Error_Transaction", {
         username: usernameSession,
-        role: roleSession,})
+        role: roleSession,
+      })
     }
   }
   update_collection()
@@ -1305,7 +1320,8 @@ app.all("/buydlc", (request, response) => {
             )
             response.render("buygame_success", {
               username: usernameSession,
-              role: roleSession,}) //static buy only dlc success
+              role: roleSession,
+            }) //static buy only dlc success
           }
         }
       }

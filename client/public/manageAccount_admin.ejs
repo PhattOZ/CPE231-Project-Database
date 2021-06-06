@@ -44,7 +44,7 @@
         <div class="py-3 grid grid-cols-2 justify-items-center">
             <div><%= d.username %></div>
             <div>
-                <a href="" class="hover:text-blue-300">View history</a> | <a href="/admin-delete-publisher?username=<%= d.username %>"
+                <a href="/publisherinfo?username=<%= d.username %>" class="hover:text-blue-300">View profile</a>  |  <a href="/admin-delete-publisher?username=<%= d.username %>"
                     class="delete-button hover:text-blue-300">Delete account</a>
             </div>
         </div>
