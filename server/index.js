@@ -748,7 +748,7 @@ app.all("/DeveloperSales", (request, response) => {
       (err, doc) => {
         if (!err) {
           Game.find({ publisherName: { $eq: doc.publisherName } })
-            .sort({ developerName: 1, name: 1 })
+            .sort({ developerName: 1})
             .exec((err, docs) => {
               response.render("analysisReport_DeveloperSales", {
                 data: docs,
