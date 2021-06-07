@@ -63,38 +63,17 @@ const publisherSchema = new mongoose.Schema({
 })
 const Publisher = mongoose.model("Publisher", publisherSchema)
 
-// var data = {
-//   username: "publisher8",
-//   password: "1234",
-//   publisherName: "Erom Inc.",
-//   email: "Eromo@hotmail.com",
-//   tel: "09040896278",
-// }
-// Publisher.create(data)
-
 const adminSchema = new mongoose.Schema({
   username: { type: String, require: true, unique: true },
   password: { type: String, require: true },
 })
 const Admin = mongoose.model("Admin", adminSchema)
 
-// var data = {
-//   username: "admin1",
-//   password: "1234",
-// }
-// Admin.create(data)
-
 const accountRoleSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   role: String,
 })
 const AccountRole = mongoose.model("AccountRole", accountRoleSchema)
-
-// var roleData = {
-//   username: "publisher8",
-//   role: "publisher",
-// }
-// AccountRole.create(roleData)
 
 const gameSchema = new mongoose.Schema({
   name: { type: String, require: true, unique: true },
